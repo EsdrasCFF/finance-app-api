@@ -18,4 +18,4 @@ app.register(createUser);
 
 app.setErrorHandler(errorHandler);
 
-app.listen({ port: 3333 }, () => console.log("Server is running"));
+app.listen({ port: 3333 }, () => console.log("Server is running on Port"));

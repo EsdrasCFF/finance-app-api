@@ -6,8 +6,12 @@ import { CreateUserController } from "../controllers/create-user";
 export const createUserSchema = z.object({
   first_name: z.string().trim(),
   last_name: z.string().trim(),
-  email: z.string().email(),
-  password: z.string(),
+  email: z
+    .string()
+    .email({ message: "Invalid e-mail. Please provide a valid e-mail" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be greater than 6 characters" }),
 });
 
 export async function createUser(app: FastifyInstance) {
