@@ -35,7 +35,9 @@ export async function createUser(app: FastifyInstance) {
     async (request, reply) => {
       const createUserController = new CreateUserController();
 
-      const result = await createUserController.execute(request.body);
+      const createUserParams = request.body;
+
+      const result = await createUserController.execute(createUserParams);
 
       return reply.code(201).send({
         data: result,
