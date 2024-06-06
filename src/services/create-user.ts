@@ -4,8 +4,6 @@ import { CreateUserRepository } from "../repositories/create-users";
 
 export class CreateUserService {
   async execute(crateUserParams: Omit<User, "id">) {
-    // Check if email is already in use
-
     const hashedPassword = await bcrypt.hash(crateUserParams.password, 8);
 
     const user = {
