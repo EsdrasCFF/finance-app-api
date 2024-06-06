@@ -10,7 +10,7 @@ export class GetUserByIdController {
       const isValidUserId = validator.isUUID(userId);
 
       if (!isValidUserId) {
-        throw new BadRequest("Provider Id is not valid!");
+        throw new BadRequest("Provided Id is not valid!");
       }
 
       const getUserByIdService = new GetUserByIdService();
