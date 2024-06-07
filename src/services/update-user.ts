@@ -3,40 +3,74 @@ import { UpdateUserRepository } from "../repositories/update-user";
 import { BadRequest } from "../routes/_errors/bad-request";
 import bcrypt from "bcrypt";
 import { NotFound } from "../routes/_errors/not-found";
+import { GetUserByIdRepository } from "../repositories/get-user-by-id";
 
 interface UpdateUserProps {
-  first_name: string;
-  last_name: string;
-  email: string;
-  old_password: string;
-  new_password: string | null;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  old_password: string | null;
+  password: string | null;
 }
-
-//Validar se o email não está em uso
-
-//Criptografar a senha se estiver sendo enviada
-
-//CHamar o repository para atualizar o usuario
 
 export class UpdateUserService {
   async execute(userId: string, updateUserParams: UpdateUserProps) {
-    const getUserByEmailRepository = new GetUserByEmailRepository();
-    const user = await getUserByEmailRepository.execute(updateUserParams.email);
+    const {
+      email,
+      first_name,
+      last_name,
+      old_password,
+      password: new_password,
+    } = updateUserParams;
 
-    if (user && user.id != userId) {
-      throw new BadRequest("This email already in use");
+    const getUserByIdRepository = new GetUserByIdRepository();
+    const getUserByEmailRepository = new GetUserByEmailRepository();
+
+    const userData = await getUserByIdRepository.execute(userId);
+
+    if (!userData) {
+      throw new BadRequest("UserId provided is incorrect");
+    }
+
+    const userDataByEmail = !!email
+      ? await getUserByEmailRepository.execute(email)
+      : null;
+
+    if (userDataByEmail) {
+      if (userDataByEmail.id !== userId) {
+        throw new BadRequest("This email already in use");
+      }
     }
 
     let password: string;
 
-    if (updateUserParams.new_password) {
-      password = await bcrypt.hash(updateUserParams.new_password, 10);
-    } else {
-      password = updateUserParams.old_password;
+    if (new_password && !old_password) {
+      throw new BadRequest("Old password is required to change pass");
     }
 
+    if (new_password) {
+      const checkedOldPass = await bcrypt.compare(
+        new_password,
+        userData.password
+      );
+
+      if (!checkedOldPass) {
+        throw new BadRequest("Old password does not match!");
+      }
+
+      password = await bcrypt.hash(new_password, 10);
+    } else {
+      password = userData.password;
+    }
+
+    const fisrtName = first_name ? first_name : userData.first_name;
+    const lastName = last_name ? last_name : userData.last_name;
+    const emailToUpdate = email || userData.email;
+
     const userParams = {
-      ...updateUserParams,
+      first_name: fisrtName,
+      last_name: lastName,
+      email: emailToUpdate,
       password,
     };
 

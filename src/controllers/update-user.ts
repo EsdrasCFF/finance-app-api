@@ -28,8 +28,6 @@ export class UpdateUserController {
       throw new BadRequest("Some field provided is not allowed");
     }
 
-    console.log({ controlleEmai: updateUserParams.email });
-
     const userIdIsValid = validator.isUUID(userId);
 
     if (!userIdIsValid) {

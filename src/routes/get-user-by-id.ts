@@ -5,7 +5,7 @@ import { GetUserByIdController } from "../controllers/get-user-by-id";
 
 export async function getUserById(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
-    "/api/user/:userId",
+    "/api/users/:userId",
     {
       schema: {
         params: z.object({

@@ -16,7 +16,7 @@ export const createUserSchema = z.object({
 
 export async function createUser(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    "/api/user",
+    "/api/users",
     {
       schema: {
         body: createUserSchema,
