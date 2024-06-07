@@ -5,8 +5,6 @@ export class GetUserByEmailService {
     const getUserByEmailRepository = new GetUserByEmailRepository();
     const user = await getUserByEmailRepository.execute(email);
 
-    console.log({ service: user });
-
     return user;
   }
 }

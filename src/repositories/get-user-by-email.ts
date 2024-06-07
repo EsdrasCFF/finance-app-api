@@ -8,8 +8,6 @@ export class GetUserByEmailRepository {
       },
     });
 
-    console.log({ repository: user });
-
     return user;
   }
 }
