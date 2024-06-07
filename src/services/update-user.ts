@@ -12,25 +12,27 @@ interface UpdateUserProps {
   new_password: string | null;
 }
 
+//Validar se o email não está em uso
+
+//Criptografar a senha se estiver sendo enviada
+
+//CHamar o repository para atualizar o usuario
+
 export class UpdateUserService {
   async execute(userId: string, updateUserParams: UpdateUserProps) {
     const getUserByEmailRepository = new GetUserByEmailRepository();
     const user = await getUserByEmailRepository.execute(updateUserParams.email);
 
-    if (!user) {
-      return;
+    if (user && user.id != userId) {
+      throw new BadRequest("This email already in use");
     }
 
-    if (user.id !== userId) {
-      throw new BadRequest("This email is already in use");
-    }
-
-    let password;
+    let password: string;
 
     if (updateUserParams.new_password) {
       password = await bcrypt.hash(updateUserParams.new_password, 10);
     } else {
-      password = user.password;
+      password = updateUserParams.old_password;
     }
 
     const userParams = {
