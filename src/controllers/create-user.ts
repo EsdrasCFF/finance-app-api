@@ -1,13 +1,25 @@
 import { FastifyRequest } from "fastify";
 import z from "zod";
-import { CreateUserService } from "../services/create-user";
+import { CreateUserService, ICreateUserService } from "../services/create-user";
 import { User } from "@prisma/client";
 import { BadRequest } from "../routes/_errors/bad-request";
 import validator from "validator";
-import { GetUserByEmailService } from "../services/get-user-by-email";
+import {
+  GetUserByEmailService,
+  IGetUserByEmailService,
+} from "../services/get-user-by-email";
 import { ServerError } from "../routes/_errors/server-error";
 
-export class CreateUserController {
+interface ICreateUserController {
+  execute(createUserParams: Omit<User, "id">): Promise<Omit<User, "password">>;
+}
+
+export class CreateUserController implements ICreateUserController {
+  constructor(
+    private createUserService: ICreateUserService,
+    private getUserByEmailService: IGetUserByEmailService
+  ) {}
+
   async execute(createUserParams: Omit<User, "id">) {
     const { email, first_name, last_name, password } = createUserParams;
 
@@ -25,16 +37,13 @@ export class CreateUserController {
       throw new BadRequest("Invalid Email. Please provide a valid email");
     }
 
-    const getUserByEmailService = new GetUserByEmailService();
-    const emailIsAlreadyInUse = await getUserByEmailService.execute(email);
+    const emailIsAlreadyInUse = await this.getUserByEmailService.execute(email);
 
     if (emailIsAlreadyInUse !== null) {
       throw new BadRequest("This email is already in use");
     }
 
-    const createUserService = new CreateUserService();
-
-    const result = await createUserService.execute({
+    const result = await this.createUserService.execute({
       first_name,
       last_name,
       email,

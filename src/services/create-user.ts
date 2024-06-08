@@ -1,19 +1,26 @@
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { CreateUserRepository } from "../repositories/create-users";
+import {
+  CreateUserRepository,
+  ICreateUserRepository,
+} from "../repositories/create-users";
 
-export class CreateUserService {
-  async execute(crateUserParams: Omit<User, "id">) {
-    const hashedPassword = await bcrypt.hash(crateUserParams.password, 8);
+export interface ICreateUserService {
+  execute(crateUserParams: Omit<User, "id">): Promise<User>;
+}
+
+export class CreateUserService implements ICreateUserService {
+  constructor(private createUserRepository: ICreateUserRepository) {}
+
+  async execute(createUserParams: Omit<User, "id">) {
+    const hashedPassword = await bcrypt.hash(createUserParams.password, 8);
 
     const user = {
-      ...crateUserParams,
+      ...createUserParams,
       password: hashedPassword,
     };
 
-    const createUserRepository = new CreateUserRepository();
-
-    const createdUser = await createUserRepository.execute(user);
+    const createdUser = await this.createUserRepository.execute(user);
 
     return createdUser;
   }

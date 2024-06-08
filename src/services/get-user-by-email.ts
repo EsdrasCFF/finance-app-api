@@ -1,9 +1,18 @@
-import { GetUserByEmailRepository } from "../repositories/get-user-by-email";
+import { User } from "@prisma/client";
+import {
+  GetUserByEmailRepository,
+  IGetUserByEmailRepository,
+} from "../repositories/get-user-by-email";
 
-export class GetUserByEmailService {
+export interface IGetUserByEmailService {
+  execute(email: string): Promise<User | null>;
+}
+
+export class GetUserByEmailService implements IGetUserByEmailService {
+  constructor(private getUserByEmailRepository: IGetUserByEmailRepository) {}
+
   async execute(email: string) {
-    const getUserByEmailRepository = new GetUserByEmailRepository();
-    const user = await getUserByEmailRepository.execute(email);
+    const user = await this.getUserByEmailRepository.execute(email);
 
     return user;
   }

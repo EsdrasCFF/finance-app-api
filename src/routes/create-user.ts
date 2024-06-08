@@ -2,6 +2,10 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { CreateUserController } from "../controllers/create-user";
+import { CreateUserRepository } from "../repositories/create-users";
+import { CreateUserService } from "../services/create-user";
+import { GetUserByEmailService } from "../services/get-user-by-email";
+import { GetUserByEmailRepository } from "../repositories/get-user-by-email";
 
 export const createUserSchema = z.object({
   first_name: z.string().trim(),
@@ -11,7 +15,7 @@ export const createUserSchema = z.object({
     .email({ message: "Invalid e-mail. Please provide a valid e-mail" }),
   password: z
     .string()
-    .min(6, { message: "Password must be greater than 6 characters" }),
+    .min(6, { message: "Password must be greater or equal 6 characters" }),
 });
 
 export async function createUser(app: FastifyInstance) {
@@ -33,7 +37,18 @@ export async function createUser(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const createUserController = new CreateUserController();
+      const createUserRepository = new CreateUserRepository();
+      const getUserByEmailRepository = new GetUserByEmailRepository();
+
+      const createUserService = new CreateUserService(createUserRepository);
+      const getUserByEmailService = new GetUserByEmailService(
+        getUserByEmailRepository
+      );
+
+      const createUserController = new CreateUserController(
+        createUserService,
+        getUserByEmailService
+      );
 
       const createUserParams = request.body;
 
