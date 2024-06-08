@@ -8,7 +8,6 @@ import {
   GetUserByEmailService,
   IGetUserByEmailService,
 } from "../services/get-user-by-email";
-import { ServerError } from "../routes/_errors/server-error";
 
 interface ICreateUserController {
   execute(createUserParams: Omit<User, "id">): Promise<Omit<User, "password">>;
