@@ -4,6 +4,7 @@ import z from "zod";
 import { DeleteUserRepository } from "../repositories/delete-user";
 import { DeleteUserService } from "../services/delete-user";
 import { DeleteUserController } from "../controllers/delete-user";
+import { GetUserByIdRepository } from "../repositories/get-user-by-id";
 
 export async function deleteUser(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
@@ -29,8 +30,9 @@ export async function deleteUser(app: FastifyInstance) {
       const { userId } = request.params
       
       const deleteUserRepository = new DeleteUserRepository()
+      const getUserByIdRepository = new GetUserByIdRepository()
 
-      const deleteUserService = new DeleteUserService(deleteUserRepository)
+      const deleteUserService = new DeleteUserService(deleteUserRepository, getUserByIdRepository)
       
       const deleteUserController = new DeleteUserController(deleteUserService)
 
