@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import { db } from "../lib/prisma";
 
 interface UpdateUserProps {
@@ -7,7 +8,11 @@ interface UpdateUserProps {
   password: string;
 }
 
-export class UpdateUserRepository {
+export interface IUpdateUserRepository {
+  execute(userId: string, updateUserParams: UpdateUserProps): Promise<User>
+}
+
+export class UpdateUserRepository implements IUpdateUserRepository {
   async execute(userId: string, updateUserParams: UpdateUserProps) {
     const updatedUser = await db.user.update({
       data: updateUserParams,

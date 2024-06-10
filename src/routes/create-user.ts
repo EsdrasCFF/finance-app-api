@@ -41,9 +41,7 @@ export async function createUser(app: FastifyInstance) {
       const getUserByEmailRepository = new GetUserByEmailRepository();
 
       const createUserService = new CreateUserService(createUserRepository);
-      const getUserByEmailService = new GetUserByEmailService(
-        getUserByEmailRepository
-      );
+      const getUserByEmailService = new GetUserByEmailService(getUserByEmailRepository);
 
       const createUserController = new CreateUserController(
         createUserService,

@@ -1,6 +1,7 @@
 import validator from "validator";
 import { BadRequest } from "../routes/_errors/bad-request";
-import { UpdateUserService } from "../services/update-user";
+import { IUpdateUserService, UpdateUserService } from "../services/update-user";
+import { User } from "@prisma/client";
 
 interface UpdateUserProps {
   first_name: string | null;
@@ -10,7 +11,15 @@ interface UpdateUserProps {
   old_password: string | null;
 }
 
-export class UpdateUserController {
+interface IUpdateUserController {
+  execute(userId: string, updateUserParams: UpdateUserProps): Promise<Omit<User, 'password'>>
+}
+
+
+export class UpdateUserController implements IUpdateUserController {
+  constructor(private updateUserService: IUpdateUserService) {}
+
+
   async execute(userId: string, updateUserParams: UpdateUserProps) {
     const allowedFields = [
       "first_name",
@@ -50,8 +59,7 @@ export class UpdateUserController {
       }
     }
 
-    const updateUserService = new UpdateUserService();
-    const updatedSucessfully = await updateUserService.execute(
+    const updatedSucessfully = await this.updateUserService.execute(
       userId,
       updateUserParams
     );

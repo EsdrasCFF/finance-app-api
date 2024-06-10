@@ -1,9 +1,14 @@
-import { GetUserByEmailRepository } from "../repositories/get-user-by-email";
-import { UpdateUserRepository } from "../repositories/update-user";
+import { GetUserByEmailRepository, IGetUserByEmailRepository } from "../repositories/get-user-by-email";
+import { IUpdateUserRepository, UpdateUserRepository } from "../repositories/update-user";
 import { BadRequest } from "../routes/_errors/bad-request";
 import bcrypt from "bcrypt";
 import { NotFound } from "../routes/_errors/not-found";
-import { GetUserByIdRepository } from "../repositories/get-user-by-id";
+import { IGetUserByIdRepository } from "../repositories/get-user-by-id";
+import { User } from "@prisma/client";
+
+export interface IUpdateUserService {
+  execute(userId: string, updateUserParams: UpdateUserProps): Promise<User>
+}
 
 interface UpdateUserProps {
   first_name: string | null;
@@ -13,7 +18,13 @@ interface UpdateUserProps {
   password: string | null;
 }
 
-export class UpdateUserService {
+export class UpdateUserService implements IUpdateUserService {
+  constructor(
+    private getUserByIdRepository: IGetUserByIdRepository, 
+    private getUserByEmailRepository: IGetUserByEmailRepository, 
+    private updateUserRepository: IUpdateUserRepository,
+  ) {}
+
   async execute(userId: string, updateUserParams: UpdateUserProps) {
     const {
       email,
@@ -23,17 +34,14 @@ export class UpdateUserService {
       password: new_password,
     } = updateUserParams;
 
-    const getUserByIdRepository = new GetUserByIdRepository();
-    const getUserByEmailRepository = new GetUserByEmailRepository();
-
-    const userData = await getUserByIdRepository.execute(userId);
+    const userData = await this.getUserByIdRepository.execute(userId);
 
     if (!userData) {
       throw new BadRequest("UserId provided is incorrect");
     }
 
     const userDataByEmail = !!email
-      ? await getUserByEmailRepository.execute(email)
+      ? await this.getUserByEmailRepository.execute(email)
       : null;
 
     if (userDataByEmail) {
@@ -74,8 +82,7 @@ export class UpdateUserService {
       password,
     };
 
-    const updatedUserRepository = new UpdateUserRepository();
-    const updatedUser = await updatedUserRepository.execute(userId, userParams);
+    const updatedUser = await this.updateUserRepository.execute(userId, userParams);
 
     return updatedUser;
   }

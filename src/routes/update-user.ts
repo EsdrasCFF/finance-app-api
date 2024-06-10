@@ -2,6 +2,10 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { UpdateUserController } from "../controllers/update-user";
+import { UpdateUserRepository } from "../repositories/update-user";
+import { UpdateUserService } from "../services/update-user";
+import { GetUserByIdRepository } from "../repositories/get-user-by-id";
+import { GetUserByEmailRepository } from "../repositories/get-user-by-email";
 
 const updatedUserSchema = z.object({
   first_name: z.string().nullable().optional(),
@@ -36,11 +40,16 @@ export async function updateUser(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const { first_name, last_name, email, password, old_password } =
-        request.body;
+      const { first_name, last_name, email, password, old_password } = request.body;
       const { userId } = request.params;
 
-      const updateUserController = new UpdateUserController();
+      const updateUserRepository = new UpdateUserRepository()
+      const getUserByIdRepository = new GetUserByIdRepository()
+      const getUserByEmailRepository = new GetUserByEmailRepository()
+
+      const updateUserService = new UpdateUserService(getUserByIdRepository, getUserByEmailRepository,updateUserRepository)
+
+      const updateUserController = new UpdateUserController(updateUserService);
       const user = await updateUserController.execute(userId, {
         first_name: first_name || null,
         last_name: last_name || null,
