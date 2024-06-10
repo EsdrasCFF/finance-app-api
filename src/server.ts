@@ -8,6 +8,7 @@ import { createUser } from "./routes/create-user";
 import { errorHandler } from "./error-handler";
 import { getUserById } from "./routes/get-user-by-id";
 import { updateUser } from "./routes/update-user";
+import { deleteUser } from "./routes/delete-user";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -17,6 +18,7 @@ app.setSerializerCompiler(serializerCompiler);
 app.register(createUser);
 app.register(getUserById);
 app.register(updateUser);
+app.register(deleteUser)
 
 app.setErrorHandler(errorHandler);
 
