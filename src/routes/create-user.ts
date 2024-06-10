@@ -6,6 +6,7 @@ import { CreateUserRepository } from "../repositories/create-users";
 import { CreateUserService } from "../services/create-user";
 import { GetUserByEmailService } from "../services/get-user-by-email";
 import { GetUserByEmailRepository } from "../repositories/get-user-by-email";
+import { makeCreateUserController } from "../factories/controllers/users";
 
 export const createUserSchema = z.object({
   first_name: z.string().trim(),
@@ -37,18 +38,9 @@ export async function createUser(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const createUserRepository = new CreateUserRepository();
-      const getUserByEmailRepository = new GetUserByEmailRepository();
-
-      const createUserService = new CreateUserService(createUserRepository);
-      const getUserByEmailService = new GetUserByEmailService(getUserByEmailRepository);
-
-      const createUserController = new CreateUserController(
-        createUserService,
-        getUserByEmailService
-      );
-
       const createUserParams = request.body;
+
+      const createUserController = makeCreateUserController()
 
       const result = await createUserController.execute(createUserParams);
 

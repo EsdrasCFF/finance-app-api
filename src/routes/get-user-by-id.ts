@@ -1,10 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-import { GetUserByIdController } from "../controllers/get-user-by-id";
-import { GetUserByIdRepository } from "../repositories/get-user-by-id";
-import { GetUserByEmailService } from "../services/get-user-by-email";
-import { GetUserByIdService } from "../services/get-user-by-id";
+import { makeGetUserByIdController } from "../factories/controllers/users";
 
 export async function getUserById(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
@@ -29,9 +26,7 @@ export async function getUserById(app: FastifyInstance) {
     async (request, reply) => {
       const { userId } = request.params;
 
-      const getUserByIdRepository = new GetUserByIdRepository()
-      const getUserByIdService = new GetUserByIdService(getUserByIdRepository)
-      const getUserByIdController = new GetUserByIdController(getUserByIdService);
+      const getUserByIdController = makeGetUserByIdController()
       
       const user = await getUserByIdController.execute(userId);
 
