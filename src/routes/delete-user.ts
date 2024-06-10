@@ -1,10 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-import { DeleteUserRepository } from "../repositories/delete-user";
-import { DeleteUserService } from "../services/delete-user";
-import { DeleteUserController } from "../controllers/delete-user";
-import { GetUserByIdRepository } from "../repositories/get-user-by-id";
 import { makeDeleteUserController } from "../factories/controllers/users";
 
 export async function deleteUser(app: FastifyInstance) {

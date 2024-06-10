@@ -1,11 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-import { CreateUserController } from "../controllers/create-user";
-import { CreateUserRepository } from "../repositories/create-users";
-import { CreateUserService } from "../services/create-user";
-import { GetUserByEmailService } from "../services/get-user-by-email";
-import { GetUserByEmailRepository } from "../repositories/get-user-by-email";
 import { makeCreateUserController } from "../factories/controllers/users";
 
 export const createUserSchema = z.object({

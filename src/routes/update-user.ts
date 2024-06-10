@@ -1,11 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-import { UpdateUserController } from "../controllers/update-user";
-import { UpdateUserRepository } from "../repositories/update-user";
-import { UpdateUserService } from "../services/update-user";
-import { GetUserByIdRepository } from "../repositories/get-user-by-id";
-import { GetUserByEmailRepository } from "../repositories/get-user-by-email";
 import { makeUpdateUserController } from "../factories/controllers/users";
 
 const updatedUserSchema = z.object({
