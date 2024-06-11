@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-import { makeUpdateUserController } from "../factories/controllers/users";
+import { makeUpdateUserController } from "../../factories/controllers/users";
 
 const updatedUserSchema = z.object({
   first_name: z.string().nullable().optional(),

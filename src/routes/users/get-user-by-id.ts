@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-import { makeGetUserByIdController } from "../factories/controllers/users";
+import { makeGetUserByIdController } from "../../factories/controllers/users";
 
 export async function getUserById(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
