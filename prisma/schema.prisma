@@ -28,7 +28,7 @@ model User {
 enum TRANSACTION_TYPE {
   INCOME
   EXPENSE
-  INVESTIMENT
+  INVESTMENT
 }
 
 model Transaction {
