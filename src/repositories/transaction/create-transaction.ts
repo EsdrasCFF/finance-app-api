@@ -5,7 +5,7 @@ export interface ICreateTransactionRepository {
   execute(createTransactionParams: Omit<Transaction, 'id'>): Promise<Transaction>
 }
 
-export class CreateTransactionsRepository implements ICreateTransactionRepository {
+export class CreateTransactionRepository implements ICreateTransactionRepository {
   async execute(createTransactionParams: Omit<Transaction, 'id'>) {
     const transaction = await db.transaction.create({
       data: createTransactionParams
