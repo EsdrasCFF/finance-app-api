@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
-import { IDeleteUserRepository } from "../repositories/delete-user";
-import { NotFound } from "../routes/_errors/not-found";
-import { IGetUserByIdRepository } from "../repositories/get-user-by-id";
+import { IDeleteUserRepository } from "../../repositories/user/delete-user";
+import { IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
+import { NotFound } from "../../routes/_errors/not-found";
 
 export interface IDeleteUserService {
   execute(userId: string): Promise<User>

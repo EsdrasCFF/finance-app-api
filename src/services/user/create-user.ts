@@ -1,9 +1,6 @@
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
-import {
-  CreateUserRepository,
-  ICreateUserRepository,
-} from "../repositories/create-users";
+import { ICreateUserRepository } from "../../repositories/user/create-users";
 
 export interface ICreateUserService {
   execute(crateUserParams: Omit<User, "id">): Promise<User>;

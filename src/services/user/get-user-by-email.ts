@@ -1,8 +1,6 @@
 import { User } from "@prisma/client";
-import {
-  GetUserByEmailRepository,
-  IGetUserByEmailRepository,
-} from "../repositories/get-user-by-email";
+import { IGetUserByEmailRepository } from "../../repositories/user/get-user-by-email";
+
 
 export interface IGetUserByEmailService {
   execute(email: string): Promise<User | null>;

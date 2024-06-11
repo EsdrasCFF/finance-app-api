@@ -7,11 +7,11 @@ import { DeleteUserRepository } from "../../repositories/user/delete-user";
 import { GetUserByEmailRepository } from "../../repositories/user/get-user-by-email";
 import { GetUserByIdRepository } from "../../repositories/user/get-user-by-id";
 import { UpdateUserRepository } from "../../repositories/user/update-user";
-import { CreateUserService } from "../../services/create-user";
-import { DeleteUserService } from "../../services/delete-user";
-import { GetUserByEmailService } from "../../services/get-user-by-email";
-import { GetUserByIdService } from "../../services/get-user-by-id";
-import { UpdateUserService } from "../../services/update-user";
+import { CreateUserService } from "../../services/user/create-user";
+import { DeleteUserService } from "../../services/user/delete-user";
+import { GetUserByEmailService } from "../../services/user/get-user-by-email";
+import { GetUserByIdService } from "../../services/user/get-user-by-id";
+import { UpdateUserService } from "../../services/user/update-user";
 
 export function makeGetUserByIdController() {
   const getUserByIdRepository = new GetUserByIdRepository()

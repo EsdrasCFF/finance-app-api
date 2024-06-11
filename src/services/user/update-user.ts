@@ -1,10 +1,9 @@
-import { GetUserByEmailRepository, IGetUserByEmailRepository } from "../repositories/get-user-by-email";
-import { IUpdateUserRepository, UpdateUserRepository } from "../repositories/update-user";
-import { BadRequest } from "../routes/_errors/bad-request";
 import bcrypt from "bcrypt";
-import { NotFound } from "../routes/_errors/not-found";
-import { IGetUserByIdRepository } from "../repositories/get-user-by-id";
 import { User } from "@prisma/client";
+import { IGetUserByEmailRepository } from "../../repositories/user/get-user-by-email";
+import { IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
+import { IUpdateUserRepository } from "../../repositories/user/update-user";
+import { BadRequest } from "../../routes/_errors/bad-request";
 
 export interface IUpdateUserService {
   execute(userId: string, updateUserParams: UpdateUserProps): Promise<User>

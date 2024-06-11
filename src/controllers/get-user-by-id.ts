@@ -1,7 +1,7 @@
 import validator from "validator";
 import { NotFound } from "../routes/_errors/not-found";
 import { ServerError } from "../routes/_errors/server-error";
-import { GetUserByIdService, IGetUserByIdService } from "../services/get-user-by-id";
+import { GetUserByIdService, IGetUserByIdService } from "../services/user/get-user-by-id";
 import { BadRequest } from "../routes/_errors/bad-request";
 import { User } from "@prisma/client";
 

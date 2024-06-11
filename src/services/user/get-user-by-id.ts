@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { GetUserByIdRepository, IGetUserByIdRepository } from "../repositories/get-user-by-id";
+import { IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
 
 export interface IGetUserByIdService {
   execute(userId: string): Promise<User | null>

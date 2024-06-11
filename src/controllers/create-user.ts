@@ -1,13 +1,13 @@
 import { FastifyRequest } from "fastify";
 import z from "zod";
-import { CreateUserService, ICreateUserService } from "../services/create-user";
+import { CreateUserService, ICreateUserService } from "../services/user/create-user";
 import { User } from "@prisma/client";
 import { BadRequest } from "../routes/_errors/bad-request";
 import validator from "validator";
 import {
   GetUserByEmailService,
   IGetUserByEmailService,
-} from "../services/get-user-by-email";
+} from "../services/user/get-user-by-email";
 
 interface ICreateUserController {
   execute(createUserParams: Omit<User, "id">): Promise<Omit<User, "password">>;
