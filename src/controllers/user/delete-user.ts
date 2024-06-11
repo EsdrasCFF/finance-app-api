@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import validator from "validator";
-import { BadRequest } from "../routes/_errors/bad-request";
-import { IDeleteUserService } from "../services/user/delete-user";
+import { IDeleteUserService } from "../../services/user/delete-user";
+import { BadRequest } from "../../routes/_errors/bad-request";
 
 export interface IDeleteUserController {
   execute(userId: string): Promise<User>

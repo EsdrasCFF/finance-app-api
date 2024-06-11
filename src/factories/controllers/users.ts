@@ -1,7 +1,8 @@
-import { CreateUserController } from "../../controllers/create-user";
-import { DeleteUserController } from "../../controllers/delete-user";
-import { GetUserByIdController } from "../../controllers/get-user-by-id";
-import { UpdateUserController } from "../../controllers/update-user";
+
+import { CreateUserController } from "../../controllers/user/create-user";
+import { DeleteUserController } from "../../controllers/user/delete-user";
+import { GetUserByIdController } from "../../controllers/user/get-user-by-id";
+import { UpdateUserController } from "../../controllers/user/update-user";
 import { CreateUserRepository } from "../../repositories/user/create-users";
 import { DeleteUserRepository } from "../../repositories/user/delete-user";
 import { GetUserByEmailRepository } from "../../repositories/user/get-user-by-email";

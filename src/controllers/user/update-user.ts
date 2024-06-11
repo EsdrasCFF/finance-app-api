@@ -1,7 +1,7 @@
 import validator from "validator";
-import { BadRequest } from "../routes/_errors/bad-request";
-import { IUpdateUserService, UpdateUserService } from "../services/user/update-user";
 import { User } from "@prisma/client";
+import { IUpdateUserService } from "../../services/user/update-user";
+import { BadRequest } from "../../routes/_errors/bad-request";
 
 interface UpdateUserProps {
   first_name: string | null;
