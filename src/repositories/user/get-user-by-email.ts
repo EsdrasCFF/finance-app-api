@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
-import { db } from "../lib/prisma";
+import { db } from "../../lib/prisma";
+
 
 export interface IGetUserByEmailRepository {
   execute(email: string): Promise<User | null>;

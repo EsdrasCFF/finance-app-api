@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
-import { db } from "../lib/prisma";
+import { db } from "../../lib/prisma";
+
 
 export interface IDeleteUserRepository {
   execute(userId: string): Promise<User>

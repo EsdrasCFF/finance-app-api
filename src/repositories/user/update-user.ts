@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { db } from "../lib/prisma";
+import { db } from "../../lib/prisma";
 
 interface UpdateUserProps {
   first_name: string;
