@@ -30,7 +30,6 @@ export class CreateTransactionController implements ICreateTransactionController
 
     const amountIsNumber = validator.isCurrency(String(amount), {
       digits_after_decimal:[2],
-      allow_decimal: false,
       decimal_separator: '.',
       allow_negatives: false
     })
