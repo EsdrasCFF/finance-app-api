@@ -1,4 +1,4 @@
-GET  http://localhost:3333/
+GET  http://localhost:3333/api/users/215f200a-50bf-4dbc-b6fc-362ee3e468dd
 Content-Type: application/json
 
 {}
