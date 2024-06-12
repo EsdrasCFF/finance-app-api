@@ -3,7 +3,7 @@ import { IGetTransactionsByUserIdRepository } from "../../repositories/transacti
 import { GetUserByIdRepository, IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
 import { NotFound } from "../../routes/_errors/not-found";
 
-interface IGetTransactionsByUserIdService {
+export interface IGetTransactionsByUserIdService {
   execute(userId: string): Promise<Transaction[]>
 }
 
