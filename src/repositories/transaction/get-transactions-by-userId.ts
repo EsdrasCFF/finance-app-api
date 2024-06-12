@@ -1,11 +1,11 @@
 import { Transaction } from "@prisma/client";
 import { db } from "../../lib/prisma";
 
-interface IGetTransactionsByUserId {
+export interface IGetTransactionsByUserIdRepository {
   execute(userId: string): Promise<Transaction[]>
 }
 
-export class GetTransactionsByUserId implements IGetTransactionsByUserId {
+export class GetTransactionsByUserIdRepository implements IGetTransactionsByUserIdRepository {
   async execute(userId: string) {
     const transactions = await db.transaction.findMany({
       where: {
