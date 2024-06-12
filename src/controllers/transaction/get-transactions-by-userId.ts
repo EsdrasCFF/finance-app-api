@@ -3,7 +3,7 @@ import { BadRequest } from "../../routes/_errors/bad-request";
 import { IGetTransactionsByUserIdService } from "../../services/transaction/get-transactions-by-userId";
 import { Transaction } from "@prisma/client";
 
-interface IGetTransactionsByUserIdController {
+export interface IGetTransactionsByUserIdController {
   execute(userId: string | null | undefined): Promise<Transaction[]>
 }
 
