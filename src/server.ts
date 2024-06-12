@@ -20,6 +20,7 @@ app.register(createUser);
 app.register(getUserById);
 app.register(updateUser);
 app.register(deleteUser);
+
 app.register(createTransaction)
 
 app.setErrorHandler(errorHandler);

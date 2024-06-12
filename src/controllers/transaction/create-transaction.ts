@@ -28,15 +28,15 @@ export class CreateTransactionController implements ICreateTransactionController
       throw new BadRequest('Provided UserId is not valid!')
     }
 
-    const amountIsNumber = validator.isCurrency(String(amount), {
-      digits_after_decimal:[2],
-      decimal_separator: '.',
-      allow_negatives: false
-    })
+    // const amountIsNumber = validator.isCurrency(String(amount), {
+    //   digits_after_decimal:[2],
+    //   decimal_separator: '.',
+    //   allow_negatives: false
+    // })
 
-    if(!amountIsNumber) {
-      throw new BadRequest('Provided amount is not a valid number')
-    }
+    // if(!amountIsNumber) {
+    //   throw new BadRequest('Provided amount is not a valid number')
+    // }
 
     const newAmount = Number(amount) * 100
 
