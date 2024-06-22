@@ -2,6 +2,7 @@ import { TRANSACTION_TYPE, Transaction } from "@prisma/client";
 import validator from "validator";
 import { BadRequest } from "../../routes/_errors/bad-request";
 import { ICreateTransactionService } from "../../services/transaction/create-transaction";
+import { checkIfAmountIsValid, roundAmountToTwoDecimals } from "../../lib/utils";
 
 interface CreateTransactionParams {
   amount: number | string;
@@ -28,17 +29,13 @@ export class CreateTransactionController implements ICreateTransactionController
       throw new BadRequest('Provided UserId is not valid!')
     }
 
-    // const amountIsNumber = validator.isCurrency(String(amount), {
-    //   digits_after_decimal:[2],
-    //   decimal_separator: '.',
-    //   allow_negatives: false
-    // })
+    const amountIsValid = checkIfAmountIsValid(amount)
 
-    // if(!amountIsNumber) {
-    //   throw new BadRequest('Provided amount is not a valid number')
-    // }
+    if(!amountIsValid) {
+      throw new BadRequest('Provided amount is not valid!')
+    }
 
-    const newAmount = Number(amount) * 100
+    const newAmount = roundAmountToTwoDecimals(Number(amount)) * 100
 
     if(newAmount <= 0) {
       throw new BadRequest('Amount must be greater than 0.')
