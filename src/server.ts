@@ -29,7 +29,7 @@ app.setErrorHandler(errorHandler);
 
 app.listen({port: 3333, host: "0.0.0.0"})
   .then(() => {
-    console.log('Server is running')
+    console.log('Server is running:', 3333)
   })
   .catch((e) => {
     console.log('Error:', e)
