@@ -1,21 +1,47 @@
-import { Transaction } from "@prisma/client";
-import { IUpdateTransactioRepository, UpdateTransactionsProps } from "../../repositories/transaction/update-transactions";
-import { IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
-import { BadRequest } from "../../routes/_errors/bad-request";
+import { $Enums, Transaction } from "@prisma/client";
+import { IUpdateTransactioRepository } from "../../repositories/transaction/update-transactions";
 import { NotFound } from "../../routes/_errors/not-found";
+import { IGetTransactionByIdRepository } from "../../repositories/transaction/get-transaction-by-id";
 
-interface IUpdateTransactionService {
-  execute(transactionId: string, updateTransactionProps: UpdateTransactionsProps): Promise<Transaction>
+export interface UpdateTransactionProps {
+  name: string | null
+  description: string | null;
+  date: Date | null
+  amount: number | null
+  type: $Enums.TRANSACTION_TYPE | null  
+}
+
+
+export interface IUpdateTransactionService {
+  execute(transactionId: string, updateTransactionProps: UpdateTransactionProps): Promise<Transaction>
 }
 
 export class UpdateTransactionService implements IUpdateTransactionService{
   constructor(
-    private updateUserTransactionRepository: IUpdateTransactioRepository 
+    private updateTransactionRepository: IUpdateTransactioRepository,
+    private getTransactionById: IGetTransactionByIdRepository,
   ) {}
 
-  async execute(transactionId: string, updateTransactionProps: UpdateTransactionsProps) {
+  async execute(transactionId: string, updateTransactionProps: UpdateTransactionProps) {
 
-    const transaction = await this.updateUserTransactionRepository.execute(transactionId, updateTransactionProps)
+    const { amount, date, description, name, type } = updateTransactionProps
+
+    const oldTransaction = await this.getTransactionById.execute(transactionId)
+
+    if(!oldTransaction) {
+      throw new NotFound('Transaction not found!')
+    }
+
+    const newTransaction = {
+      amount: amount || oldTransaction.amount,
+      date: date || oldTransaction.date,
+      description: description || oldTransaction.description,
+      name: name || oldTransaction.name,
+      type: type || oldTransaction.type,
+
+    }
+
+    const transaction = await this.updateTransactionRepository.execute(transactionId, newTransaction)
 
     return transaction
   }
