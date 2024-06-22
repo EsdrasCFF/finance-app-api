@@ -1,7 +1,7 @@
-import { $Enums } from "@prisma/client";
+import { $Enums, Transaction } from "@prisma/client";
 import { db } from "../../lib/prisma";
 
-interface UpdateTransactionsProps {
+export interface UpdateTransactionsProps {
   id: string;
   name: string;
   description: string | null;
@@ -10,7 +10,11 @@ interface UpdateTransactionsProps {
   type: $Enums.TRANSACTION_TYPE
 }
 
-export class UpdateTransactionsRepository {
+export interface IUpdateTransactioRepository {
+  execute(userId: string, updateTransactionParams: UpdateTransactionsProps): Promise<Transaction>
+}
+
+export class UpdateTransactionRepository implements IUpdateTransactioRepository{
   async execute(userId: string, updateTransactionParams: UpdateTransactionsProps) {
     const { id, ...otherProps } = updateTransactionParams
     
