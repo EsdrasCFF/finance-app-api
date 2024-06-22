@@ -11,6 +11,7 @@ import { updateUser } from "./routes/users/update-user";
 import { deleteUser } from "./routes/users/delete-user";
 import { createTransaction } from "./routes/transactions/create-transaction";
 import { getTransactions } from "./routes/transactions/get-transactions";
+import { UpdateTransaction } from "./routes/transactions/update-transaction";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -24,6 +25,7 @@ app.register(deleteUser);
 
 app.register(createTransaction)
 app.register(getTransactions)
+app.register(UpdateTransaction)
 
 app.setErrorHandler(errorHandler);
 
