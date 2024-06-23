@@ -1,6 +1,6 @@
 import { db } from "../../lib/prisma"
 
-interface BalanceParams {
+export interface BalanceParams {
   incomes: number,
   expenses: number,
   investments: number,
