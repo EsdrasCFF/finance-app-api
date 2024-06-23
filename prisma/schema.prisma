@@ -40,4 +40,6 @@ model Transaction {
   date        DateTime
   amount      Int
   type        TRANSACTION_TYPE
+
+  @@map("transactions")
 }
