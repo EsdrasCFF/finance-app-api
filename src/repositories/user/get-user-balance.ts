@@ -1,10 +1,10 @@
 import { db } from "../../lib/prisma"
 
 export interface BalanceParams {
-  incomes: number,
-  expenses: number,
-  investments: number,
-  balance: number
+  incomes: number | bigint,
+  expenses: number | bigint
+  investments: number | bigint
+  balance: number | bigint
 }
 
 export interface IGetUserBalanceRepository {
@@ -13,7 +13,7 @@ export interface IGetUserBalanceRepository {
 
 export class GetUserBalanceRepository implements IGetUserBalanceRepository{
   async execute(userId: string) {
-    const balance = await db.$queryRaw<BalanceParams>`
+    const balance = await db.$queryRaw<BalanceParams[]>`
       SELECT 
         SUM(CASE WHEN type = 'INVESTMENT' THEN amount ELSE 0 END) AS investments,
         SUM(CASE WHEN type = 'INCOME' THEN amount ELSE 0 END) AS incomes,
@@ -29,7 +29,7 @@ export class GetUserBalanceRepository implements IGetUserBalanceRepository{
       WHERE
           user_id = ${userId}
     `
-  
-    return balance
+
+    return balance[0]
   }
 }
