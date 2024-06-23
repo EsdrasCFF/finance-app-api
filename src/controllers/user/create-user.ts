@@ -21,20 +21,6 @@ export class CreateUserController implements ICreateUserController {
   async execute(createUserParams: Omit<User, "id">) {
     const { email, first_name, last_name, password } = createUserParams;
 
-    const isValidPassword = password.length > 5;
-
-    if (!isValidPassword) {
-      throw new BadRequest(
-        "Password must be greater than or equal to 6 characters!"
-      );
-    }
-
-    const isValidEmail = validator.isEmail(email);
-
-    if (!isValidEmail) {
-      throw new BadRequest("Invalid Email. Please provide a valid email");
-    }
-
     const emailIsAlreadyInUse = await this.getUserByEmailService.execute(email);
 
     if (emailIsAlreadyInUse !== null) {
