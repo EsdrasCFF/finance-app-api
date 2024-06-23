@@ -1,7 +1,7 @@
 import validator from "validator";
-import { IGetUserBalanceService } from "../../services/user/get-user-balance";
+import { BalanceParams, IGetUserBalanceService } from "../../services/user/get-user-balance";
 import { BadRequest } from "../../routes/_errors/bad-request";
-import { BalanceParams } from "../../repositories/user/get-user-balance";
+
 
 export interface IGetUserBalanceController {
   execute(userId: string): Promise<BalanceParams>
