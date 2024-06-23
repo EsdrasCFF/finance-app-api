@@ -7,7 +7,7 @@ interface BalanceParams {
   balance: number
 }
 
-interface IGetUserBalanceRepository {
+export interface IGetUserBalanceRepository {
   execute(userId: string): Promise<BalanceParams>
 }
 
