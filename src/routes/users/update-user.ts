@@ -4,15 +4,16 @@ import z from "zod";
 import { makeUpdateUserController } from "../../factories/controllers/users";
 
 const updatedUserSchema = z.object({
-  first_name: z.string().nullable().optional(),
-  last_name: z.string().nullable().optional(),
+  first_name: z.string().trim().min(3, {message: 'Provide a correct first name'}).nullable().optional(),
+  last_name: z.string().trim().min(3, {message: 'Provide a correct last name'}).nullable().optional(),
   email: z.string().email().nullable().optional(),
   password: z
     .string()
     .min(6, { message: "Password must be greater or equal 6 characters" })
     .optional(),
   old_password: z.string().nullable().optional(),
-});
+})
+  .strict({message: 'Some provided field is not allowed!'})
 
 export async function updateUser(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(

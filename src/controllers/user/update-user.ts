@@ -21,42 +21,11 @@ export class UpdateUserController implements IUpdateUserController {
 
 
   async execute(userId: string, updateUserParams: UpdateUserProps) {
-    const allowedFields = [
-      "first_name",
-      "last_name",
-      "email",
-      "password",
-      "old_password",
-    ];
-
-    const someFieldNotAllowed = Object.keys(updateUserParams).some(
-      (field) => !allowedFields.includes(field)
-    );
-
-    if (someFieldNotAllowed) {
-      throw new BadRequest("Some field provided is not allowed");
-    }
 
     const userIdIsValid = validator.isUUID(userId);
 
     if (!userIdIsValid) {
       throw new BadRequest("UserId provided is not valid!");
-    }
-
-    if (updateUserParams.password) {
-      const passwordIsValid = updateUserParams.password.length > 5;
-
-      if (!passwordIsValid) {
-        throw new BadRequest("Password must be greater or then ");
-      }
-    }
-
-    if (updateUserParams.email) {
-      const emailIsValid = validator.isEmail(updateUserParams.email);
-
-      if (!emailIsValid) {
-        throw new BadRequest("Email provided is not valid");
-      }
     }
 
     const updatedSucessfully = await this.updateUserService.execute(
