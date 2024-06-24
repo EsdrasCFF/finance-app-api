@@ -29,13 +29,9 @@ export function makeCreateUserController() {
   const createUserRepository = new CreateUserRepository();
   const getUserByEmailRepository = new GetUserByEmailRepository();
 
-  const createUserService = new CreateUserService(createUserRepository);
-  const getUserByEmailService = new GetUserByEmailService(getUserByEmailRepository);
+  const createUserService = new CreateUserService(createUserRepository, getUserByEmailRepository);
 
-  const createUserController = new CreateUserController(
-    createUserService,
-    getUserByEmailService
-  );
+  const createUserController = new CreateUserController(createUserService);
 
   return createUserController
 }

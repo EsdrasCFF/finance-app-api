@@ -14,18 +14,11 @@ interface ICreateUserController {
 
 export class CreateUserController implements ICreateUserController {
   constructor(
-    private createUserService: ICreateUserService,
-    private getUserByEmailService: IGetUserByEmailService
+    private createUserService: ICreateUserService
   ) {}
 
   async execute(createUserParams: Omit<User, "id">) {
     const { email, first_name, last_name, password } = createUserParams;
-
-    const emailIsAlreadyInUse = await this.getUserByEmailService.execute(email);
-
-    if (emailIsAlreadyInUse !== null) {
-      throw new BadRequest("This email is already in use");
-    }
 
     const result = await this.createUserService.execute({
       first_name,
