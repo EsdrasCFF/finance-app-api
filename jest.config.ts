@@ -6,10 +6,10 @@
 import type {Config} from 'jest';
 
 const config: Config = {
-  collectCoverage: true,
-  coverageDirectory: "coverage",
+  preset: 'ts-jest',
+  testEnvironment: 'node',
   coverageProvider: "v8",
-  testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts']
+  testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
 };
 
 export default config;
