@@ -23,28 +23,10 @@ export class CreateTransactionController implements ICreateTransactionController
   async execute(createTransactionParams: CreateTransactionParams) {
     const {amount, date, description, name, userId, type} = createTransactionParams
 
-    const userIdIsValid = validator.isUUID(userId)
-
-    if(!userIdIsValid) {
-      throw new BadRequest('Provided UserId is not valid!')
-    }
-
-    const amountIsValid = checkIfAmountIsValid(amount)
-
-    if(!amountIsValid) {
-      throw new BadRequest('Provided amount is not valid!')
-    }
-
     const newAmount = roundAmountToTwoDecimals(Number(amount)) * 100
 
     if(newAmount <= 0) {
       throw new BadRequest('Amount must be greater than 0.')
-    }
-
-    const typeIsValid = ['INCOME', 'EXPENSE', 'INVESTMENT'].includes(type.toUpperCase().trim())
-
-    if(!typeIsValid) {
-      throw new BadRequest('Provided type is not valid!')
     }
 
     const transaction = await this.createTransactionService.execute({

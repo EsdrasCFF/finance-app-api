@@ -3,19 +3,26 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { makeCreateTransactionController } from "../../factories/controllers/transactions";
+import { checkIfAmountIsValid } from "../../lib/utils";
 
 
 const createTransactionSchema = z.object({
-  userId: z.string().uuid({message: 'Provided userId is not valid!'}),
-  name: z.string(),
+  userId: z.string({required_error: 'UserId is required!'})
+    .uuid({message: 'Provided userId is not valid!'}),
+  name: z.string({required_error: 'Name is required!'}).trim().min(3),
   description: z.string().nullable().optional(),
-  date: z.coerce.date(),
-  amount: z.number(),
+  date: z.coerce.date({required_error: 'Date is required!'}),
+  amount: z.union([z.number(), z.string()], {required_error: 'Amount is required'})
+    .refine((value) => {
+      const amountIsValid = checkIfAmountIsValid(value)
+
+      return amountIsValid
+    }, {message: 'Provided amount is not valid!'}),
   type: z.enum([
     TRANSACTION_TYPE.EXPENSE,
     TRANSACTION_TYPE.INCOME,
     TRANSACTION_TYPE.INVESTMENT
-  ])
+  ],{message: 'Provided type is invalid. Expected EXPENSE, INCOME or INVESTMENT'})
 })
 
 export async function createTransaction(app: FastifyInstance) {
