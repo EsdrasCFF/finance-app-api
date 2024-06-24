@@ -3,7 +3,7 @@ import { CreateUserController } from "../../../controllers/user/create-user"
 import { ICreateUserService } from "../../../services/user/create-user"
 import { v4 as uuidv4 } from 'uuid'
 
-describe('Create user controller', () => {
+describe('Create User controller', () => {
 
   class CreateUserServiceStub implements ICreateUserService {
     async execute(user: Omit<User, 'id'>) {
