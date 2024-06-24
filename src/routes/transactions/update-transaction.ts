@@ -2,21 +2,28 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { makeUpdateTransactionController } from "../../factories/controllers/transactions";
+import { checkIfAmountIsValid, roundAmountToTwoDecimals } from "../../lib/utils";
 
-const updateUserSchema= z.object({
-  amount: z.union([z.string(), z.number()]).nullable().optional(),
-  name: z.string().nullable().optional(),
+const updateTransactionSchema= z.object({
+  amount: z.union([z.string(), z.number()])
+    .refine((value) => checkIfAmountIsValid(value), 
+      {message: 'Provided amount is not valid!'}
+    )
+    .transform((value) => roundAmountToTwoDecimals(Number(value)))
+    .nullable()
+    .optional(),
+  name: z.string().min(3).nullable().optional(),
   date: z.coerce.date().nullable().optional(),
   description: z.string().nullable().optional(),
   type: z.enum(['INCOME', 'EXPENSE', 'INVESTMENT']).nullable().optional()
-})
+}).strict({message: 'Some provided field is not allowed!'})
 
 export async function UpdateTransaction(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
     '/api/transactions/:transactionId',
     {
       schema: {
-        body: updateUserSchema,
+        body: updateTransactionSchema,
         params: z.object({
           transactionId: z.string()
         }),
