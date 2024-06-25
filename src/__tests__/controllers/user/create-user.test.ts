@@ -123,4 +123,25 @@ describe('Create user controller', () => {
     //assert
     await expect(result).rejects.toThrow()
   })
+
+  it('Should call CreateUserService with correct params', async () => {
+    //arrange
+    const createUserServiceStub = new CreateUserServiceStub()
+    const createUserController = new CreateUserController(createUserServiceStub)
+
+    const createUserParams = {
+      first_name: 'Esdras',
+      last_name: 'Castro',
+      email: 'esdras@email.com',
+      password: '123456'
+    }
+
+    const executeSpy = jest.spyOn(createUserServiceStub, 'execute')
+
+    //act
+    await createUserController.execute(createUserParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(createUserParams)
+  })
 })
