@@ -2,6 +2,7 @@ import { User } from "@prisma/client"
 import { CreateUserController } from "../../../controllers/user/create-user"
 import { ICreateUserService } from "../../../services/user/create-user"
 import { v4 as uuidv4 } from 'uuid'
+import { ZodError } from "zod"
 
 describe('Create user controller', () => {
 
@@ -18,7 +19,6 @@ describe('Create user controller', () => {
       return newUser
     }
   }
-
 
 
   it('Should create an user', async () => {
@@ -44,7 +44,7 @@ describe('Create user controller', () => {
     expect(result).not.toBeUndefined()
   })
 
-  it('Should return null if provided first_name is falsy', async () => {
+  it('Should throw an error if first_name is not provided', async () => {
     //arrange
     const crateUserServiceStub = new CreateUserServiceStub()
     const createUserController = new CreateUserController(crateUserServiceStub)
@@ -58,32 +58,10 @@ describe('Create user controller', () => {
 
     //act
 
-    const result = await createUserController.execute(createUserParams)
+    const result = createUserController.execute(createUserParams)
 
     //assert
 
-    expect(result.first_name).toBeFalsy()
-    expect(result.email).toBeFalsy()
-  })
-
-  it('Should error if email or last_name are not provided', async () => {
-    //arrange
-    const crateUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(crateUserServiceStub)
-
-    const createUserParams = {
-      first_name: 'Esdras',
-      last_name: '',
-      email: '',
-      password: '123456'
-    }
-
-    //act
-    const result = await createUserController.execute(createUserParams)
-
-
-    //assert
-    expect(result.last_name).toBeFalsy()
-    expect(result.email).toBeFalsy()
+    await expect(result).rejects.toThrow(ZodError)
   })
 })

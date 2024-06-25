@@ -1,11 +1,12 @@
 import { FastifyRequest } from "fastify";
-import z from "zod";
+import z, { ZodError } from "zod";
 import { User } from "@prisma/client";
 
 import validator from "validator";
 import { BadRequest } from "../../routes/_errors/bad-request";
 import { ICreateUserService } from "../../services/user/create-user";
 import { IGetUserByEmailService } from "../../services/user/get-user-by-email";
+import { createUserSchema } from "../../routes/users/create-user";
 
 
 interface ICreateUserController {
@@ -18,6 +19,9 @@ export class CreateUserController implements ICreateUserController {
   ) {}
 
   async execute(createUserParams: Omit<User, "id">) {
+
+    createUserSchema.parse(createUserParams)
+
     const { email, first_name, last_name, password } = createUserParams;
 
     const result = await this.createUserService.execute({
