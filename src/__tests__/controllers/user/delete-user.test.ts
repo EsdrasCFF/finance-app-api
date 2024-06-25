@@ -53,7 +53,7 @@ describe('Delete user controller', () => {
     expect(result).toBe(userData)
   })
 
-  it('Should throw BadRequest instance error if userId is invalid!', async () => {
+  it('Should throw BadRequest instance error if userId is not valid!', async () => {
     //arrange
     const { sut } = makeSut()
 
