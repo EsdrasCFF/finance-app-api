@@ -48,4 +48,17 @@ describe('GetUserByIdController', () => {
     expect(result.id).toEqual(userData.id)
     expect(result.email).toEqual(userData.email)
   })
+
+  it('Should throw BadRequest instance error if userId is not valid!', async () => {
+    //arrange
+    const { sut } = makeSut()
+
+    //act
+    const result = sut.execute(faker.string.alpha({length: {min: 5, max: 15}}))
+
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
+  })
+
+  // it('Should throw NotFound instance Error if user not found by id')
 })
