@@ -3,6 +3,7 @@ import { CreateUserController } from "../../../controllers/user/create-user"
 import { ICreateUserService } from "../../../services/user/create-user"
 import { v4 as uuidv4 } from 'uuid'
 import { ZodError } from "zod"
+import { faker } from '@faker-js/faker'
 
 describe('Create user controller', () => {
 
@@ -28,10 +29,10 @@ describe('Create user controller', () => {
     const createUserController = new CreateUserController(crateUserServiceStub)
 
     const createUserParams = {
-      first_name: 'Esdras',
-      last_name: 'Castro',
-      email: 'esdras@emai.com',
-      password: '123456'
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password({length: 7})
     }
     
     //act
@@ -50,10 +51,10 @@ describe('Create user controller', () => {
     const createUserController = new CreateUserController(crateUserServiceStub)
 
     const createUserParams = {
-      first_name: '',
-      last_name: 'Castro',
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
       email: '',
-      password: '123456'
+      password: faker.internet.password({length: 7})
     }
 
     //act
@@ -71,10 +72,10 @@ describe('Create user controller', () => {
     const createUserController = new CreateUserController(crateUserServiceStub)
 
     const createUserParams = {
-      first_name: 'Esdras',
+      first_name: faker.person.firstName(),
       last_name: '',
-      email: 'esdras@email.com',
-      password: '123456'
+      email: faker.internet.email(),
+      password: faker.internet.password({length: 7})
     }
 
     //act
@@ -91,10 +92,10 @@ describe('Create user controller', () => {
     const createUserController = new CreateUserController(crateUserServiceStub)
 
     const createUserParams = {
-      first_name: 'Esdras',
-      last_name: 'Castro',
-      email: 'esdras',
-      password: '123456'
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: 'carlos',
+      password: faker.internet.password({length: 7})
     }
 
     //act
@@ -111,10 +112,10 @@ describe('Create user controller', () => {
     const createUserController = new CreateUserController(crateUserServiceStub)
 
     const createUserParams = {
-      first_name: 'Esdras',
-      last_name: 'Castro',
-      email: 'esdras@email.com',
-      password: '12345'
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password({length: 5})
     }
 
     // act
@@ -130,10 +131,10 @@ describe('Create user controller', () => {
     const createUserController = new CreateUserController(createUserServiceStub)
 
     const createUserParams = {
-      first_name: 'Esdras',
-      last_name: 'Castro',
-      email: 'esdras@email.com',
-      password: '123456'
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password({length: 7})
     }
 
     const executeSpy = jest.spyOn(createUserServiceStub, 'execute')
