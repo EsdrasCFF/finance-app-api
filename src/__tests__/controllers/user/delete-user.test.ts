@@ -4,6 +4,7 @@ import { IDeleteUserService } from "../../../services/user/delete-user";
 import validator from "validator";
 import { BadRequest } from "../../../routes/_errors/bad-request";
 import { NotFound } from "../../../routes/_errors/not-found";
+import { ServerError } from "../../../routes/_errors/server-error";
 
 describe('Delete user controller', () => {
 
@@ -77,5 +78,20 @@ describe('Delete user controller', () => {
 
     // assert
     await expect(result).rejects.toThrow(NotFound)
+  })
+
+  it('Should throw ServerError instance error if others errors', async () => {
+    //arrange
+    const { deleteUserService, sut } = makeSut()
+  
+    jest.spyOn(deleteUserService, 'execute').mockImplementationOnce(() => {
+      throw new ServerError()
+    })
+
+    //act
+    const result = sut.execute(userIdParams)
+
+    //assert
+    await expect(result).rejects.toThrow(ServerError)
   })
 })
