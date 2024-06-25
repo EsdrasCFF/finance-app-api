@@ -3,6 +3,7 @@ import { IGetUserByIdService } from "../../../services/user/get-user-by-id"
 import validator from "validator"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { GetUserByIdController } from "../../../controllers/user/get-user-by-id"
+import { NotFound } from "../../../routes/_errors/not-found"
 
 describe('GetUserByIdController', () => {
   
@@ -60,5 +61,18 @@ describe('GetUserByIdController', () => {
     await expect(result).rejects.toThrow(BadRequest)
   })
 
-  // it('Should throw NotFound instance Error if user not found by id')
+  it('Should throw NotFound instance Error if user not found by id', async () => {
+    //arrange
+    const { getUserByIdServiceStub, sut } = makeSut()
+    
+    jest.spyOn(getUserByIdServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new NotFound('User not found!')
+    })
+
+    //act
+    const result = sut.execute(userIdParams)
+
+    //assert
+    await expect(result).rejects.toThrow('User not found!')
+  })
 })
