@@ -1,20 +1,30 @@
 import { faker } from "@faker-js/faker";
 import { DeleteUserController, IDeleteUserController } from "../../../controllers/user/delete-user";
 import { IDeleteUserService } from "../../../services/user/delete-user";
+import { validate } from "uuid";
+import validator from "validator";
+import { BadRequest } from "../../../routes/_errors/bad-request";
 
 describe('Delete user controller', () => {
 
+  const userData = {
+    id: faker.string.uuid(),
+    first_name: faker.person.firstName(),
+    last_name: faker.person.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password({length: 8})
+  }
+
   class DeleteUserServiceStub implements IDeleteUserService {
     async execute(userId: string) {
-      const user = {
-        id: faker.string.uuid(),
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({length: 8})
+
+      const userIdIsNotValid = validator.isUUID(userId)
+
+      if(!userIdIsNotValid) {
+        throw new BadRequest('Provided UserId is not valid!')
       }
-    
-      return user
+
+      return userData
     }
   }
 
@@ -28,20 +38,30 @@ describe('Delete user controller', () => {
   }
 
   
-  it('Should return user data if user is deleted', async () => {
+  it('Should returns user data if user is deleted', async () => {
     // arrange
-    const { deleteUserService, sut } = makeSut()
+    const { sut } = makeSut()
 
 
     // act
-
     const result = await sut.execute(userIdParams)
 
     //assert
-
     expect(result).toBeTruthy()
     expect(result).not.toBeNull()
     expect(result).not.toBeUndefined()
+    expect(result).toBe(userData)
+  })
+
+  it('Should throw BadRequest instance error if userId is invalid!', async () => {
+    //arrange
+    const { sut } = makeSut()
+
+    //act
+    const result = await sut.execute('123')
+
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
   })
 
 })
