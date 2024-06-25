@@ -3,6 +3,7 @@ import { BalanceParams, IGetUserBalanceService } from "../../../services/user/ge
 import validator from "validator"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { GetUserBalanceController } from "../../../controllers/user/get-user-balance"
+import { ServerError } from "../../../routes/_errors/server-error"
 
 describe('GetUserBalanceController', () => {
 
@@ -58,5 +59,20 @@ describe('GetUserBalanceController', () => {
 
     //assert
     await expect(result).rejects.toThrow(BadRequest)
+  })
+
+  it('Should throw ServerError error if GetUserBalance has unknown erros', async () => {
+    //arrange
+    const { sut, getUserBalanceServiceStub } = makeSut()
+
+    jest.spyOn(getUserBalanceServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new ServerError()
+    })
+
+    //act
+    const result = sut.execute(userIdParams)
+
+    //assert
+    await expect(result).rejects.toThrow()
   })
 })
