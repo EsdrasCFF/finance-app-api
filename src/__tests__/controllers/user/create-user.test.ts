@@ -1,11 +1,15 @@
 import { User } from "@prisma/client"
-import { CreateUserController } from "../../../controllers/user/create-user"
-import { ICreateUserService } from "../../../services/user/create-user"
+
 import { v4 as uuidv4 } from 'uuid'
 import { ZodError } from "zod"
 import { faker } from '@faker-js/faker'
+
+
+import { CreateUserController } from "../../../controllers/user/create-user"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { ServerError } from "../../../routes/_errors/server-error"
+import { ICreateUserService } from "../../../services/user/create-user"
+
 
 describe('Create user controller', () => {
 
@@ -23,12 +27,18 @@ describe('Create user controller', () => {
     }
   }
 
+  const makeSut = () => {
+    const createUserServiceStub = new CreateUserServiceStub()
+    const sut = new CreateUserController(createUserServiceStub)
+
+    return {createUserServiceStub, sut}
+  }
+
 
   it('Should create an user', async () => {
     //arrange
-
-    const crateUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(crateUserServiceStub)
+    const { sut } = makeSut()
+    
 
     const createUserParams = {
       first_name: faker.person.firstName(),
@@ -39,7 +49,7 @@ describe('Create user controller', () => {
     
     //act
 
-    const result = await createUserController.execute(createUserParams)
+    const result = await sut.execute(createUserParams)
 
     //assert
     expect(result.first_name).toBeTruthy()
@@ -49,8 +59,7 @@ describe('Create user controller', () => {
 
   it('Should throw an error if first_name is not provided', async () => {
     //arrange
-    const crateUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(crateUserServiceStub)
+    const {sut} = makeSut()
 
     const createUserParams = {
       first_name: faker.person.firstName(),
@@ -61,7 +70,7 @@ describe('Create user controller', () => {
 
     //act
 
-    const result = createUserController.execute(createUserParams)
+    const result = sut.execute(createUserParams)
 
     //assert
 
@@ -70,8 +79,7 @@ describe('Create user controller', () => {
 
   it('Should throw an error if last_name is not provided', async () => {
     //arrange
-    const crateUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(crateUserServiceStub)
+    const {sut} = makeSut()
 
     const createUserParams = {
       first_name: faker.person.firstName(),
@@ -81,7 +89,7 @@ describe('Create user controller', () => {
     }
 
     //act
-    const result = createUserController.execute(createUserParams)
+    const result = sut.execute(createUserParams)
 
     //assert
 
@@ -90,8 +98,7 @@ describe('Create user controller', () => {
 
   it('Should throw an error when an invalid email is provided!', async () => {
     //arrange
-    const crateUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(crateUserServiceStub)
+    const { sut } = makeSut()
 
     const createUserParams = {
       first_name: faker.person.firstName(),
@@ -101,7 +108,7 @@ describe('Create user controller', () => {
     }
 
     //act
-    const result = createUserController.execute(createUserParams)
+    const result = sut.execute(createUserParams)
 
     //assert
   
@@ -110,8 +117,7 @@ describe('Create user controller', () => {
 
   it('Should throw an error if password is less than 6 characteres is provided', async () => {
     //arrange
-    const crateUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(crateUserServiceStub)
+    const { sut } = makeSut()
 
     const createUserParams = {
       first_name: faker.person.firstName(),
@@ -121,7 +127,7 @@ describe('Create user controller', () => {
     }
 
     // act
-    const result = createUserController.execute(createUserParams)
+    const result = sut.execute(createUserParams)
 
     //assert
     await expect(result).rejects.toThrow()
@@ -129,8 +135,7 @@ describe('Create user controller', () => {
 
   it('Should call CreateUserService with correct params', async () => {
     //arrange
-    const createUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(createUserServiceStub)
+    const { sut, createUserServiceStub } = makeSut()
 
     const createUserParams = {
       first_name: faker.person.firstName(),
@@ -142,7 +147,7 @@ describe('Create user controller', () => {
     const executeSpy = jest.spyOn(createUserServiceStub, 'execute')
 
     //act
-    await createUserController.execute(createUserParams)
+    await sut.execute(createUserParams)
 
     //assert
     expect(executeSpy).toHaveBeenCalledWith(createUserParams)
@@ -150,8 +155,7 @@ describe('Create user controller', () => {
 
   it('Should throw an error if email already in use', async () => {
     //arranga
-    const createUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(createUserServiceStub)
+    const { sut, createUserServiceStub } = makeSut()
 
     const createUserParams = {
       first_name: faker.person.firstName(),
@@ -166,7 +170,7 @@ describe('Create user controller', () => {
     
     //act
     
-    const result = createUserController.execute(createUserParams)
+    const result = sut.execute(createUserParams)
 
     //assert
   
@@ -175,8 +179,7 @@ describe('Create user controller', () => {
 
   it('Should error when any error run', async () => {
     //arrange
-    const createUserServiceStub = new CreateUserServiceStub()
-    const createUserController = new CreateUserController(createUserServiceStub)
+    const { sut, createUserServiceStub } = makeSut()
 
     const createUserParams = {
       first_name: faker.person.firstName(),
@@ -190,7 +193,7 @@ describe('Create user controller', () => {
     })
 
     //act
-    const result = createUserController.execute(createUserParams)
+    const result = sut.execute(createUserParams)
 
 
     //assert
