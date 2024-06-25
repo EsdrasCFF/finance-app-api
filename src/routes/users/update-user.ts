@@ -3,7 +3,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { makeUpdateUserController } from "../../factories/controllers/users";
 
-const updatedUserSchema = z.object({
+export const updatedUserSchema = z.object({
   first_name: z.string().trim().min(3, {message: 'Provide a correct first name'}).nullable().optional(),
   last_name: z.string().trim().min(3, {message: 'Provide a correct last name'}).nullable().optional(),
   email: z.string().email().nullable().optional(),
