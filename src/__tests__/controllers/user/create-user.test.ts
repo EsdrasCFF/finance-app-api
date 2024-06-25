@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { ZodError } from "zod"
 import { faker } from '@faker-js/faker'
 import { BadRequest } from "../../../routes/_errors/bad-request"
+import { ServerError } from "../../../routes/_errors/server-error"
 
 describe('Create user controller', () => {
 
@@ -170,5 +171,29 @@ describe('Create user controller', () => {
     //assert
   
     await expect(result).rejects.toThrow(BadRequest)
+  })
+
+  it('Should error when any error run', async () => {
+    //arrange
+    const createUserServiceStub = new CreateUserServiceStub()
+    const createUserController = new CreateUserController(createUserServiceStub)
+
+    const createUserParams = {
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password({length: 8})
+    }
+
+    jest.spyOn(createUserServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new ServerError()
+    })
+
+    //act
+    const result = createUserController.execute(createUserParams)
+
+
+    //assert
+     await expect(result).rejects.toThrow(ServerError)
   })
 })
