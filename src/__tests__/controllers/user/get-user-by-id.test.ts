@@ -4,6 +4,7 @@ import validator from "validator"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { GetUserByIdController } from "../../../controllers/user/get-user-by-id"
 import { NotFound } from "../../../routes/_errors/not-found"
+import { ServerError } from "../../../routes/_errors/server-error"
 
 describe('GetUserByIdController', () => {
   
@@ -74,5 +75,20 @@ describe('GetUserByIdController', () => {
 
     //assert
     await expect(result).rejects.toThrow('User not found!')
+  })
+
+  it('Should throw ServerError instance error to unknown erros', async () => {
+    //arrange
+    const { getUserByIdServiceStub, sut } = makeSut()
+  
+    jest.spyOn(getUserByIdServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new ServerError()
+    })
+
+    //act
+    const result = sut.execute(userIdParams)
+
+    //assert
+    await expect(result).rejects.toThrow(ServerError)
   })
 })
