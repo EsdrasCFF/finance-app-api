@@ -64,4 +64,63 @@ describe('Create user controller', () => {
 
     await expect(result).rejects.toThrow(ZodError)
   })
+
+  it('Should throw an error if last_name is not provided', async () => {
+    //arrange
+    const crateUserServiceStub = new CreateUserServiceStub()
+    const createUserController = new CreateUserController(crateUserServiceStub)
+
+    const createUserParams = {
+      first_name: 'Esdras',
+      last_name: '',
+      email: 'esdras@email.com',
+      password: '123456'
+    }
+
+    //act
+    const result = createUserController.execute(createUserParams)
+
+    //assert
+
+    await expect(result).rejects.toThrow(ZodError)
+  })
+
+  it('Should throw an error when an invalid email is provided!', async () => {
+    //arrange
+    const crateUserServiceStub = new CreateUserServiceStub()
+    const createUserController = new CreateUserController(crateUserServiceStub)
+
+    const createUserParams = {
+      first_name: 'Esdras',
+      last_name: 'Castro',
+      email: 'esdras',
+      password: '123456'
+    }
+
+    //act
+    const result = createUserController.execute(createUserParams)
+
+    //assert
+  
+    await expect(result).rejects.toThrow()
+  })
+
+  it('Should throw an error if password is less than 6 characteres is provided', async () => {
+    //arrange
+    const crateUserServiceStub = new CreateUserServiceStub()
+    const createUserController = new CreateUserController(crateUserServiceStub)
+
+    const createUserParams = {
+      first_name: 'Esdras',
+      last_name: 'Castro',
+      email: 'esdras@email.com',
+      password: '12345'
+    }
+
+    // act
+    const result = createUserController.execute(createUserParams)
+
+    //assert
+    await expect(result).rejects.toThrow()
+  })
 })
