@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { DeleteUserController, IDeleteUserController } from "../../../controllers/user/delete-user";
 import { IDeleteUserService } from "../../../services/user/delete-user";
-import { validate } from "uuid";
 import validator from "validator";
 import { BadRequest } from "../../../routes/_errors/bad-request";
+import { NotFound } from "../../../routes/_errors/not-found";
 
 describe('Delete user controller', () => {
 
@@ -58,10 +58,24 @@ describe('Delete user controller', () => {
     const { sut } = makeSut()
 
     //act
-    const result = await sut.execute('123')
+    const result = sut.execute('123')
 
     //assert
     await expect(result).rejects.toThrow(BadRequest)
   })
 
+  it('Should throw NotFound instance error if user not found', async () => {
+    // arrange
+    const { sut, deleteUserService } = makeSut()
+
+    jest.spyOn(deleteUserService, 'execute').mockImplementationOnce(() => {
+      throw new NotFound()
+    })
+    
+    // act
+    const result = sut.execute(userIdParams)
+
+    // assert
+    await expect(result).rejects.toThrow(NotFound)
+  })
 })
