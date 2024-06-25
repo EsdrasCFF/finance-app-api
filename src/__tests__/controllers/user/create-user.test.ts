@@ -4,6 +4,7 @@ import { ICreateUserService } from "../../../services/user/create-user"
 import { v4 as uuidv4 } from 'uuid'
 import { ZodError } from "zod"
 import { faker } from '@faker-js/faker'
+import { BadRequest } from "../../../routes/_errors/bad-request"
 
 describe('Create user controller', () => {
 
@@ -144,5 +145,30 @@ describe('Create user controller', () => {
 
     //assert
     expect(executeSpy).toHaveBeenCalledWith(createUserParams)
+  })
+
+  it('Should throw an error if email already in use', async () => {
+    //arranga
+    const createUserServiceStub = new CreateUserServiceStub()
+    const createUserController = new CreateUserController(createUserServiceStub)
+
+    const createUserParams = {
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password({length: 8})
+    }
+
+    jest.spyOn(createUserServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new BadRequest()
+    })
+    
+    //act
+    
+    const result = createUserController.execute(createUserParams)
+
+    //assert
+  
+    await expect(result).rejects.toThrow(BadRequest)
   })
 })
