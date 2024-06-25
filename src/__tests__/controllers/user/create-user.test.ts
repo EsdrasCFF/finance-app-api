@@ -34,19 +34,19 @@ describe('Create user controller', () => {
     return {createUserServiceStub, sut}
   }
 
+  const createUserParams = {
+    first_name: faker.person.firstName(),
+    last_name: faker.person.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password({length: 7})
+  }
+  
+
 
   it('Should create an user', async () => {
     //arrange
     const { sut } = makeSut()
-    
-
-    const createUserParams = {
-      first_name: faker.person.firstName(),
-      last_name: faker.person.lastName(),
-      email: faker.internet.email(),
-      password: faker.internet.password({length: 7})
-    }
-    
+      
     //act
 
     const result = await sut.execute(createUserParams)
@@ -57,20 +57,14 @@ describe('Create user controller', () => {
     expect(result).not.toBeUndefined()
   })
 
-  it('Should throw an error if first_name is not provided', async () => {
+  it('Should throw ZodError if first_name is not provided', async () => {
     //arrange
     const {sut} = makeSut()
 
-    const createUserParams = {
-      first_name: faker.person.firstName(),
-      last_name: faker.person.lastName(),
-      email: '',
-      password: faker.internet.password({length: 7})
-    }
 
     //act
 
-    const result = sut.execute(createUserParams)
+    const result = sut.execute({...createUserParams, first_name: ''})
 
     //assert
 
@@ -81,15 +75,8 @@ describe('Create user controller', () => {
     //arrange
     const {sut} = makeSut()
 
-    const createUserParams = {
-      first_name: faker.person.firstName(),
-      last_name: '',
-      email: faker.internet.email(),
-      password: faker.internet.password({length: 7})
-    }
-
     //act
-    const result = sut.execute(createUserParams)
+    const result = sut.execute({...createUserParams, last_name: ''})
 
     //assert
 
@@ -99,16 +86,8 @@ describe('Create user controller', () => {
   it('Should throw an error when an invalid email is provided!', async () => {
     //arrange
     const { sut } = makeSut()
-
-    const createUserParams = {
-      first_name: faker.person.firstName(),
-      last_name: faker.person.lastName(),
-      email: 'carlos',
-      password: faker.internet.password({length: 7})
-    }
-
     //act
-    const result = sut.execute(createUserParams)
+    const result = sut.execute({...createUserParams, email: 'fernando'})
 
     //assert
   
@@ -119,15 +98,8 @@ describe('Create user controller', () => {
     //arrange
     const { sut } = makeSut()
 
-    const createUserParams = {
-      first_name: faker.person.firstName(),
-      last_name: faker.person.lastName(),
-      email: faker.internet.email(),
-      password: faker.internet.password({length: 5})
-    }
-
     // act
-    const result = sut.execute(createUserParams)
+    const result = sut.execute({...createUserParams, password: faker.internet.password({length: 5})})
 
     //assert
     await expect(result).rejects.toThrow()
@@ -136,13 +108,6 @@ describe('Create user controller', () => {
   it('Should call CreateUserService with correct params', async () => {
     //arrange
     const { sut, createUserServiceStub } = makeSut()
-
-    const createUserParams = {
-      first_name: faker.person.firstName(),
-      last_name: faker.person.lastName(),
-      email: faker.internet.email(),
-      password: faker.internet.password({length: 7})
-    }
 
     const executeSpy = jest.spyOn(createUserServiceStub, 'execute')
 
@@ -153,16 +118,9 @@ describe('Create user controller', () => {
     expect(executeSpy).toHaveBeenCalledWith(createUserParams)
   })
 
-  it('Should throw an error if email already in use', async () => {
+  it('Should throw an error if provided e-mail is already in use', async () => {
     //arranga
     const { sut, createUserServiceStub } = makeSut()
-
-    const createUserParams = {
-      first_name: faker.person.firstName(),
-      last_name: faker.person.lastName(),
-      email: faker.internet.email(),
-      password: faker.internet.password({length: 8})
-    }
 
     jest.spyOn(createUserServiceStub, 'execute').mockImplementationOnce(() => {
       throw new BadRequest()
@@ -180,13 +138,6 @@ describe('Create user controller', () => {
   it('Should error when any error run', async () => {
     //arrange
     const { sut, createUserServiceStub } = makeSut()
-
-    const createUserParams = {
-      first_name: faker.person.firstName(),
-      last_name: faker.person.lastName(),
-      email: faker.internet.email(),
-      password: faker.internet.password({length: 8})
-    }
 
     jest.spyOn(createUserServiceStub, 'execute').mockImplementationOnce(() => {
       throw new ServerError()
