@@ -85,4 +85,16 @@ describe('CreateTransactionController', () => {
     //assert
     await expect(result).rejects.toThrow()
   })
+
+  it('Should return ZodError instance error if invalid date is provided', async () => {
+    //arrange
+    const { sut } = makeSut()
+  
+    //act
+    //@ts-ignore
+    const result = sut.execute({...createTransactionParams, date: 'invalid_date'})
+  
+    //assert
+    await expect(result).rejects.toThrow(ZodError)
+  })
 })
