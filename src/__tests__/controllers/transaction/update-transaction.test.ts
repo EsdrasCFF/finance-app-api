@@ -3,6 +3,7 @@ import { IUpdateTransactionService } from "../../../services/transaction/update-
 import { $Enums, TRANSACTION_TYPE } from "@prisma/client"
 import { UpdateTransactionController } from "../../../controllers/transaction/update-transaction";
 import { BadRequest } from "../../../routes/_errors/bad-request";
+import { ZodError } from "zod";
 
 type TransactionParams = {
   name: string;
@@ -17,7 +18,7 @@ describe('UpdateTransactionController', () => {
   const transactionIdParams = faker.string.uuid()
   
   const updateTransactionParams = {
-    name: faker.commerce.product.name[1],
+    name: faker.person.bio(),
     description: faker.commerce.product.name[0],
     amount: faker.number.int(),
     type: 'INCOME' as TRANSACTION_TYPE,
@@ -59,7 +60,7 @@ describe('UpdateTransactionController', () => {
     expect(result.description).toEqual(updateTransactionParams.description)
   })
 
-  it('Should throw BadRequest instance error if user id provided is not valid!', async () => {
+  it('Should throw BadRequest instance error if transactionId provided is not valid!', async () => {
     //arrange
     const { sut } = makeSut()
   
@@ -70,5 +71,16 @@ describe('UpdateTransactionController', () => {
     await expect(result).rejects.toThrow(BadRequest)
   })
 
-  it('')
+  it('Should throw ZodError instance error if amount provided is invalid', async () => {
+    //arrange
+    const { sut } = makeSut()
+    
+   
+    //act
+    //@ts-ignore
+    const result = sut.execute(transactionIdParams, {...updateTransactionParams, amount: 'invalid_amount'})
+
+    //assert
+    await expect(result).rejects.toThrow(ZodError)
+  })
 })
