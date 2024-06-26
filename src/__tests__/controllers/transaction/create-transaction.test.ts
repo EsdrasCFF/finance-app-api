@@ -73,4 +73,16 @@ describe('CreateTransactionController', () => {
     //assert
     await expect(result).rejects.toThrow(ZodError)
   })
+
+  it('Should return ZodError instance error if provided type is not TransactionType enum', async () => {
+    //arrange
+    const { sut } = makeSut()
+    
+    //act 
+    // @ts-ignore
+    const result = sut.execute({...createTransactionParams, type: 'invalid_type'})
+
+    //assert
+    await expect(result).rejects.toThrow()
+  })
 })
