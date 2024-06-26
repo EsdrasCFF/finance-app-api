@@ -59,7 +59,7 @@ describe('CreateUserController', () => {
     expect(result).not.toBeNull()
   })
 
-  it('Should throw BadRequest instance error if provided email is not valid!', async () => {
+  it('Should throw ZodError instance error if provided email is not valid!', async () => {
     //arrange
     const { sut } = makeSut()
 
@@ -68,5 +68,33 @@ describe('CreateUserController', () => {
 
     //assert
     await expect(result).rejects.toThrow(ZodError)
+  })
+
+  it('Should throw ZodError instance if invalid password is provided', async () => {
+    //arrange
+    const { sut } = makeSut()
+  
+    //act
+    const result = sut.execute(userIdParams, 
+      {
+        ...updateUserParams, 
+        password: faker.internet.password({length: 5}),
+        old_password: faker.internet.password({length: 6})
+      })
+    
+      //assert
+      await expect(result).rejects.toThrow(ZodError)
+  })
+
+  it('Should throw BadRequest instance error if userId provided is not valid!', async () => {
+    //arrange
+    const {sut} = makeSut()
+  
+    //act
+    const result = sut.execute('invalid_user_id', {...updateUserParams, first_name: faker.person.firstName()})
+  
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
+    await expect(result).rejects.not.toThrow(ZodError)
   })
 })
