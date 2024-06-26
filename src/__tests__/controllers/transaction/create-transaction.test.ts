@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { ICreateTransactionService } from "../../../services/transaction/create-transaction";
 import { $Enums, TRANSACTION_TYPE, Transaction } from "@prisma/client";
 import { CreateTransactionController } from "../../../controllers/transaction/create-transaction";
+import { BadRequest } from "../../../routes/_errors/bad-request";
 
 describe('CreateTransactionController', () => {
 
@@ -48,5 +49,16 @@ describe('CreateTransactionController', () => {
     expect(result.type).toEqual(createTransactionParams.type)
     expect(result.name).toEqual(createTransactionParams.name)
     expect(result.id).toBeTruthy()
+  })
+
+  it('Should return BadRequest instance error if amount is less than or equal 0', async () => {
+    //arrange
+    const {sut} = makeSut()
+
+    //act
+    const result = sut.execute({...createTransactionParams, amount: 0})
+
+    //assert
+    expect(result).rejects.toThrow(BadRequest)
   })
 })
