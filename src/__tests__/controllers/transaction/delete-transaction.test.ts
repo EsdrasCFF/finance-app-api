@@ -5,6 +5,7 @@ import { TRANSACTION_TYPE } from "@prisma/client"
 import validator from "validator"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { NotFound } from "../../../routes/_errors/not-found"
+import { ServerError } from "../../../routes/_errors/server-error"
 
 describe('DeleteTransactionController', () => {
   const transactionIdParams = faker.string.uuid()
@@ -74,5 +75,21 @@ describe('DeleteTransactionController', () => {
 
     //assert
     await expect(result).rejects.toThrow(NotFound)
+  })
+
+  it('Should throw ServerError instance if unknown error run', async () => {
+    //arrange
+    const { deleteTransactionServiceStub, sut } = makeSut()
+    
+    jest.spyOn(deleteTransactionServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new ServerError()
+    })
+
+    //act
+    const result = sut.execute(transactionIdParams)
+
+    //assert
+    await expect(result).rejects.toThrow()
+
   })
 })
