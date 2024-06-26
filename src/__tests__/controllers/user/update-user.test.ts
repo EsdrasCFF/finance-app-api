@@ -3,6 +3,8 @@ import { IUpdateUserService, UpdateUserProps } from "../../../services/user/upda
 import validator from "validator"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { UpdateUserController } from "../../../controllers/user/update-user"
+import { assert } from "console"
+import { ZodError } from "zod"
 
 describe('CreateUserController', () => {
 
@@ -55,5 +57,16 @@ describe('CreateUserController', () => {
     expect(result.first_name).not.toEqual(updateUserParams.first_name)
     expect(result).not.toBeFalsy()
     expect(result).not.toBeNull()
+  })
+
+  it('Should throw BadRequest instance error if provided email is not valid!', async () => {
+    //arrange
+    const { sut } = makeSut()
+
+    //act
+    const result = sut.execute(userIdParams, {...updateUserParams, email: 'invalid_email'})
+
+    //assert
+    await expect(result).rejects.toThrow(ZodError)
   })
 })
