@@ -5,6 +5,7 @@ import { BadRequest } from "../../../routes/_errors/bad-request"
 import { UpdateUserController } from "../../../controllers/user/update-user"
 import { assert } from "console"
 import { ZodError } from "zod"
+import { ServerError } from "../../../routes/_errors/server-error"
 
 describe('CreateUserController', () => {
 
@@ -96,5 +97,36 @@ describe('CreateUserController', () => {
     //assert
     await expect(result).rejects.toThrow(BadRequest)
     await expect(result).rejects.not.toThrow(ZodError)
+  })
+
+  it('Should throw BadRequest instance error if provided email is alredy in use', async () => {
+    //arrange
+    const { sut, updateUserServiceStub} = makeSut()
+  
+    jest.spyOn(updateUserServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new BadRequest()
+    })
+
+    //act
+    const result = sut.execute(userIdParams, {...updateUserParams, email: faker.internet.email()})
+
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
+  })
+
+  it('Should throw ServerError instance if unknown error run!', async () => {
+    //arrange
+    const {sut, updateUserServiceStub} = makeSut()
+  
+    jest.spyOn(updateUserServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new ServerError()
+    })
+
+    //act
+    const result = sut.execute(userIdParams, updateUserParams)
+  
+    // assert
+    await expect(result).rejects.toThrow(ServerError)
+    await expect(result).rejects.not.toThrow(BadRequest)
   })
 })
