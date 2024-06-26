@@ -9,7 +9,7 @@ export interface IUpdateUserService {
   execute(userId: string, updateUserParams: UpdateUserProps): Promise<User>
 }
 
-interface UpdateUserProps {
+export interface UpdateUserProps {
   first_name: string | null;
   last_name: string | null;
   email: string | null;

@@ -10,6 +10,7 @@ export const updatedUserSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Password must be greater or equal 6 characters" })
+    .nullable()
     .optional(),
   old_password: z.string().nullable().optional(),
 })
