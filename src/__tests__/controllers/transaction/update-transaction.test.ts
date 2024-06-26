@@ -4,6 +4,8 @@ import { $Enums, TRANSACTION_TYPE } from "@prisma/client"
 import { UpdateTransactionController } from "../../../controllers/transaction/update-transaction";
 import { BadRequest } from "../../../routes/_errors/bad-request";
 import { ZodError } from "zod";
+import { NotFound } from "../../../routes/_errors/not-found";
+import { ServerError } from "../../../routes/_errors/server-error";
 
 type TransactionParams = {
   name: string;
@@ -82,5 +84,59 @@ describe('UpdateTransactionController', () => {
 
     //assert
     await expect(result).rejects.toThrow(ZodError)
+  })
+
+  it('Should throw ZodError instance error if provided date is invalid', async () => {
+    //arrange
+    const {sut} = makeSut()
+
+    //act
+    //@ts-ignore
+    const result = sut.execute(transactionIdParams, {...updateTransactionParams, date: 'aa'})
+
+    //assert
+    await expect(result).rejects.toThrow(ZodError)
+  })
+
+  it('Should throw ZodError instance error if provided type is not valid', async () => {
+    //arrange
+    const { sut } = makeSut()
+  
+    //act
+    //@ts-ignore
+    const result = sut.execute(transactionIdParams, {...updateTransactionParams, type: 'invalid_type'})
+  
+    //assert
+    await expect(result).rejects.toThrow(ZodError)
+  })
+
+  it('Should return NotFound instance error if transaction not found', async ()=> {
+    //arrange
+    const {sut, updateTransactionServiceStub} = makeSut()
+
+    jest.spyOn(updateTransactionServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new NotFound()
+    })
+
+    //act
+    const result = sut.execute(transactionIdParams, updateTransactionParams)
+
+    //assert
+    await expect(result).rejects.toThrow(NotFound)
+  })
+
+  it('Should return ServerError instance error if unknown error occur', async () => {
+    //arrange
+    const {sut, updateTransactionServiceStub} = makeSut()
+  
+    jest.spyOn(updateTransactionServiceStub, 'execute').mockImplementationOnce(()=> {
+      throw new ServerError()
+    })
+
+    //act
+    const result = sut.execute(transactionIdParams, updateTransactionParams)
+
+    //asert
+    expect(result).rejects.toThrow(ServerError)
   })
 })
