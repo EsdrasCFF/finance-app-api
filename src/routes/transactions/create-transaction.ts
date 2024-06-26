@@ -6,7 +6,7 @@ import { makeCreateTransactionController } from "../../factories/controllers/tra
 import { checkIfAmountIsValid } from "../../lib/utils";
 
 
-const createTransactionSchema = z.object({
+export const createTransactionSchema = z.object({
   userId: z.string({required_error: 'UserId is required!'})
     .uuid({message: 'Provided userId is not valid!'}),
   name: z.string({required_error: 'Name is required!'}).trim().min(3),
