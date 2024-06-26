@@ -6,6 +6,7 @@ import { TRANSACTION_TYPE } from "@prisma/client"
 import { GetTransactionsByUserIdController } from "../../../controllers/transaction/get-transactions-by-userId"
 import { ZodError } from "zod"
 import { NotFound } from "../../../routes/_errors/not-found"
+import { ServerError } from "../../../routes/_errors/server-error"
 
 describe('GetTransctionsByUserId', () => {
 
@@ -88,5 +89,20 @@ describe('GetTransctionsByUserId', () => {
 
     //assert
     await expect(result).rejects.toThrow(NotFound)
+  })
+
+  it('Should throw ServerError instance error if unknown error occur', async () => {
+    //arrange
+    const {getTransactionsByUserIdServiceStub, sut} = makeSut()
+  
+    jest.spyOn(getTransactionsByUserIdServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new ServerError()
+    })
+  
+    //act
+    const result = sut.execute(userIdParams)
+
+    //assert
+    await expect(result).rejects.toThrow()
   })
 })
