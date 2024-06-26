@@ -70,4 +70,5 @@ describe('UpdateTransactionController', () => {
     await expect(result).rejects.toThrow(BadRequest)
   })
 
+  it('')
 })
