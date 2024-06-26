@@ -4,7 +4,7 @@ import z from "zod";
 import { makeUpdateTransactionController } from "../../factories/controllers/transactions";
 import { checkIfAmountIsValid, roundAmountToTwoDecimals } from "../../lib/utils";
 
-const updateTransactionSchema= z.object({
+export const updateTransactionSchema= z.object({
   amount: z.union([z.string(), z.number()])
     .refine((value) => checkIfAmountIsValid(value), 
       {message: 'Provided amount is not valid!'}

@@ -2,6 +2,7 @@ import { $Enums, Transaction } from "@prisma/client";
 import validator from "validator";
 import { BadRequest } from "../../routes/_errors/bad-request";
 import { IUpdateTransactionService } from "../../services/transaction/update-transaction";
+import { updateTransactionSchema } from "../../routes/transactions/update-transaction";
 
 export interface UpdateTransactionProps {
   name: string | null
@@ -21,6 +22,8 @@ export class UpdateTransactionController implements IUpdateTransactionController
   ) {}
 
   async execute(transactionId: string, updateTransactionParams: UpdateTransactionProps) {
+    updateTransactionSchema.parse(updateTransactionParams)
+    
     const { amount, date, description, name, type }  = updateTransactionParams
 
     const IdIsValid = validator.isUUID(transactionId)
