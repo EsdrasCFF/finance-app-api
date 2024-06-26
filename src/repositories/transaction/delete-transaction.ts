@@ -6,7 +6,7 @@ export interface IDeleteTransactionRepository {
   execute(transactionId: string): Promise<Transaction>
 }
 
-export class DeleteUserRepository implements IDeleteTransactionRepository {
+export class DeleteTransactionRepository implements IDeleteTransactionRepository {
   async execute(transactionId: string) {
     const transaction = await db.transaction.delete({
       where: {
