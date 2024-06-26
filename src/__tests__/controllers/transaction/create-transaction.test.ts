@@ -3,6 +3,7 @@ import { ICreateTransactionService } from "../../../services/transaction/create-
 import { $Enums, TRANSACTION_TYPE, Transaction } from "@prisma/client";
 import { CreateTransactionController } from "../../../controllers/transaction/create-transaction";
 import { BadRequest } from "../../../routes/_errors/bad-request";
+import { ZodError } from "zod";
 
 describe('CreateTransactionController', () => {
 
@@ -60,5 +61,16 @@ describe('CreateTransactionController', () => {
 
     //assert
     expect(result).rejects.toThrow(BadRequest)
+  })
+
+  it('Shoul return BadRequest isntance error if provided userId is not valid!', async () => {
+    //arrange
+    const {sut} = makeSut()
+  
+    //act
+    const result = sut.execute({...createTransactionParams, userId: 'invalid_userId'})
+
+    //assert
+    await expect(result).rejects.toThrow(ZodError)
   })
 })
