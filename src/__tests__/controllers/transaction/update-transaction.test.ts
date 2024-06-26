@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker"
 import { IUpdateTransactionService } from "../../../services/transaction/update-transaction"
 import { $Enums, TRANSACTION_TYPE } from "@prisma/client"
 import { UpdateTransactionController } from "../../../controllers/transaction/update-transaction";
+import { BadRequest } from "../../../routes/_errors/bad-request";
 
 type TransactionParams = {
   name: string;
@@ -56,6 +57,17 @@ describe('UpdateTransactionController', () => {
     expect(result.date).toEqual(updateTransactionParams.date)
     expect(result.name).toEqual(updateTransactionParams.name)
     expect(result.description).toEqual(updateTransactionParams.description)
+  })
+
+  it('Should throw BadRequest instance error if user id provided is not valid!', async () => {
+    //arrange
+    const { sut } = makeSut()
+  
+    //act
+    const result = sut.execute('invalid_transactio_id', updateTransactionParams)
+  
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
   })
 
 })
