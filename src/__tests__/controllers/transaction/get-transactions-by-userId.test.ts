@@ -4,6 +4,8 @@ import { BadRequest } from "../../../routes/_errors/bad-request"
 import { faker } from "@faker-js/faker"
 import { TRANSACTION_TYPE } from "@prisma/client"
 import { GetTransactionsByUserIdController } from "../../../controllers/transaction/get-transactions-by-userId"
+import { ZodError } from "zod"
+import { NotFound } from "../../../routes/_errors/not-found"
 
 describe('GetTransctionsByUserId', () => {
 
@@ -60,5 +62,31 @@ describe('GetTransctionsByUserId', () => {
     expect(result).toBeTruthy()
     expect(result[0]).toEqual(transactionsData[0])
     expect(result[0].name).toEqual(transactionsData[0].name)
+  })
+
+  it('Should throw BadRequest instance if provided userId is not valid!', async () => {
+    //arrange
+    const {sut} = makeSut()
+
+    //act
+    const result = sut.execute('invalid_user_id')
+
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
+  })
+
+  it('Should throw NotFound instance error if user not found by is', async () => {
+    //arrange
+    const {sut, getTransactionsByUserIdServiceStub} = makeSut()
+
+    jest.spyOn(getTransactionsByUserIdServiceStub, 'execute').mockImplementationOnce(() => {
+      throw new NotFound()
+    })
+
+    //act
+    const result = sut.execute(userIdParams)
+
+    //assert
+    await expect(result).rejects.toThrow(NotFound)
   })
 })
