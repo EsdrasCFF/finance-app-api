@@ -18,7 +18,7 @@ const updateTransactionSchema= z.object({
   type: z.enum(['INCOME', 'EXPENSE', 'INVESTMENT']).nullable().optional()
 }).strict({message: 'Some provided field is not allowed!'})
 
-export async function UpdateTransaction(app: FastifyInstance) {
+export async function updateTransaction(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
     '/api/transactions/:transactionId',
     {

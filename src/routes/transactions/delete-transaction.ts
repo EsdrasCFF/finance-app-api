@@ -4,9 +4,9 @@ import z from "zod";
 import { makeDeleteUserController } from "../../factories/controllers/users";
 import { makeDeleteTransactionController } from "../../factories/controllers/transactions";
 
-export async function deleteUser(app: FastifyInstance) {
+export async function deleteTransaction(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    "/api/transaction/:transactionId",
+    "/api/transactions/:transactionId",
     {
       schema: {
         params: z.object({
