@@ -4,28 +4,21 @@ import { BadRequest } from "../../routes/_errors/bad-request";
 import { ICreateTransactionService } from "../../services/transaction/create-transaction";
 import { checkIfAmountIsValid, roundAmountToTwoDecimals } from "../../lib/utils";
 import { createTransactionSchema } from "../../routes/transactions/create-transaction";
+import { CreateTransactionProps } from "../../repositories/transaction/create-transaction";
 
-interface CreateTransactionParams {
-  amount: number | string;
-  date: Date;
-  description: string | null;
-  name: string;
-  type: TRANSACTION_TYPE,
-  userId: string;
-}
 
 interface ICreateTransactionController {
-  execute(createTransactionParams: CreateTransactionParams): Promise<Transaction>
+  execute(createTransactionParams: CreateTransactionProps): Promise<Transaction>
 }
 
 export class CreateTransactionController implements ICreateTransactionController {
   constructor(private createTransactionService: ICreateTransactionService){}
 
-  async execute(createTransactionParams: CreateTransactionParams) {
+  async execute(createTransactionParams: CreateTransactionProps) {
 
     createTransactionSchema.parse(createTransactionParams)
 
-    const {amount, date, description, name, userId, type} = createTransactionParams
+    const {amount, date, description, name, user_id, type} = createTransactionParams
 
     const newAmount = roundAmountToTwoDecimals(Number(amount)) * 100
 
@@ -39,7 +32,7 @@ export class CreateTransactionController implements ICreateTransactionController
       description,
       name,
       type,
-      user_id: userId
+      user_id,
     })
 
     return transaction

@@ -1,10 +1,11 @@
-import { Transaction } from "@prisma/client";
-import { ICreateTransactionRepository } from "../../repositories/transaction/create-transaction";
+import { $Enums, Transaction } from "@prisma/client";
+import { CreateTransactionProps, ICreateTransactionRepository } from "../../repositories/transaction/create-transaction";
 import { IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
 import { NotFound } from "../../routes/_errors/not-found";
 
+
 export interface ICreateTransactionService {
-  execute(createTransactionParams: Omit<Transaction, 'id'>): Promise<Transaction>
+  execute(createTransactionParams: CreateTransactionProps): Promise<Transaction>
 }
 
 export class CreateTransactionService implements ICreateTransactionRepository {
@@ -13,7 +14,7 @@ export class CreateTransactionService implements ICreateTransactionRepository {
     private getUserByIdRepository: IGetUserByIdRepository
   ) {}
 
-  async execute(createTransactionParams: Omit<Transaction, 'id'>) {
+  async execute(createTransactionParams: CreateTransactionProps) {
     const userId = createTransactionParams.user_id
 
     const user = await this.getUserByIdRepository.execute(userId)

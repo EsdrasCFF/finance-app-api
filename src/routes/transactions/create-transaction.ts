@@ -3,11 +3,11 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { makeCreateTransactionController } from "../../factories/controllers/transactions";
-import { checkIfAmountIsValid } from "../../lib/utils";
+import { checkIfAmountIsValid, roundAmountToTwoDecimals } from "../../lib/utils";
 
 
 export const createTransactionSchema = z.object({
-  userId: z.string({required_error: 'UserId is required!'})
+  user_id: z.string({required_error: 'UserId is required!'})
     .uuid({message: 'Provided userId is not valid!'}),
   name: z.string({required_error: 'Name is required!'}).trim().min(3),
   description: z.string().nullable().optional(),
@@ -17,7 +17,8 @@ export const createTransactionSchema = z.object({
       const amountIsValid = checkIfAmountIsValid(value)
 
       return amountIsValid
-    }, {message: 'Provided amount is not valid!'}),
+    }, {message: 'Provided amount is not valid!'})
+    .transform((value) => roundAmountToTwoDecimals(Number(value))),
   type: z.enum([
     TRANSACTION_TYPE.EXPENSE,
     TRANSACTION_TYPE.INCOME,
@@ -49,7 +50,7 @@ export async function createTransaction(app: FastifyInstance) {
       },
     }, 
     async (request, reply) => {
-      const { amount, date, name, type, userId, description } = request.body
+      const { amount, date, name, type, user_id, description } = request.body
 
       const createTransactionController = makeCreateTransactionController()
 
@@ -58,7 +59,7 @@ export async function createTransaction(app: FastifyInstance) {
         date,
         name,
         type,
-        userId,
+        user_id,
         description: description || null
       })
 
