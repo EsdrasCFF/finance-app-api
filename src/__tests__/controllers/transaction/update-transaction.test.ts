@@ -22,7 +22,7 @@ describe('UpdateTransactionController', () => {
   const updateTransactionParams = {
     name: faker.person.bio(),
     description: faker.commerce.product.name[0],
-    amount: faker.number.int(),
+    amount: 100,
     type: 'INCOME' as TRANSACTION_TYPE,
     date: faker.date.recent(),
   }
@@ -150,6 +150,6 @@ describe('UpdateTransactionController', () => {
     await sut.execute(transactionIdParams, updateTransactionParams)
 
     //assert
-    expect(executeSpy).toHaveBeenCalledWith(transactionIdParams, updateTransactionParams)
+    expect(executeSpy).toHaveBeenCalledWith(transactionIdParams, {...updateTransactionParams, amount: updateTransactionParams.amount * 100})
   })
 })
