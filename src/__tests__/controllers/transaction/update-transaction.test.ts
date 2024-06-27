@@ -139,4 +139,17 @@ describe('UpdateTransactionController', () => {
     //asert
     expect(result).rejects.toThrow(ServerError)
   })
+
+  it('Should UpdateTransactionController with correct params', async () => {
+    //arrange
+    const { sut, updateTransactionServiceStub } = makeSut()
+  
+    const executeSpy = jest.spyOn(updateTransactionServiceStub, 'execute')
+
+    //act
+    await sut.execute(transactionIdParams, updateTransactionParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(transactionIdParams, updateTransactionParams)
+  })
 })
