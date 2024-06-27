@@ -1,11 +1,6 @@
-import { FastifyRequest } from "fastify";
-import z, { ZodError } from "zod";
 import { User } from "@prisma/client";
 
-import validator from "validator";
-import { BadRequest } from "../../routes/_errors/bad-request";
 import { ICreateUserService } from "../../services/user/create-user";
-import { IGetUserByEmailService } from "../../services/user/get-user-by-email";
 import { createUserSchema } from "../../routes/users/create-user";
 
 

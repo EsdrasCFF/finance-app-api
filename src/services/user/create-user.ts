@@ -1,8 +1,8 @@
 import { User } from "@prisma/client";
-import bcrypt from "bcrypt";
 import { ICreateUserRepository } from "../../repositories/user/create-users";
 import { IGetUserByEmailRepository } from "../../repositories/user/get-user-by-email";
 import { BadRequest } from "../../routes/_errors/bad-request";
+import { IPasswordHasherAdapter } from "../../adapters/password-hasher";
 
 export interface ICreateUserService {
   execute(crateUserParams: Omit<User, "id">): Promise<User>;
@@ -12,6 +12,7 @@ export class CreateUserService implements ICreateUserService {
   constructor(
     private createUserRepository: ICreateUserRepository,
     private getUserByEmailRepositoty: IGetUserByEmailRepository,
+    private passwordHasherAdapter: IPasswordHasherAdapter
   ) {}
 
   async execute(createUserParams: Omit<User, "id">) {
@@ -22,7 +23,7 @@ export class CreateUserService implements ICreateUserService {
       throw new BadRequest('Email already in use!')
     }
 
-    const hashedPassword = await bcrypt.hash(createUserParams.password, 8);
+    const hashedPassword = await this.passwordHasherAdapter.execute(createUserParams.password)
 
     const user = {
       ...createUserParams,
