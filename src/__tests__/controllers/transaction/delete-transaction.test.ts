@@ -92,4 +92,17 @@ describe('DeleteTransactionController', () => {
     await expect(result).rejects.toThrow()
 
   })
+
+  it('Should call DeleteTransactionController with correct params', async () => {
+    //arrange
+    const { deleteTransactionServiceStub, sut } = makeSut()
+  
+    const executeSpy = jest.spyOn(deleteTransactionServiceStub, 'execute')
+
+    //act
+    await sut.execute(transactionIdParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(transactionIdParams)
+  })
 })
