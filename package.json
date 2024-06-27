@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "test": "jest",
-    "test:watch": "jest --watch --passWithNoTests --silent"
+    "test": "jest --silent",
+    "test:watch": "jest --watch --passWithNoTests --silent",
+    "test:coverage": "jest --passWithNoTests --silent --coverage"
   },
   "keywords": [],
   "author": "",
