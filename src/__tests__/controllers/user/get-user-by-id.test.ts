@@ -104,4 +104,18 @@ describe('GetUserByIdController', () => {
     //assert
     expect(executeSpy).toHaveBeenCalledWith(userIdParams)
   })
+
+  it('Shoul return BadResquest instance error if Service return null', async () => {
+    //arrange
+    const { getUserByIdServiceStub, sut } = makeSut()
+    
+    //@ts-ignore
+    jest.spyOn(getUserByIdServiceStub, 'execute').mockResolvedValue(null)
+
+    //act
+    const result = sut.execute(userIdParams)
+
+    //assert
+    await expect(result).rejects.toThrow(NotFound)
+  })
 })
