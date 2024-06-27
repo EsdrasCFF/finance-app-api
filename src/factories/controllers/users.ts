@@ -1,4 +1,5 @@
 
+import { PasswordComparatorAdapter } from "../../adapters/password-comparator";
 import { PasswordHasherAdapter } from "../../adapters/password-hasher";
 import { CreateUserController } from "../../controllers/user/create-user";
 import { DeleteUserController } from "../../controllers/user/delete-user";
@@ -55,7 +56,16 @@ export function makeUpdateUserController() {
   const getUserByIdRepository = new GetUserByIdRepository()
   const getUserByEmailRepository = new GetUserByEmailRepository()
 
-  const updateUserService = new UpdateUserService(getUserByIdRepository, getUserByEmailRepository,updateUserRepository)
+  const passwordComparatorAdapter = new PasswordComparatorAdapter()
+  const passwordHasherAdapter = new PasswordHasherAdapter()
+
+  const updateUserService = new UpdateUserService(
+    getUserByIdRepository, 
+    getUserByEmailRepository,
+    updateUserRepository, 
+    passwordComparatorAdapter, 
+    passwordHasherAdapter
+  )
 
   const updateUserController = new UpdateUserController(updateUserService);
 
