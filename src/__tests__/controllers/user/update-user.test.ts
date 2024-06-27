@@ -129,4 +129,17 @@ describe('CreateUserController', () => {
     await expect(result).rejects.toThrow(ServerError)
     await expect(result).rejects.not.toThrow(BadRequest)
   })
+
+  it('Should call UpdateUserService with correct params', async () => {
+    //arrange
+    const { sut, updateUserServiceStub } = makeSut()
+  
+    const executeSpy = jest.spyOn(updateUserServiceStub, 'execute')
+
+    //act
+    await sut.execute(userIdParams, updateUserParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(userIdParams, updateUserParams)
+  })
 })

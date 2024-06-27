@@ -94,4 +94,17 @@ describe('Delete user controller', () => {
     //assert
     await expect(result).rejects.toThrow(ServerError)
   })
+
+  it('Should call DeleteUserService with correct params', async () => {
+    //arrange
+    const { deleteUserService, sut } = makeSut()
+  
+    const executeSpy = jest.spyOn(deleteUserService, 'execute')
+  
+    //act
+    await sut.execute(userIdParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(userIdParams)
+  })
 })

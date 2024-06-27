@@ -91,4 +91,17 @@ describe('GetUserByIdController', () => {
     //assert
     await expect(result).rejects.toThrow(ServerError)
   })
+
+  it('Should call GetUserByIdService with correct params', async () => {
+    //arrange
+    const { getUserByIdServiceStub, sut } = makeSut()
+  
+    const executeSpy = jest.spyOn(getUserByIdServiceStub, 'execute')
+
+    //act
+    await sut.execute(userIdParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(userIdParams)
+  })
 })

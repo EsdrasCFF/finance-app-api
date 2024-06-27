@@ -11,9 +11,9 @@ describe('CreateTransactionController', () => {
     name: faker.person.firstName(),
     description: faker.definitions.lorem.words[0],
     date: faker.date.recent(),
-    amount: faker.finance.amount(),
+    amount: 10.50,
     type: 'INCOME' as TRANSACTION_TYPE,
-    userId: faker.string.uuid()
+    user_id: faker.string.uuid()
   }
 
   const userIdParams = faker.string.uuid()
@@ -68,7 +68,7 @@ describe('CreateTransactionController', () => {
     const {sut} = makeSut()
   
     //act
-    const result = sut.execute({...createTransactionParams, userId: 'invalid_userId'})
+    const result = sut.execute({...createTransactionParams, user_id: 'invalid_userId'})
 
     //assert
     await expect(result).rejects.toThrow(ZodError)
@@ -96,5 +96,20 @@ describe('CreateTransactionController', () => {
   
     //assert
     await expect(result).rejects.toThrow(ZodError)
+  })
+
+  it('Should call CreateTransactionService with correct params', async () => {
+    //arrange
+    const { createTransactionServiceStub, sut } = makeSut()
+  
+    const executeSpy = jest.spyOn(createTransactionServiceStub, 'execute')
+
+    const id = faker.string.uuid()
+
+    //act
+    await sut.execute(createTransactionParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith({...createTransactionParams, amount: createTransactionParams.amount * 100})
   })
 })
