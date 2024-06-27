@@ -1,4 +1,5 @@
 
+import { PasswordHasherAdapter } from "../../adapters/password-hasher";
 import { CreateUserController } from "../../controllers/user/create-user";
 import { DeleteUserController } from "../../controllers/user/delete-user";
 import { GetUserBalanceController } from "../../controllers/user/get-user-balance";
@@ -29,7 +30,9 @@ export function makeCreateUserController() {
   const createUserRepository = new CreateUserRepository();
   const getUserByEmailRepository = new GetUserByEmailRepository();
 
-  const createUserService = new CreateUserService(createUserRepository, getUserByEmailRepository);
+  const passwordHasherAdapter = new PasswordHasherAdapter()
+
+  const createUserService = new CreateUserService(createUserRepository, getUserByEmailRepository, passwordHasherAdapter);
 
   const createUserController = new CreateUserController(createUserService);
 
