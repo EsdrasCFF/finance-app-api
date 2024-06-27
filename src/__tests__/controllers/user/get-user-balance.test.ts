@@ -88,4 +88,16 @@ describe('GetUserBalanceController', () => {
     //assert
     expect(executeSpy).toHaveBeenCalledWith(userIdParams)
   })
+
+  it('Shoul throw BadRequest instance error if userId is not provided', async () => {
+    //arrange
+    const { sut } = makeSut()
+  
+    //act
+    //@ts-ignore
+    const result = sut.execute(null)
+  
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
+  })
 })

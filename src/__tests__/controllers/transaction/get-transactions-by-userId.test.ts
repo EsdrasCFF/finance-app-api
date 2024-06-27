@@ -118,4 +118,14 @@ describe('GetTransctionsByUserId', () => {
     //assert
     expect(executeSpy).toHaveBeenCalledWith(userIdParams)
   })
+
+  it('Should throw BadRequest instance error if userId params is not provided!', async () => {
+    //arrange
+    const { sut } = makeSut()
+  
+    //act
+    const result = sut.execute(null)
+
+    await expect(result).rejects.toThrow(BadRequest)
+  })
 })
