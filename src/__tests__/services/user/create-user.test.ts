@@ -75,5 +75,17 @@ describe('CreateUserService', () => {
     expect(result.password).toBeTruthy()
   })
 
-  
+  it('Should throw BadRequest error if GetUserByEmailRepository if returns a user', async () => {
+    //arrange
+    const {sut, getUserByEmailRepository} = makeSut()
+
+    //@ts-ignore
+    jest.spyOn(getUserByEmailRepository, 'execute').mockReturnValueOnce({...createUserParams, id: faker.string.uuid()})
+    
+    //act
+    const result = sut.execute(createUserParams)
+
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
+  })
 })
