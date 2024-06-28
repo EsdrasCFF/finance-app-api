@@ -115,4 +115,18 @@ describe('CreateUserService', () => {
     //assert
     expect(createUserRepositorySpy).toHaveBeenCalledWith(createUserParams)
   })
+
+  it('Should call PasswordHasherAdapter and return password hash', async () => {
+    // arrange
+    const {sut, passwordHasherAdapter} = makeSut()
+
+    const executeSpy = jest.spyOn(passwordHasherAdapter, 'execute')
+    
+    // act
+    const result = await sut.execute(createUserParams)
+
+    //assert
+    expect(result).toBeTruthy()
+    expect(executeSpy).toBeTruthy()
+  })
 })
