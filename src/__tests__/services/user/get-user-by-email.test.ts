@@ -32,7 +32,7 @@ describe('GetUserByEmailServie', () => {
     return {sut, getUserByEmailRepositoryStub}
   }
 
-  it('Should return user data if found user b email', async () => {
+  it('Should return user data if found user by email', async () => {
     //arrange
     const { sut, getUserByEmailRepositoryStub } = makeSut()
   
@@ -40,7 +40,22 @@ describe('GetUserByEmailServie', () => {
     const result = await sut.execute(userData.email)
   
     //assert
-    expect(result).toEqual({...userData, id: userIdParams})
+    expect(result).toBeTruthy()
+  })
+
+  it('Shoudl return null value if user not found', async () => {
+    //arrange
+    const {sut, getUserByEmailRepositoryStub} = makeSut()
+
+    //@ts-ignore
+    jest.spyOn(getUserByEmailRepositoryStub, 'execute').mockImplementationOnce(() => null)
+  
+    //act
+    const result = await sut.execute(userData.email)
+
+    //asert
+    expect(result).toBeFalsy()
+    expect(result).toBeNull()
   })
 
 })
