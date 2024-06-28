@@ -72,4 +72,16 @@ describe('GetUserBalanceServce', () => {
     await expect(result).rejects.toThrow(NotFound)
   })
 
+  it('Should call GetUserByIdRepository with correct pararmas', async () => {
+    //arrange
+    const { sut, getUserByIdRepository } = makeSut()
+  
+    const executeSpy = jest.spyOn(getUserByIdRepository, 'execute')
+
+    //act
+    await sut.execute(userIdParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(userIdParams)
+  })
 })
