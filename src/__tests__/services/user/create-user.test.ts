@@ -16,6 +16,8 @@ describe('CreateUserService', () => {
     password: faker.internet.password({length: 7})
   }
   
+  const userIdParams = faker.string.uuid()
+
   class GetUserByEmailRepositoryStub implements IGetUserByEmailRepository {
     async execute(email: string) {
       return null
@@ -26,7 +28,7 @@ describe('CreateUserService', () => {
     async execute(createUserParams: Omit<User, 'id'>) {
       const userData = {
         ...createUserParams,
-        id: faker.string.uuid()
+        id: userIdParams
       }
 
       return userData
@@ -35,7 +37,7 @@ describe('CreateUserService', () => {
 
   class PasswordHasherAdapterStub implements IPasswordHasherAdapter {
     async execute(password: string) {
-      return `${password}hashed_password`
+      return password
     }
   }
 
@@ -87,5 +89,30 @@ describe('CreateUserService', () => {
 
     //assert
     await expect(result).rejects.toThrow(BadRequest)
+  })
+
+  it('Should call PasswordHasherAdapter', async () => {
+    //arrange
+    const { passwordHasherAdapter, sut } = makeSut()
+    const executeSpy = jest.spyOn(passwordHasherAdapter, 'execute')
+
+    //act
+    await sut.execute(createUserParams)
+    
+    //assert
+    expect(executeSpy).toHaveBeenCalled()
+  })
+
+  it('Should call CreateUserRepository with correctParams', async () => {
+    //arrange
+    const { sut, createUserRepository } = makeSut()
+
+    const createUserRepositorySpy = jest.spyOn(createUserRepository, 'execute')
+
+    //act
+    await sut.execute(createUserParams)
+
+    //assert
+    expect(createUserRepositorySpy).toHaveBeenCalledWith(createUserParams)
   })
 })
