@@ -64,4 +64,30 @@ describe('CreateTransactionService', () => {
     expect(result).toBeTruthy()
     expect(result.amount).not.toBeFalsy()
   })
+
+  it('Should call GetUserByIdRepository with correct params', async () => {
+    // arrange
+    const { sut, getUserByIdRepositoryStub } = makeSut()
+
+    const executeSpy = jest.spyOn(getUserByIdRepositoryStub, 'execute')
+
+    // act
+    await sut.execute(createTransactionParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(createTransactionParams.user_id)
+  })
+
+  it('Should call CreateTransactionRepository with correct params', async () => {
+    // arrange
+    const { sut, createTransactionRepositoryStub } = makeSut()
+
+    const executeSpy = jest.spyOn(createTransactionRepositoryStub, 'execute')
+    
+    // act
+    await sut.execute(createTransactionParams)
+    
+    // assert
+    expect(executeSpy).toHaveBeenCalledWith(createTransactionParams)
+  })
 })
