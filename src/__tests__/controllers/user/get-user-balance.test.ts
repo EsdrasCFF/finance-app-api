@@ -47,7 +47,6 @@ describe('GetUserBalanceController', () => {
     expect(result).toEqual(balanceParams)
     expect(result).not.toBeFalsy()
     expect(result).not.toBeUndefined()
-    
   })
 
   it('Should throw BadRequest error if userId provided is not valid!', async () => {
@@ -55,7 +54,7 @@ describe('GetUserBalanceController', () => {
     const { sut } = makeSut()
   
     //act
-    const result = sut.execute(faker.string.alpha({length: {min: 5, max: 15}}))
+    const result = sut.execute('invalid_user_id')
 
     //assert
     await expect(result).rejects.toThrow(BadRequest)

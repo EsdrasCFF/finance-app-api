@@ -19,7 +19,7 @@ describe('DeleteUserService', () => {
     async execute(userId: string) {
       return {
         ...createUserParams,
-        id: userIdParams
+        id: userId
       }
     }
   }
@@ -65,6 +65,19 @@ describe('DeleteUserService', () => {
   
     //assert
     await expect(result).rejects.toThrow(NotFound)
+  })
+
+  it('Should call DeleteUserRepository', async () => {
+    // arrange
+    const {sut, deleteUserRepositoryStub} = makeSut()
+  
+    const executeSpy = jest.spyOn(deleteUserRepositoryStub, 'execute')
+
+    // act
+    await sut.execute(userIdParams)
+
+    // assert
+    expect(executeSpy).toHaveBeenCalled()
   })
 
   it('Should call DeleteUserRepository with correct params', async () => {
