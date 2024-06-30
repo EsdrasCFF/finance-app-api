@@ -160,4 +160,15 @@ describe('UpdateUserService', () => {
     // assert
     expect(executeSpy).toHaveBeenCalledWith(email)
   })
+
+  it('Should throw BadRequest instance error if password is sent without old_password', async () => {
+    // arrange
+    const {sut} = makeSut()
+
+    // act
+    const result = sut.execute(userIdParams, {...updateUserParams, password: faker.internet.password({length: 7})})
+
+    // assert
+    expect(result).rejects.toThrow(BadRequest)
+  })
 })
