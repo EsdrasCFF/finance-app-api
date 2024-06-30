@@ -171,4 +171,45 @@ describe('UpdateUserService', () => {
     // assert
     expect(result).rejects.toThrow(BadRequest)
   })
+
+  it('Should call PassworComparatorAdapter if password and old_password params are sent', async () => {
+    // arrange
+    const {sut, passwordComparatorAdapaterStub } = makeSut()
+    
+    const executeSpy = jest.spyOn(passwordComparatorAdapaterStub, 'execute')
+    
+    // act
+     await sut.execute(
+      userIdParams,
+      {
+        ...updateUserParams,
+        password: faker.internet.password({length: 7}),
+        old_password: faker.internet.password({length: 7})
+      }
+    )
+
+    // assert
+    expect(executeSpy).toHaveBeenCalled()
+  })
+
+  it('Should throw BadRequest instance error if password does not check', async () => {
+    // arrange
+    const { sut, passwordComparatorAdapaterStub } = makeSut()
+
+    //@ts-ignore
+    jest.spyOn(passwordComparatorAdapaterStub, 'execute').mockReturnValueOnce(false)
+
+    // act
+    const result = sut.execute(
+      userIdParams,
+      {
+        ...updateUserParams,
+        password: faker.internet.password({length: 7}),
+        old_password: faker.internet.password({length: 7})
+      }
+    )
+
+    // assert
+    await expect(result).rejects.toThrow(BadRequest)
+  })
 })
