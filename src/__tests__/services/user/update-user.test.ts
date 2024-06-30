@@ -131,4 +131,18 @@ describe('UpdateUserService', () => {
     //assert
     await expect(result).rejects.toThrow(BadRequest)
   })
+
+  it('Should throw BadRequest instance error if email already in use', async () => {
+    // arrange
+    const {sut, getUserByEmailRepositoryStub } = makeSut()
+    
+    //@ts-ignore
+    jest.spyOn(getUserByEmailRepositoryStub, 'execute').mockImplementationOnce(() => new BadRequest())
+
+    //act
+    const execute = sut.execute(userIdParams, {...updateUserParams, email: faker.internet.email()})
+
+    // assert
+    await expect(execute).rejects.toThrow(BadRequest)
+  })
 })
