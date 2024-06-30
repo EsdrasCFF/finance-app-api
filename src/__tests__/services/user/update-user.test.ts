@@ -232,4 +232,23 @@ describe('UpdateUserService', () => {
     // assert
     expect(executeSpy).toHaveBeenCalled()
   })
+
+  it('Should call UpdateUserRepository with correct params', async () => {
+    // arrange
+    const {sut, updateUserRepositoryStub} = makeSut()
+
+    const userParams = {
+      ...updateUserParams,
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+    }
+
+    const executeSpy = jest.spyOn(updateUserRepositoryStub, 'execute')
+
+    // act
+    await sut.execute(userIdParams, userParams)
+
+    //assert
+    expect(executeSpy).toHaveBeenCalled()
+  })
 })
