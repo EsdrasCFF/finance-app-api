@@ -105,4 +105,16 @@ describe('UpdateUserService', () => {
     expect(result.first_name).not.toBeNull()
     expect(result.password).not.toBeNull()
   })
+
+  it('Should return user updated when email was sent with params', async () => {
+    // arrange
+    const {sut} = makeSut()
+
+    // act
+    const result = await sut.execute(userIdParams, {...updateUserParams, email: faker.internet.email()})
+
+    // assert
+    expect(result).toBeTruthy()
+    expect(result.email).not.toBeNull()
+  })
 })
