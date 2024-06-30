@@ -6,6 +6,7 @@ import { IGetUserByEmailRepository } from "../../../repositories/user/get-user-b
 import { IUpdateUserRepository } from "../../../repositories/user/update-user"
 import { IPasswordComparatorAdapter } from "../../../adapters/password-comparator"
 import { IPasswordHasherAdapter } from "../../../adapters/password-hasher"
+import { BadRequest } from "../../../routes/_errors/bad-request"
 
 
 
@@ -116,5 +117,18 @@ describe('UpdateUserService', () => {
     // assert
     expect(result).toBeTruthy()
     expect(result.email).not.toBeNull()
+  })
+
+  it('Should throw BadRequest instance error if user not found by id', async () => {
+    // arrange
+    const { sut, getUserByIdRepositoryStub } = makeSut()
+
+    jest.spyOn(getUserByIdRepositoryStub, 'execute').mockImplementationOnce(() => null!)
+
+    // act
+    const result = sut.execute(userIdParams, updateUserParams)
+
+    //assert
+    await expect(result).rejects.toThrow(BadRequest)
   })
 })
