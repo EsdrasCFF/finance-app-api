@@ -53,4 +53,17 @@ describe('GetUserByIdService', () => {
     //assert
     expect(executeSpy).toHaveBeenCalledWith(userIdParams)
   })
+
+  it('Should return null if user not found', async () => {
+    // arrange
+    const { sut, getUserByIdRepositoryStub } = makeSut()
+
+    jest.spyOn(getUserByIdRepositoryStub, 'execute').mockResolvedValueOnce(null!)
+    // act
+    const result = await sut.execute('123456')
+
+    //assert
+    expect(result).toBeNull()
+    expect(result).toEqual(null)
+  })
 })
