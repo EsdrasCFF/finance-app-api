@@ -212,4 +212,24 @@ describe('UpdateUserService', () => {
     // assert
     await expect(result).rejects.toThrow(BadRequest)
   })
+
+  it('Should call PasswordHasherAdapter with password and old_password match', async () => {
+    // arrange
+    const {sut, passwordHasherAdapterStub} = makeSut()
+  
+    const executeSpy = jest.spyOn(passwordHasherAdapterStub, 'execute')
+  
+    // act
+     await sut.execute(
+      userIdParams,
+      {
+        ...updateUserParams,
+        password: faker.internet.password({length: 7}),
+        old_password: faker.internet.password({length: 8})
+      }
+    )
+
+    // assert
+    expect(executeSpy).toHaveBeenCalled()
+  })
 })
