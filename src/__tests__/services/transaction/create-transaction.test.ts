@@ -3,6 +3,8 @@ import { CreateTransactionProps, ICreateTransactionRepository } from "../../../r
 import { TRANSACTION_TYPE } from "@prisma/client"
 import { IGetUserByIdRepository } from "../../../repositories/user/get-user-by-id"
 import { CreateTransactionService } from "../../../services/transaction/create-transaction"
+import { BadRequest } from "../../../routes/_errors/bad-request"
+import { NotFound } from "../../../routes/_errors/not-found"
 
 describe('CreateTransactionService', () => {
   
@@ -89,5 +91,18 @@ describe('CreateTransactionService', () => {
     
     // assert
     expect(executeSpy).toHaveBeenCalledWith(createTransactionParams)
+  })
+
+  it('Should throw BadRequest instance error if user not found', async () => {
+    // arrage
+    const {getUserByIdRepositoryStub, sut} = makeSut()
+
+    jest.spyOn(getUserByIdRepositoryStub, 'execute').mockImplementationOnce(() => null!)
+    
+    // act
+    const result = sut.execute(createTransactionParams)
+    
+    // assert
+    expect(result).rejects.toThrow(NotFound)
   })
 })
