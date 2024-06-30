@@ -145,4 +145,19 @@ describe('UpdateUserService', () => {
     // assert
     await expect(execute).rejects.toThrow(BadRequest)
   })
+
+  it('Should call GetUserByEmailRepository with correct params', async () => {
+    // arrange
+    const {sut, getUserByEmailRepositoryStub} = makeSut()
+  
+    const executeSpy = jest.spyOn(getUserByEmailRepositoryStub, 'execute')
+
+    const email = faker.internet.email()
+
+    // act
+    await sut.execute(userIdParams, {...updateUserParams, email})
+
+    // assert
+    expect(executeSpy).toHaveBeenCalledWith(email)
+  })
 })
