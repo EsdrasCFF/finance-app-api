@@ -19,6 +19,7 @@ export interface UpdateUserProps {
 }
 
 export class UpdateUserService implements IUpdateUserService {
+
   constructor(
     private getUserByIdRepository: IGetUserByIdRepository, 
     private getUserByEmailRepository: IGetUserByEmailRepository, 

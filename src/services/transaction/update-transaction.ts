@@ -38,7 +38,6 @@ export class UpdateTransactionService implements IUpdateTransactionService{
       description: description || oldTransaction.description,
       name: name || oldTransaction.name,
       type: type || oldTransaction.type,
-
     }
 
     const transaction = await this.updateTransactionRepository.execute(transactionId, newTransaction)

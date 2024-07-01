@@ -8,6 +8,7 @@ export interface IDeleteTransactionService {
 }
 
 export class DeleteTransactionService implements IDeleteTransactionService {
+
   constructor(
     private deleteTransactionRepository: IDeleteTransactionRepository,
     private getTransactionByIdRepository: IGetTransactionByIdRepository
@@ -25,5 +26,4 @@ export class DeleteTransactionService implements IDeleteTransactionService {
 
     return deletedTransaction
   }
-  
 }
