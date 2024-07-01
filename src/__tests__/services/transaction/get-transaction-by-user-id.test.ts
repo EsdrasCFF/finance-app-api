@@ -3,6 +3,7 @@ import { IGetTransactionsByUserIdRepository } from "../../../repositories/transa
 import { GetTransactionsByUserIdService } from "../../../services/transaction/get-transactions-by-userId"
 import { TRANSACTION_TYPE } from "@prisma/client"
 import { IGetUserByIdRepository } from "../../../repositories/user/get-user-by-id"
+import { NotFound } from "../../../routes/_errors/not-found"
 
 describe('GetTransactionByUserIdRepository', () => {
 
@@ -78,5 +79,18 @@ describe('GetTransactionByUserIdRepository', () => {
     
     //assert
     expect(executeSpy).toHaveBeenCalledWith(userIdParams)
+  })
+
+  it('Should NotFound instance error is throwed if user not found', async () => {
+    // arrange
+    const {sut, getUserByIdRepositoryStub} = makeSut()
+
+    jest.spyOn(getUserByIdRepositoryStub, 'execute').mockImplementationOnce(() => null!)
+
+    // act
+    const result = sut.execute(userIdParams)
+
+    // assert
+    await expect(result).rejects.toThrow(NotFound)
   })
 })
