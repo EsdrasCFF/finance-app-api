@@ -3,6 +3,7 @@ import { IUpdateTransactioRepository } from "../../../repositories/transaction/u
 import { UpdateTransactionProps, UpdateTransactionService } from "../../../services/transaction/update-transaction"
 import { IGetTransactionByIdRepository } from "../../../repositories/transaction/get-transaction-by-id"
 import { TRANSACTION_TYPE } from "@prisma/client"
+import { NotFound } from "../../../routes/_errors/not-found"
 
 describe('UpdateTransactionService', () => {
   
@@ -92,4 +93,16 @@ describe('UpdateTransactionService', () => {
     expect(executeSpy).toHaveBeenCalledWith(transactionIdParams)
   })
   
+  it('Should throw NotFound error if transaction not found', async () => {
+    // arrange
+    const { sut, getTransactionByIdRepositoryStub } = makeSut()
+
+    jest.spyOn(getTransactionByIdRepositoryStub, 'execute').mockImplementationOnce(() => null!)
+
+    // act
+    const execute = sut.execute(transactionIdParams, {...updateTransactionParams, date: new Date()})
+
+    // assert
+    await expect(execute).rejects.toThrow(NotFound)
+  })
 })
