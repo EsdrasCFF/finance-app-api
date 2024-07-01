@@ -8,7 +8,6 @@ export interface IDeleteUserController {
 }
 
 export class DeleteUserController implements IDeleteUserController {
-
   constructor(private deleteUserService: IDeleteUserService) {}
 
   async execute(userId: string) {

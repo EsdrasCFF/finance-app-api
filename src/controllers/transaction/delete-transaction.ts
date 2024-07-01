@@ -8,7 +8,6 @@ export interface IDeleteTransactionController {
 }
 
 export class DeleteTransactionController implements IDeleteTransactionController {
-
   constructor(private deleteTransactionService: IDeleteTransactionService) {}
 
   async execute(transactionId: string) {

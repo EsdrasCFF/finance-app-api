@@ -8,11 +8,10 @@ export interface IGetTransactionsByUserIdController {
 }
 
 export class GetTransactionsByUserIdController implements IGetTransactionsByUserIdController {
-
   constructor(private getTransactionsyUserIdService: IGetTransactionsByUserIdService) {}
 
   async execute(userId:string | null | undefined) {
-
+    
     if(!userId) {
       throw new BadRequest('UserId is required')
     }
