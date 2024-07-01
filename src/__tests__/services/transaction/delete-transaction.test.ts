@@ -57,4 +57,32 @@ describe('DeleteTransactionService', () => {
     expect(result).toBeTruthy()
     expect(result.user_id).toEqual(transactionData.user_id)
   })
+
+  it('Should call GetTransactionByIdRepository', async () => {
+    // arrange
+    const {sut, getTransactionByIdRepositoryStub} = makeSut()
+    
+    const executeSpy = jest.spyOn(getTransactionByIdRepositoryStub, 'execute')
+
+    // act
+    await sut.execute(transactionIdParams)
+
+    // assert
+    expect(executeSpy).toHaveBeenCalled()
+  })
+
+  it('Should call GetTransactionByIdRepository with correct params',  async () => {
+    // arrange
+    const { sut, getTransactionByIdRepositoryStub } = makeSut()
+    
+    const executeSpy = jest.spyOn(getTransactionByIdRepositoryStub, 'execute')
+    
+    // act
+    await sut.execute(transactionIdParams)
+
+    // assert
+    expect(executeSpy).toHaveBeenLastCalledWith(transactionIdParams)
+  })
+
+  
 })
