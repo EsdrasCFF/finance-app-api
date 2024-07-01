@@ -4,6 +4,7 @@ import { DeleteTransactionService } from "../../../services/transaction/delete-t
 import { TRANSACTION_TYPE } from "@prisma/client"
 import { IGetTransactionsByUserIdRepository } from "../../../repositories/transaction/get-transactions-by-userId"
 import { IGetTransactionByIdRepository } from "../../../repositories/transaction/get-transaction-by-id"
+import { NotFound } from "../../../routes/_errors/not-found"
 
 describe('DeleteTransactionService', () => {
   const transactionIdParams = faker.string.uuid()
@@ -84,5 +85,16 @@ describe('DeleteTransactionService', () => {
     expect(executeSpy).toHaveBeenLastCalledWith(transactionIdParams)
   })
 
-  
+  it('Should throw NotFound instance error if user not found', async () => {
+    // arrange
+    const {sut, getTransactionByIdRepositoryStub} = makeSut()
+
+    jest.spyOn(getTransactionByIdRepositoryStub, 'execute').mockImplementationOnce(() => null!)
+
+    // act
+    const result = sut.execute(transactionIdParams)
+
+    // assert
+    await expect(result).rejects.toThrow(NotFound)
+  })
 })
