@@ -9,6 +9,7 @@ import { CreateUserController } from "../../../controllers/user/create-user"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { ServerError } from "../../../routes/_errors/server-error"
 import { ICreateUserService } from "../../../services/user/create-user"
+import { createUserParams } from "../../../tests/fixtures/user"
 
 
 describe('Create user controller', () => {
@@ -33,15 +34,6 @@ describe('Create user controller', () => {
 
     return {createUserServiceStub, sut}
   }
-
-  const createUserParams = {
-    first_name: faker.person.firstName(),
-    last_name: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password({length: 7})
-  }
-  
-
 
   it('Should create an user', async () => {
     //arrange

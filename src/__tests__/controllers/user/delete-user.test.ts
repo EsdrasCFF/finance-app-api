@@ -5,16 +5,9 @@ import validator from "validator";
 import { BadRequest } from "../../../routes/_errors/bad-request";
 import { NotFound } from "../../../routes/_errors/not-found";
 import { ServerError } from "../../../routes/_errors/server-error";
+import { userData, userIdParams } from "../../../tests/fixtures/user";
 
 describe('Delete user controller', () => {
-
-  const userData = {
-    id: faker.string.uuid(),
-    first_name: faker.person.firstName(),
-    last_name: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password({length: 8})
-  }
 
   class DeleteUserServiceStub implements IDeleteUserService {
     async execute(userId: string) {
@@ -28,8 +21,6 @@ describe('Delete user controller', () => {
       return userData
     }
   }
-
-  const userIdParams = faker.string.uuid()
 
   const makeSut = () => {
     const deleteUserService = new DeleteUserServiceStub()

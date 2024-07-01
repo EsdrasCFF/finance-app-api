@@ -3,21 +3,11 @@ import { IUpdateUserService, UpdateUserProps } from "../../../services/user/upda
 import validator from "validator"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { UpdateUserController } from "../../../controllers/user/update-user"
-import { assert } from "console"
 import { ZodError } from "zod"
 import { ServerError } from "../../../routes/_errors/server-error"
+import { updateUserParams, userIdParams } from "../../../tests/fixtures/user"
 
 describe('CreateUserController', () => {
-
-  const userIdParams = faker.string.uuid()
-
-  const updateUserParams = {
-    first_name: null,
-    last_name: null,
-    email: null,
-    password: null,
-    old_password: null
-  }
 
   class UpdateUserServiceStub implements IUpdateUserService {
     async execute(userId: string, updateUserParams: UpdateUserProps) {
