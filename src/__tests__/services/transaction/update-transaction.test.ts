@@ -79,5 +79,17 @@ describe('UpdateTransactionService', () => {
     expect(result.name).toEqual('PRODUCT_NAME_UPDATED')
   })
 
-  it('Should call Get')
+  it('Should call GetTransactionById with correct params', async () => {
+    // arrange
+    const {sut, getTransactionByIdRepositoryStub} = makeSut()
+
+    const executeSpy = jest.spyOn(getTransactionByIdRepositoryStub, 'execute')
+
+    // act
+    await sut.execute(transactionIdParams, {...updateTransactionParams, description: 'income_updated'})
+
+    // assert
+    expect(executeSpy).toHaveBeenCalledWith(transactionIdParams)
+  })
+  
 })
