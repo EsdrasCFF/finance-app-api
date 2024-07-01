@@ -97,4 +97,17 @@ describe('DeleteTransactionService', () => {
     // assert
     await expect(result).rejects.toThrow(NotFound)
   })
+
+  it('Should call DeleteTransactionRepository', async () => {
+    // arrange
+    const { sut, deleteTransactionRepositoryStub } = makeSut()
+    
+    const executeSpy = jest.spyOn(deleteTransactionRepositoryStub, 'execute')
+
+    // act
+    await sut.execute(transactionIdParams)
+
+    // assert
+    expect(executeSpy).toHaveBeenCalledWith(transactionIdParams)
+  })
 })
