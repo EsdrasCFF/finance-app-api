@@ -1,11 +1,12 @@
 import { faker } from "@faker-js/faker"
-import { IGetUserByIdService } from "../../../services/user/get-user-by-id"
 import validator from "validator"
-import { BadRequest } from "../../../routes/_errors/bad-request"
-import { GetUserByIdController } from "../../../controllers/user/get-user-by-id"
-import { NotFound } from "../../../routes/_errors/not-found"
-import { ServerError } from "../../../routes/_errors/server-error"
-import { userData, userIdParams } from "../../../tests/fixtures/user"
+import { GetUserByIdController } from "../../../../controllers/user/get-user-by-id"
+import { BadRequest } from "../../../../routes/_errors/bad-request"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { ServerError } from "../../../../routes/_errors/server-error"
+import { IGetUserByIdService } from "../../../../services/user/get-user-by-id"
+import { userIdParams } from "../../../fixtures/transaction"
+import { userData } from "../../../fixtures/user"
 
 describe('GetUserByIdController', () => {
   

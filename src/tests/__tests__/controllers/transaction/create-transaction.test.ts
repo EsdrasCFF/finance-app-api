@@ -1,10 +1,14 @@
 import { faker } from "@faker-js/faker";
-import { ICreateTransactionService } from "../../../services/transaction/create-transaction";
+
 import { Transaction } from "@prisma/client";
-import { CreateTransactionController } from "../../../controllers/transaction/create-transaction";
-import { BadRequest } from "../../../routes/_errors/bad-request";
+
+
 import { ZodError } from "zod";
-import { createTransactionParams } from "../../../tests/fixtures/transaction";
+import { ICreateTransactionService } from "../../../../services/transaction/create-transaction";
+import { CreateTransactionController } from "../../../../controllers/transaction/create-transaction";
+import { createTransactionParams } from "../../../fixtures/transaction";
+import { BadRequest } from "../../../../routes/_errors/bad-request";
+
 
 describe('CreateTransactionController', () => {
 

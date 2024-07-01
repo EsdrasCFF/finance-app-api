@@ -1,9 +1,10 @@
 import { faker } from "@faker-js/faker"
-import { IUpdateTransactioRepository } from "../../../repositories/transaction/update-transactions"
-import { UpdateTransactionProps, UpdateTransactionService } from "../../../services/transaction/update-transaction"
-import { IGetTransactionByIdRepository } from "../../../repositories/transaction/get-transaction-by-id"
 import { TRANSACTION_TYPE } from "@prisma/client"
-import { NotFound } from "../../../routes/_errors/not-found"
+import { IGetTransactionByIdRepository } from "../../../../repositories/transaction/get-transaction-by-id"
+import { IUpdateTransactioRepository } from "../../../../repositories/transaction/update-transactions"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { UpdateTransactionProps, UpdateTransactionService } from "../../../../services/transaction/update-transaction"
+
 
 describe('UpdateTransactionService', () => {
   

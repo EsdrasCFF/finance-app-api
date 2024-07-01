@@ -1,12 +1,13 @@
 import { faker } from "@faker-js/faker"
-import { IUpdateTransactionService } from "../../../services/transaction/update-transaction"
-import { $Enums, TRANSACTION_TYPE } from "@prisma/client"
-import { UpdateTransactionController } from "../../../controllers/transaction/update-transaction";
-import { BadRequest } from "../../../routes/_errors/bad-request";
+import { $Enums} from "@prisma/client"
 import { ZodError } from "zod";
-import { NotFound } from "../../../routes/_errors/not-found";
-import { ServerError } from "../../../routes/_errors/server-error";
-import { transactionIdParams, updateTransactionParams } from "../../../tests/fixtures/transaction";
+import { UpdateTransactionController } from "../../../../controllers/transaction/update-transaction";
+import { BadRequest } from "../../../../routes/_errors/bad-request";
+import { NotFound } from "../../../../routes/_errors/not-found";
+import { ServerError } from "../../../../routes/_errors/server-error";
+import { IUpdateTransactionService } from "../../../../services/transaction/update-transaction";
+import { transactionIdParams, updateTransactionParams } from "../../../fixtures/transaction";
+
 
 type TransactionParams = {
   name: string;

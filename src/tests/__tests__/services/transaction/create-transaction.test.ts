@@ -1,10 +1,9 @@
 import { faker } from "@faker-js/faker"
-import { CreateTransactionProps, ICreateTransactionRepository } from "../../../repositories/transaction/create-transaction"
 import { TRANSACTION_TYPE } from "@prisma/client"
-import { IGetUserByIdRepository } from "../../../repositories/user/get-user-by-id"
-import { CreateTransactionService } from "../../../services/transaction/create-transaction"
-import { BadRequest } from "../../../routes/_errors/bad-request"
-import { NotFound } from "../../../routes/_errors/not-found"
+import { ICreateTransactionRepository, CreateTransactionProps } from "../../../../repositories/transaction/create-transaction"
+import { IGetUserByIdRepository } from "../../../../repositories/user/get-user-by-id"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { CreateTransactionService } from "../../../../services/transaction/create-transaction"
 
 describe('CreateTransactionService', () => {
   

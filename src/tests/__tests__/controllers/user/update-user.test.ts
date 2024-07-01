@@ -1,11 +1,13 @@
 import { faker } from "@faker-js/faker"
-import { IUpdateUserService, UpdateUserProps } from "../../../services/user/update-user"
 import validator from "validator"
-import { BadRequest } from "../../../routes/_errors/bad-request"
-import { UpdateUserController } from "../../../controllers/user/update-user"
 import { ZodError } from "zod"
-import { ServerError } from "../../../routes/_errors/server-error"
-import { updateUserParams, userIdParams } from "../../../tests/fixtures/user"
+import { UpdateUserController } from "../../../../controllers/user/update-user"
+import { BadRequest } from "../../../../routes/_errors/bad-request"
+import { ServerError } from "../../../../routes/_errors/server-error"
+import { IUpdateUserService, UpdateUserProps } from "../../../../services/user/update-user"
+import { userIdParams } from "../../../fixtures/transaction"
+import { updateUserParams } from "../../../fixtures/user"
+
 
 describe('CreateUserController', () => {
 

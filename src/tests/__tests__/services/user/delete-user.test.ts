@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker"
-import { IDeleteUserRepository } from "../../../repositories/user/delete-user"
-import { DeleteUserService } from "../../../services/user/delete-user"
-import { IGetUserByIdRepository } from "../../../repositories/user/get-user-by-id"
-import { NotFound } from "../../../routes/_errors/not-found"
+import { IDeleteUserRepository } from "../../../../repositories/user/delete-user"
+import { IGetUserByIdRepository } from "../../../../repositories/user/get-user-by-id"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { DeleteUserService } from "../../../../services/user/delete-user"
 
 describe('DeleteUserService', () => {
 

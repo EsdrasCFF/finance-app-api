@@ -1,13 +1,11 @@
 import { faker } from "@faker-js/faker"
-import { IGetUserByIdRepository } from "../../../repositories/user/get-user-by-id"
-import { IGetUserByIdService } from "../../../services/user/get-user-by-id"
-import { UpdateUserProps, UpdateUserService } from "../../../services/user/update-user"
-import { IGetUserByEmailRepository } from "../../../repositories/user/get-user-by-email"
-import { IUpdateUserRepository } from "../../../repositories/user/update-user"
-import { IPasswordComparatorAdapter } from "../../../adapters/password-comparator"
-import { IPasswordHasherAdapter } from "../../../adapters/password-hasher"
-import { BadRequest } from "../../../routes/_errors/bad-request"
-
+import { IPasswordComparatorAdapter } from "../../../../adapters/password-comparator"
+import { IPasswordHasherAdapter } from "../../../../adapters/password-hasher"
+import { IGetUserByEmailRepository } from "../../../../repositories/user/get-user-by-email"
+import { IGetUserByIdRepository } from "../../../../repositories/user/get-user-by-id"
+import { IUpdateUserRepository } from "../../../../repositories/user/update-user"
+import { BadRequest } from "../../../../routes/_errors/bad-request"
+import { UpdateUserProps, UpdateUserService } from "../../../../services/user/update-user"
 
 
 describe('UpdateUserService', () => {

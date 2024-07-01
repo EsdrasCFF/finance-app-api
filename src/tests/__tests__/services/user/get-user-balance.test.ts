@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker"
-import { IGetUserBalanceRepository } from "../../../repositories/user/get-user-balance"
-import { GetUserBalanceService } from "../../../services/user/get-user-balance"
-import { GetUserByIdRepository, IGetUserByIdRepository } from "../../../repositories/user/get-user-by-id"
-import { NotFound } from "../../../routes/_errors/not-found"
+import { IGetUserBalanceRepository } from "../../../../repositories/user/get-user-balance"
+import { IGetUserByIdRepository } from "../../../../repositories/user/get-user-by-id"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { GetUserBalanceService } from "../../../../services/user/get-user-balance"
 
 describe('GetUserBalanceServce', () => {
 

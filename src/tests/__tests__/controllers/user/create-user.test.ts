@@ -1,15 +1,12 @@
 import { User } from "@prisma/client"
-
 import { v4 as uuidv4 } from 'uuid'
 import { ZodError } from "zod"
 import { faker } from '@faker-js/faker'
-
-
-import { CreateUserController } from "../../../controllers/user/create-user"
-import { BadRequest } from "../../../routes/_errors/bad-request"
-import { ServerError } from "../../../routes/_errors/server-error"
-import { ICreateUserService } from "../../../services/user/create-user"
-import { createUserParams } from "../../../tests/fixtures/user"
+import { ICreateUserService } from "../../../../services/user/create-user"
+import { CreateUserController } from "../../../../controllers/user/create-user"
+import { BadRequest } from "../../../../routes/_errors/bad-request"
+import { ServerError } from "../../../../routes/_errors/server-error"
+import { createUserParams } from "../../../fixtures/user"
 
 
 describe('Create user controller', () => {

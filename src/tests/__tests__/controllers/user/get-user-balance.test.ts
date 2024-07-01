@@ -1,10 +1,11 @@
-import { faker } from "@faker-js/faker"
-import { BalanceParams, IGetUserBalanceService } from "../../../services/user/get-user-balance"
 import validator from "validator"
-import { BadRequest } from "../../../routes/_errors/bad-request"
-import { GetUserBalanceController } from "../../../controllers/user/get-user-balance"
-import { ServerError } from "../../../routes/_errors/server-error"
-import { balanceParams, userIdParams } from "../../../tests/fixtures/user"
+import { GetUserBalanceController } from "../../../../controllers/user/get-user-balance"
+import { BadRequest } from "../../../../routes/_errors/bad-request"
+import { ServerError } from "../../../../routes/_errors/server-error"
+import { IGetUserBalanceService } from "../../../../services/user/get-user-balance"
+import { userIdParams } from "../../../fixtures/transaction"
+import { balanceParams } from "../../../fixtures/user"
+
 
 describe('GetUserBalanceController', () => {
 

@@ -1,12 +1,10 @@
 import validator from "validator"
-import { IGetTransactionsByUserIdService } from "../../../services/transaction/get-transactions-by-userId"
-import { BadRequest } from "../../../routes/_errors/bad-request"
-import { faker } from "@faker-js/faker"
-import { TRANSACTION_TYPE } from "@prisma/client"
-import { GetTransactionsByUserIdController } from "../../../controllers/transaction/get-transactions-by-userId"
-import { NotFound } from "../../../routes/_errors/not-found"
-import { ServerError } from "../../../routes/_errors/server-error"
-import { transactionsData, userIdParams } from "../../../tests/fixtures/transaction"
+import { IGetTransactionsByUserIdService } from "../../../../services/transaction/get-transactions-by-userId"
+import { GetTransactionsByUserIdController } from "../../../../controllers/transaction/get-transactions-by-userId"
+import { BadRequest } from "../../../../routes/_errors/bad-request"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { ServerError } from "../../../../routes/_errors/server-error"
+import { transactionsData, userIdParams } from "../../../fixtures/transaction"
 
 describe('GetTransctionsByUserId', () => {
 

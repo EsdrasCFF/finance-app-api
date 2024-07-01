@@ -1,11 +1,11 @@
-import { fa, faker } from "@faker-js/faker"
-import { ICreateUserRepository } from "../../../repositories/user/create-users"
-import { IGetUserByEmailRepository } from "../../../repositories/user/get-user-by-email"
+import { faker } from "@faker-js/faker"
+
 import { User } from "@prisma/client"
-import { IPasswordComparatorAdapter } from "../../../adapters/password-comparator"
-import { IPasswordHasherAdapter } from "../../../adapters/password-hasher"
-import { CreateUserService } from "../../../services/user/create-user"
-import { BadRequest } from "../../../routes/_errors/bad-request"
+import { IPasswordHasherAdapter } from "../../../../adapters/password-hasher"
+import { ICreateUserRepository } from "../../../../repositories/user/create-users"
+import { IGetUserByEmailRepository } from "../../../../repositories/user/get-user-by-email"
+import { BadRequest } from "../../../../routes/_errors/bad-request"
+import { CreateUserService } from "../../../../services/user/create-user"
 
 describe('CreateUserService', () => {
   

@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker"
-import { IGetTransactionsByUserIdRepository } from "../../../repositories/transaction/get-transactions-by-userId"
-import { GetTransactionsByUserIdService } from "../../../services/transaction/get-transactions-by-userId"
 import { TRANSACTION_TYPE } from "@prisma/client"
-import { IGetUserByIdRepository } from "../../../repositories/user/get-user-by-id"
-import { NotFound } from "../../../routes/_errors/not-found"
+import { IGetTransactionsByUserIdRepository } from "../../../../repositories/transaction/get-transactions-by-userId"
+import { IGetUserByIdRepository } from "../../../../repositories/user/get-user-by-id"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { GetTransactionsByUserIdService } from "../../../../services/transaction/get-transactions-by-userId"
 
 describe('GetTransactionByUserIdRepository', () => {
 

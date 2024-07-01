@@ -1,10 +1,9 @@
 import { faker } from "@faker-js/faker"
-import { IDeleteTransactionRepository } from "../../../repositories/transaction/delete-transaction"
-import { DeleteTransactionService } from "../../../services/transaction/delete-transaction"
 import { TRANSACTION_TYPE } from "@prisma/client"
-import { IGetTransactionsByUserIdRepository } from "../../../repositories/transaction/get-transactions-by-userId"
-import { IGetTransactionByIdRepository } from "../../../repositories/transaction/get-transaction-by-id"
-import { NotFound } from "../../../routes/_errors/not-found"
+import { IDeleteTransactionRepository } from "../../../../repositories/transaction/delete-transaction"
+import { IGetTransactionByIdRepository } from "../../../../repositories/transaction/get-transaction-by-id"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { DeleteTransactionService } from "../../../../services/transaction/delete-transaction"
 
 describe('DeleteTransactionService', () => {
   const transactionIdParams = faker.string.uuid()

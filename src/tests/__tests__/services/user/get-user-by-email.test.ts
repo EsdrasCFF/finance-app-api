@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker"
-import { IGetUserByEmailRepository } from "../../../repositories/user/get-user-by-email"
-import { GetUserByEmailService } from "../../../services/user/get-user-by-email"
+import { IGetUserByEmailRepository } from "../../../../repositories/user/get-user-by-email"
+import { GetUserByEmailService } from "../../../../services/user/get-user-by-email"
 
 describe('GetUserByEmailServie', () => {
   

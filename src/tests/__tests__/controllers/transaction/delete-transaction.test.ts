@@ -1,12 +1,11 @@
-import { faker } from "@faker-js/faker"
-import { DeleteTransactionController, IDeleteTransactionController } from "../../../controllers/transaction/delete-transaction"
-import { IDeleteTransactionService } from "../../../services/transaction/delete-transaction"
-import { TRANSACTION_TYPE } from "@prisma/client"
 import validator from "validator"
-import { BadRequest } from "../../../routes/_errors/bad-request"
-import { NotFound } from "../../../routes/_errors/not-found"
-import { ServerError } from "../../../routes/_errors/server-error"
-import { transactionData, transactionIdParams } from "../../../tests/fixtures/transaction"
+import { IDeleteTransactionService } from "../../../../services/transaction/delete-transaction"
+import { BadRequest } from "../../../../routes/_errors/bad-request"
+import { transactionData, transactionIdParams } from "../../../fixtures/transaction"
+import { DeleteTransactionController } from "../../../../controllers/transaction/delete-transaction"
+import { NotFound } from "../../../../routes/_errors/not-found"
+import { ServerError } from "../../../../routes/_errors/server-error"
+
 
 
 describe('DeleteTransactionController', () => {

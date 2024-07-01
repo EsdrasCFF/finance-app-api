@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker"
-import { IGetUserByIdRepository } from "../../../repositories/user/get-user-by-id"
-import { GetUserByIdService } from "../../../services/user/get-user-by-id"
+import { IGetUserByIdRepository } from "../../../../repositories/user/get-user-by-id"
+import { GetUserByIdService } from "../../../../services/user/get-user-by-id"
 
 describe('GetUserByIdService', () => {
   
