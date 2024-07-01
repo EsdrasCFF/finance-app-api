@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "test": "dotenv -e .env.test -- jest --passWithNoTest --silent",
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent",
     "test:watch": "jest --watch --passWithNoTests --silent",
     "test:coverage": "jest --passWithNoTests --silent --coverage"
   },

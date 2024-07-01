@@ -10,6 +10,7 @@ const config: Config = {
   testEnvironment: 'node',
   coverageProvider: "v8",
   testMatch: ['**/**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+  globalSetup: '<rootDir>/jest.global-setup.ts',
 };
 
 export default config;
