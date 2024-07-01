@@ -12,6 +12,7 @@ export class GetUserByIdController implements IGetUserByIdController {
   constructor(private getUserByIdService: IGetUserByIdService) {}
 
   async execute(userId: string) {
+
     const isValidUserId = validator.isUUID(userId);
 
     if (!isValidUserId) {

@@ -10,7 +10,6 @@ export interface BalanceParams {
   balance: number 
 }
 
-
 export interface IGetUserBalanceService {
   execute(userId: string): Promise<BalanceParams>
 }
@@ -22,6 +21,7 @@ export class GetUserBalanceService implements IGetUserBalanceService {
   ) {}
   
   async execute(userId: string) {
+    
     const userExists = await this.getUserByIdRepository.execute(userId)
 
     if(!userExists) {

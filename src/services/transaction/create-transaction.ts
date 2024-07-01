@@ -3,7 +3,6 @@ import { CreateTransactionProps, ICreateTransactionRepository } from "../../repo
 import { IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
 import { NotFound } from "../../routes/_errors/not-found";
 
-
 export interface ICreateTransactionService {
   execute(createTransactionParams: CreateTransactionProps): Promise<Transaction>
 }
@@ -15,6 +14,7 @@ export class CreateTransactionService implements ICreateTransactionRepository {
   ) {}
 
   async execute(createTransactionParams: CreateTransactionProps) {
+    
     const userId = createTransactionParams.user_id
 
     const user = await this.getUserByIdRepository.execute(userId)
