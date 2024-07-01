@@ -6,19 +6,10 @@ import validator from "validator"
 import { BadRequest } from "../../../routes/_errors/bad-request"
 import { NotFound } from "../../../routes/_errors/not-found"
 import { ServerError } from "../../../routes/_errors/server-error"
+import { transactionData, transactionIdParams } from "../../../tests/fixtures/transaction"
+
 
 describe('DeleteTransactionController', () => {
-  const transactionIdParams = faker.string.uuid()
-
-  const transactionData = {
-    id: transactionIdParams,
-    user_id: faker.string.uuid(),
-    name: faker.commerce.product.name[0],
-    description: faker.commerce.product.name[1],
-    date: faker.date.recent(),
-    amount: faker.number.float(),
-    type: 'INCOME' as TRANSACTION_TYPE
-  }
 
   class DeleteTransactionServiceStub implements IDeleteTransactionService {
     async execute(transactionId: string) {

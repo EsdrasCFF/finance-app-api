@@ -4,34 +4,11 @@ import { BadRequest } from "../../../routes/_errors/bad-request"
 import { faker } from "@faker-js/faker"
 import { TRANSACTION_TYPE } from "@prisma/client"
 import { GetTransactionsByUserIdController } from "../../../controllers/transaction/get-transactions-by-userId"
-import { ZodError } from "zod"
 import { NotFound } from "../../../routes/_errors/not-found"
 import { ServerError } from "../../../routes/_errors/server-error"
+import { transactionsData, userIdParams } from "../../../tests/fixtures/transaction"
 
 describe('GetTransctionsByUserId', () => {
-
-  const userIdParams = faker.string.uuid()
-
-  const transactionsData = [
-    {
-      id: faker.string.uuid(),
-      user_id: faker.string.uuid(),
-      amount: faker.number.float(),
-      name: faker.commerce.product.name[0],
-      description: faker.commerce.product.name[0],
-      date: faker.date.recent(),
-      type: 'EXPENSE' as TRANSACTION_TYPE,
-    },
-    {
-      id: faker.string.uuid(),
-      user_id: faker.string.uuid(),
-      amount: faker.number.float(),
-      name: faker.commerce.product.name[0],
-      description: faker.commerce.product.name[0],
-      date: faker.date.recent(),
-      type: 'EXPENSE' as TRANSACTION_TYPE,
-    }
-  ]
 
   class GetTransactionByUserServiceStub implements IGetTransactionsByUserIdService {
     async execute(userId: string) {

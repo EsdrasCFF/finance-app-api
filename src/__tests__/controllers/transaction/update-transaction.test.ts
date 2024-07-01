@@ -6,6 +6,7 @@ import { BadRequest } from "../../../routes/_errors/bad-request";
 import { ZodError } from "zod";
 import { NotFound } from "../../../routes/_errors/not-found";
 import { ServerError } from "../../../routes/_errors/server-error";
+import { transactionIdParams, updateTransactionParams } from "../../../tests/fixtures/transaction";
 
 type TransactionParams = {
   name: string;
@@ -16,16 +17,6 @@ type TransactionParams = {
 }
 
 describe('UpdateTransactionController', () => {
-  
-  const transactionIdParams = faker.string.uuid()
-  
-  const updateTransactionParams = {
-    name: faker.person.bio(),
-    description: faker.commerce.product.name[0],
-    amount: 100,
-    type: 'INCOME' as TRANSACTION_TYPE,
-    date: faker.date.recent(),
-  }
 
   class UpdateTransactionServiceStub implements IUpdateTransactionService {
     async execute(transactionId: string, updateTransactionParams: TransactionParams ) {

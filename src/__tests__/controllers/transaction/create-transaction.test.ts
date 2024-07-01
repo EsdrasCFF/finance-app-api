@@ -1,22 +1,12 @@
 import { faker } from "@faker-js/faker";
 import { ICreateTransactionService } from "../../../services/transaction/create-transaction";
-import { $Enums, TRANSACTION_TYPE, Transaction } from "@prisma/client";
+import { Transaction } from "@prisma/client";
 import { CreateTransactionController } from "../../../controllers/transaction/create-transaction";
 import { BadRequest } from "../../../routes/_errors/bad-request";
 import { ZodError } from "zod";
+import { createTransactionParams } from "../../../tests/fixtures/transaction";
 
 describe('CreateTransactionController', () => {
-
-  const createTransactionParams = {
-    name: faker.person.firstName(),
-    description: faker.definitions.lorem.words[0],
-    date: faker.date.recent(),
-    amount: 10.50,
-    type: 'INCOME' as TRANSACTION_TYPE,
-    user_id: faker.string.uuid()
-  }
-
-  const userIdParams = faker.string.uuid()
 
   class CreateTransactionServiceStub implements ICreateTransactionService {
     async execute(createTransactionParams: Omit<Transaction, 'id'>) {
