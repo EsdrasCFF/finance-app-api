@@ -44,15 +44,15 @@ describe('GetTransactionByUserIdRepository', () => {
   }
 
   const makeSut = () => {
-    const getTransactionsByIdRepositoryStub = new GetTransactionsByUserIdRepositoryStub()
+    const getTransactionsByUserIdRepositoryStub = new GetTransactionsByUserIdRepositoryStub()
     const getUserByIdRepositoryStub = new GetUserByIdRepositoryStub()
 
     const sut = new GetTransactionsByUserIdService(
-      getTransactionsByIdRepositoryStub,
+      getTransactionsByUserIdRepositoryStub,
       getUserByIdRepositoryStub
     )
 
-    return {sut, getTransactionsByIdRepositoryStub, getUserByIdRepositoryStub}
+    return {sut, getTransactionsByUserIdRepositoryStub, getUserByIdRepositoryStub}
   }
 
   it('Should return transaction data successfully', async () => {
@@ -65,5 +65,18 @@ describe('GetTransactionByUserIdRepository', () => {
     // assert
     expect(result).toBeTruthy()
     expect(result[0].user_id).toEqual(userIdParams)
+  })
+
+  it('Should call GetTransactionsByUserIdRepository with correct params', async () => {
+    // arrange
+    const {sut, getTransactionsByUserIdRepositoryStub} = makeSut()
+    
+    const executeSpy = jest.spyOn(getTransactionsByUserIdRepositoryStub, 'execute')
+    
+    // act
+    await sut.execute(userIdParams)
+    
+    //assert
+    expect(executeSpy).toHaveBeenCalledWith(userIdParams)
   })
 })
