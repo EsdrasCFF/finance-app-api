@@ -105,4 +105,20 @@ describe('UpdateTransactionService', () => {
     // assert
     await expect(execute).rejects.toThrow(NotFound)
   })
+
+  it('Should call UpdateTransactionRepository', async () => {
+    // arrange
+    const {sut, udpateTransactionRepositoryStub} = makeSut()
+
+    const executeSpy = jest.spyOn(udpateTransactionRepositoryStub, 'execute')
+    
+    const name = faker.commerce.productName()
+    const description = faker.commerce.productDescription()
+
+    // act
+    await sut.execute(transactionIdParams, {...updateTransactionParams, name, description})
+
+    // assert
+    expect(executeSpy).toHaveBeenCalled()
+  })
 })
