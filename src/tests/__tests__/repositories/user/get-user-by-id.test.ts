@@ -13,4 +13,20 @@ describe('GetUserByIdRepository', () => {
   
     expect(result?.id).toStrictEqual(user.id)
   })
+
+  it('Should call Prisma with correct params', async () => {
+    const user = await db.user.create({data: createUserParams})
+
+    const sut = new GetUserByIdRepository()
+
+    const dbSpy = jest.spyOn(db.user, 'findUnique')
+
+    await sut.execute(user.id)
+
+    expect(dbSpy).toHaveBeenCalledWith({
+      where: {
+        id: user.id
+      }
+    })
+  })
 })
