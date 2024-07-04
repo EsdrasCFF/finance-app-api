@@ -16,4 +16,16 @@ describe('CreateTransactionRepository', () => {
     expect(resut.type).toEqual(createTransactionParams.type)
     expect(resut.user_id).toEqual(user.id)
   })
+
+  it('Should call Prisma with correct params', async () => {
+    const user = await db.user.create({data: createUserParams})
+
+    const dbSpy = jest.spyOn(db.transaction, 'create')
+  
+    const sut = new CreateTransactionRepository()
+
+    await sut.execute({...createTransactionParams, user_id: user.id})
+
+    expect(dbSpy).toHaveBeenCalled()
+  })
 })
