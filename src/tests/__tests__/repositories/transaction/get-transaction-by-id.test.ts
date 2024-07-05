@@ -13,6 +13,6 @@ describe('GetTransactionByIdRepository', () => {
 
     const result = await sut.execute(transaction.id)
 
-    expect(result?.id).toEqual(user.id)
+    expect(result?.id).toEqual(transaction.id)
   })
 })
