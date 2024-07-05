@@ -17,16 +17,20 @@ describe('DeleteTransactionRepository', () => {
     expect(result.id).toEqual(transaction.id)
   })
 
-  // it('Should call Prisma with correct params', async () => {
-  //   const user = await db.user.create({data: createUserParams})
-  //   const transaction = await db.transaction.create({data: {...createTransactionParams, user_id: user.id}})
+  it('Should call Prisma with correct params', async () => {
+    const user = await db.user.create({data: createUserParams})
+    const transaction = await db.transaction.create({data: {...createTransactionParams, user_id: user.id}})
 
-  //   const sut = new DeleteTransactionRepository()
+    const sut = new DeleteTransactionRepository()
 
-  //   const dbSpy = jest.spyOn(db.transaction, 'delete')
+    const dbSpy = jest.spyOn(db.transaction, 'delete')
 
-  //   await sut.execute(transaction.id)
+    await sut.execute(transaction.id)
 
-  //   expect(dbSpy).toHaveBeenCalled()
-  // })
+    expect(dbSpy).toHaveBeenCalledWith({
+      where: {
+        id: transaction.id
+      }
+    })
+  })
 })
