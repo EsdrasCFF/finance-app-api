@@ -17,9 +17,7 @@ interface IUpdateTransactionController {
 }
 
 export class UpdateTransactionController implements IUpdateTransactionController{
-  constructor(
-    private updateTransactionService: IUpdateTransactionService
-  ) {}
+  constructor(private updateTransactionService: IUpdateTransactionService) {}
 
   async execute(transactionId: string, updateTransactionParams: UpdateTransactionProps) {
     updateTransactionSchema.parse(updateTransactionParams)
@@ -47,7 +45,6 @@ export class UpdateTransactionController implements IUpdateTransactionController
     if(type) {
       newType = type
     }
-
 
     const updateTransactionProps = {
       amount: newAmount,
