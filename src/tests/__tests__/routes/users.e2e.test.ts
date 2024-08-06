@@ -1,5 +1,5 @@
 import supertest from 'supertest'
-import { createUserParams, updateUserParams } from '../../fixtures/user'
+import { createUserParams, updateUserParams, userIdParams } from '../../fixtures/user'
 import { app } from '../../../server'
 import { createTransactionParams } from '../../fixtures/transaction'
 
@@ -35,6 +35,14 @@ describe('User Routes E2E Tests', () => {
       
     expect(response.status).toBe(200)
     expect(response.body).toHaveProperty('data')
+  })
+
+  it('DELETE /users should return 404 if user not found', async () => {
+    const userId = userIdParams
+    const response = await supertest(app.server)
+      .delete(`/api/users/${userId}`)
+      
+    expect(response.status).toBe(404)
   })
 
   it(`GET /users/userId/balance returns 200 when get is successful`, async () => {
