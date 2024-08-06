@@ -1,4 +1,3 @@
-import { sign } from "crypto"
 import { db } from "../../../../lib/prisma"
 import { GetUserByEmailRepository } from "../../../../repositories/user/get-user-by-email"
 import { createUserParams } from "../../../fixtures/user"

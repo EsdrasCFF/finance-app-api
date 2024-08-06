@@ -25,7 +25,9 @@ describe('GetUserBalanceServce', () => {
 
   class GetUserBalanceRepositoryStub implements IGetUserBalanceRepository {
     async execute(userId: string) {
-      if(userId){}
+      if(userId){
+        return userBalance
+      }
       return userBalance
     }
   }

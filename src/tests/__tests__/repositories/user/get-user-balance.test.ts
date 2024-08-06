@@ -1,4 +1,3 @@
-import { GetUserBalanceController } from "../../../../controllers/user/get-user-balance"
 import { db } from "../../../../lib/prisma"
 import { GetUserBalanceRepository } from "../../../../repositories/user/get-user-balance"
 import { createUserParams } from "../../../fixtures/user"

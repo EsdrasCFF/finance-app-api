@@ -34,6 +34,7 @@ describe('UpdateUserService', () => {
   
   class GetUserByEmailRepositoryStub implements IGetUserByEmailRepository {
     async execute(email: string) {
+      if(email) null
       return null
     }
   }
@@ -56,6 +57,9 @@ describe('UpdateUserService', () => {
 
   class PasswordComparatorAdapterStub implements IPasswordComparatorAdapter {
     async execute(new_password: string, old_password: string) {
+      if(new_password || old_password) {
+        return true
+      }
       return true
     }
   }

@@ -36,7 +36,7 @@ export class UpdateUserService implements IUpdateUserService {
       throw new BadRequest("UserId provided is incorrect");
     }
 
-    const userDataByEmail = !!email
+    const userDataByEmail = email
       ? await this.getUserByEmailRepository.execute(email)
       : null;
 

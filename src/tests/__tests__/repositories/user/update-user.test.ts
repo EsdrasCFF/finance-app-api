@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker"
 import { db } from "../../../../lib/prisma"
 import { UpdateUserRepository } from "../../../../repositories/user/update-user"
-import { createUserParams, updateUserParams } from "../../../fixtures/user"
+import { createUserParams } from "../../../fixtures/user"
 
 describe('UpdateUserRepository', () => {
   
