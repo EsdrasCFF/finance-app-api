@@ -18,11 +18,16 @@ import { deleteTransaction } from "./routes/transactions/delete-transaction";
 
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
+import fastifyCors from "@fastify/cors";
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
+
+app.register(fastifyCors, {
+  origin: "*"
+})
 
 app.register(fastifySwagger, {
   swagger: {
