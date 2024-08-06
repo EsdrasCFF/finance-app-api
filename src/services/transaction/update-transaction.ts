@@ -2,6 +2,7 @@ import { $Enums, Transaction } from "@prisma/client";
 import { IUpdateTransactioRepository } from "../../repositories/transaction/update-transactions";
 import { NotFound } from "../../routes/_errors/not-found";
 import { IGetTransactionByIdRepository } from "../../repositories/transaction/get-transaction-by-id";
+import { convertHundredUnitsToAmount } from "../../lib/utils";
 
 export interface UpdateTransactionProps {
   name: string | null
@@ -42,6 +43,9 @@ export class UpdateTransactionService implements IUpdateTransactionService{
 
     const transaction = await this.updateTransactionRepository.execute(transactionId, newTransaction)
 
-    return transaction
+    return {
+      ...transaction,
+      amount: convertHundredUnitsToAmount(transaction.amount)
+    }
   }
 }
