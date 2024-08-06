@@ -15,14 +15,12 @@ export interface IGetUserBalanceService {
 }
 
 export class GetUserBalanceService implements IGetUserBalanceService {
-  
   constructor(
     private getUserBalanceRepository: IGetUserBalanceRepository,
     private getUserByIdRepository: IGetUserByIdRepository,
   ) {}
   
   async execute(userId: string) {
-    
     const userExists = await this.getUserByIdRepository.execute(userId)
 
     if(!userExists) {

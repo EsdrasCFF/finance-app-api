@@ -14,7 +14,6 @@ export class DeleteUserService implements IDeleteUserService {
   ) {}
 
   async execute(userId: string) {
-
     const userExists = await this.getUserByIdRepository.execute(userId)
 
     if(!userExists) {
@@ -25,5 +24,4 @@ export class DeleteUserService implements IDeleteUserService {
 
     return deletedUser
   }
-  
 }

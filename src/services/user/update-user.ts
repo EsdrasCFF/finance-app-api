@@ -19,7 +19,6 @@ export interface UpdateUserProps {
 }
 
 export class UpdateUserService implements IUpdateUserService {
-
   constructor(
     private getUserByIdRepository: IGetUserByIdRepository, 
     private getUserByEmailRepository: IGetUserByEmailRepository, 
@@ -29,13 +28,7 @@ export class UpdateUserService implements IUpdateUserService {
   ) {}
 
   async execute(userId: string, updateUserParams: UpdateUserProps) {
-    const {
-      email,
-      first_name,
-      last_name,
-      old_password,
-      password: new_password,
-    } = updateUserParams;
+    const {email, first_name, last_name, old_password,password: new_password} = updateUserParams;
 
     const userData = await this.getUserByIdRepository.execute(userId);
 
