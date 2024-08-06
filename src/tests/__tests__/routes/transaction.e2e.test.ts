@@ -72,7 +72,7 @@ describe('Transactions Routes E2E Tests', () => {
     
     const userId = createdUserRoute.body.data.id
   
-    const createTransactionRoute = await supertest(app.server)
+    await supertest(app.server)
       .post('/api/transactions')
       .send({
         ...createTransactionParams,

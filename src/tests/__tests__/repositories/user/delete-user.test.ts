@@ -1,6 +1,6 @@
 import { db } from "../../../../lib/prisma"
 import { DeleteUserRepository } from "../../../../repositories/user/delete-user"
-import { createUserParams, userIdParams } from "../../../fixtures/user"
+import { createUserParams } from "../../../fixtures/user"
 
 describe('DeleteUserRepository', () => {
   

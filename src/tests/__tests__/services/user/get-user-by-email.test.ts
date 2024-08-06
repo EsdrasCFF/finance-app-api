@@ -34,7 +34,7 @@ describe('GetUserByEmailServie', () => {
 
   it('Should return user data if found user by email', async () => {
     //arrange
-    const { sut, getUserByEmailRepositoryStub } = makeSut()
+    const { sut } = makeSut()
   
     //act
     const result = await sut.execute(userData.email)

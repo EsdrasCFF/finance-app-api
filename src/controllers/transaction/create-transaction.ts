@@ -1,8 +1,7 @@
-import { TRANSACTION_TYPE, Transaction } from "@prisma/client";
-import validator from "validator";
+import { Transaction } from "@prisma/client";
 import { BadRequest } from "../../routes/_errors/bad-request";
 import { ICreateTransactionService } from "../../services/transaction/create-transaction";
-import { checkIfAmountIsValid, roundAmountToTwoDecimals } from "../../lib/utils";
+import { roundAmountToTwoDecimals } from "../../lib/utils";
 import { createTransactionSchema } from "../../routes/transactions/create-transaction";
 import { CreateTransactionProps } from "../../repositories/transaction/create-transaction";
 

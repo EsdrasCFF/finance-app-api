@@ -98,8 +98,6 @@ describe('CreateTransactionController', () => {
   
     const executeSpy = jest.spyOn(createTransactionServiceStub, 'execute')
 
-    const id = faker.string.uuid()
-
     //act
     await sut.execute(createTransactionParams)
 

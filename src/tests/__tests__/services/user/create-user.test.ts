@@ -20,6 +20,9 @@ describe('CreateUserService', () => {
 
   class GetUserByEmailRepositoryStub implements IGetUserByEmailRepository {
     async execute(email: string) {
+      if(email) {
+        return null
+      }
       return null
     }
   }

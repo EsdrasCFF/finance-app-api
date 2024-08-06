@@ -1,7 +1,6 @@
-import { da } from "@faker-js/faker"
 import { db } from "../../../../lib/prisma"
 import { GetTransactionsByUserIdRepository } from "../../../../repositories/transaction/get-transactions-by-userId"
-import { transactionData, transactionsData } from "../../../fixtures/transaction"
+import { transactionsData } from "../../../fixtures/transaction"
 import { createUserParams } from "../../../fixtures/user"
 
 describe('GetTransactionByUserId', () => {

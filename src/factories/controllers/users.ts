@@ -15,7 +15,6 @@ import { UpdateUserRepository } from "../../repositories/user/update-user";
 import { CreateUserService } from "../../services/user/create-user";
 import { DeleteUserService } from "../../services/user/delete-user";
 import { GetUserBalanceService } from "../../services/user/get-user-balance";
-import { GetUserByEmailService } from "../../services/user/get-user-by-email";
 import { GetUserByIdService } from "../../services/user/get-user-by-id";
 import { UpdateUserService } from "../../services/user/update-user";
 

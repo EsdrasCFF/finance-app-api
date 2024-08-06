@@ -1,4 +1,4 @@
-import { $Enums, Transaction } from "@prisma/client";
+import { Transaction } from "@prisma/client";
 import { CreateTransactionProps, ICreateTransactionRepository } from "../../repositories/transaction/create-transaction";
 import { IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
 import { NotFound } from "../../routes/_errors/not-found";

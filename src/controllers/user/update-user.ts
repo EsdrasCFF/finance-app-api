@@ -35,8 +35,13 @@ export class UpdateUserController implements IUpdateUserController {
       updateUserParams
     );
 
-    const { password, ...otherProps } = updatedSucessfully;
+    const userData = {
+      id: updatedSucessfully.id,
+      email: updatedSucessfully.email,
+      first_name: updatedSucessfully.first_name,
+      last_name: updatedSucessfully.last_name,
+    }
 
-    return otherProps;
+    return userData;
   }
 }

@@ -1,6 +1,5 @@
 import { db } from "../../../../lib/prisma"
 import { DeleteTransactionRepository } from "../../../../repositories/transaction/delete-transaction"
-import { DeleteUserRepository } from "../../../../repositories/user/delete-user"
 import { createTransactionParams } from "../../../fixtures/transaction"
 import { createUserParams } from "../../../fixtures/user"
 

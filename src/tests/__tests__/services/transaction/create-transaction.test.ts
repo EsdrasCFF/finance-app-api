@@ -37,7 +37,11 @@ describe('CreateTransactionService', () => {
 
   class GetUserByIdRepositoryStub implements IGetUserByIdRepository {
     async execute(userId: string) {
-      return userData
+
+      return {
+        ...userData,
+        id: userId
+      }
     }
   }
 

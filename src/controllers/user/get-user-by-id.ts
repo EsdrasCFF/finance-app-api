@@ -24,9 +24,14 @@ export class GetUserByIdController implements IGetUserByIdController {
     if (!user) {
       throw new NotFound("User not found!");
     }
+    
+    const userData = {
+      id: user.id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+    }
 
-    const { password, ...otherProps } = user;
-
-    return otherProps;
+    return userData;
   }
 }

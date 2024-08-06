@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import z, { number } from "zod";
+import { z } from "zod";
 import { makeGetUserBalanceController } from "../../factories/controllers/users";
 
 export async function getUserBalance(app: FastifyInstance) {

@@ -1,4 +1,4 @@
-export function checkIfAmountIsValid(value: any): boolean {
+export function checkIfAmountIsValid(value: string | number): boolean {
   if (typeof value === 'number') {
     return true;
   }

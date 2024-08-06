@@ -1,4 +1,3 @@
-import { da } from "@faker-js/faker"
 import { db } from "../../../../lib/prisma"
 import { createUserParams } from "../../../fixtures/user"
 import { createTransactionParams } from "../../../fixtures/transaction"
