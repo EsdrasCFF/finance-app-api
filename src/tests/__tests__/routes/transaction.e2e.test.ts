@@ -1,6 +1,6 @@
 import supertest from "supertest"
 import { app } from '../../../server'
-import { createUserParams } from "../../fixtures/user"
+import { createUserParams, userIdParams } from "../../fixtures/user"
 import { createTransactionParams, transactionIdParams, updateTransactionParams } from "../../fixtures/transaction"
 
 describe('Transactions Routes E2E Tests', () => {
@@ -84,6 +84,15 @@ describe('Transactions Routes E2E Tests', () => {
     
     expect(response.status).toBe(200)
     expect(response.body).toHaveProperty('data')
+  })
+
+  it('GET /transactions?userId=user_id return 404 if userId was not found', async () => {
+    const userId = userIdParams
+
+    const response = await supertest(app.server)
+      .get(`/api/transactions?userId=${userId}`)
+    
+    expect(response.status).toBe(404)
   })
 
   it('PATCH /transactions/transactionId return 200 when transaction is updated', async () => {
