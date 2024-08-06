@@ -65,7 +65,7 @@ describe('GetUserBalanceServce', () => {
     //arrange
     const {sut, getUserByIdRepository} = makeSut()
     
-    //@ts-ignore
+    //@ts-expect-error
     jest.spyOn(getUserByIdRepository, 'execute').mockReturnValueOnce(null)
   
     //act

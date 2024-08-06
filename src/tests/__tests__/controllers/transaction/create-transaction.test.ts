@@ -73,7 +73,7 @@ describe('CreateTransactionController', () => {
     const { sut } = makeSut()
     
     //act 
-    // @ts-ignore
+    // @ts-expect-error
     const result = sut.execute({...createTransactionParams, type: 'invalid_type'})
 
     //assert
@@ -85,7 +85,7 @@ describe('CreateTransactionController', () => {
     const { sut } = makeSut()
   
     //act
-    //@ts-ignore
+    //@ts-expect-error
     const result = sut.execute({...createTransactionParams, date: 'invalid_date'})
   
     //assert

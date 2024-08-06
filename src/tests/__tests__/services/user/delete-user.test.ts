@@ -57,7 +57,7 @@ describe('DeleteUserService', () => {
     //arrange
     const { sut, getUserByIdRepositoryStub } = makeSut()
     
-    //@ts-ignore
+    //@ts-expect-error
     jest.spyOn(getUserByIdRepositoryStub, 'execute').mockReturnValueOnce(null)
 
     //act

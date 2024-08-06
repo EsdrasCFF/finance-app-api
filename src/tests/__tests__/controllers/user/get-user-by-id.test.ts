@@ -101,7 +101,7 @@ describe('GetUserByIdController', () => {
     //arrange
     const { getUserByIdServiceStub, sut } = makeSut()
     
-    //@ts-ignore
+    //@ts-expect-error
     jest.spyOn(getUserByIdServiceStub, 'execute').mockResolvedValue(null)
 
     //act

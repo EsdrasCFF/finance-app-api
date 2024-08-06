@@ -47,7 +47,7 @@ describe('GetUserByEmailServie', () => {
     //arrange
     const {sut, getUserByEmailRepositoryStub} = makeSut()
 
-    //@ts-ignore
+    //@ts-expect-error
     jest.spyOn(getUserByEmailRepositoryStub, 'execute').mockImplementationOnce(() => null)
   
     //act
