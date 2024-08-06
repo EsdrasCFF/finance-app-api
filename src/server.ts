@@ -15,7 +15,7 @@ import { updateTransaction } from "./routes/transactions/update-transaction";
 import { getUserBalance } from "./routes/users/get-user-balance";
 import { deleteTransaction } from "./routes/transactions/delete-transaction";
 
-const app = fastify().withTypeProvider<ZodTypeProvider>();
+export const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
