@@ -1,4 +1,3 @@
-import fastify from 'fastify'
 import supertest from 'supertest'
 import { createUserParams, updateUserParams } from '../../fixtures/user'
 import { app } from '../../../server'
