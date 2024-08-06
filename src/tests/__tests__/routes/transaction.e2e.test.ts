@@ -1,7 +1,7 @@
 import supertest from "supertest"
 import { app } from '../../../server'
 import { createUserParams } from "../../fixtures/user"
-import { createTransactionParams, updateTransactionParams } from "../../fixtures/transaction"
+import { createTransactionParams, transactionIdParams, updateTransactionParams } from "../../fixtures/transaction"
 
 describe('Transactions Routes E2E Tests', () => {
   beforeAll(async () => {
@@ -30,7 +30,7 @@ describe('Transactions Routes E2E Tests', () => {
     expect(response.status).toBe(201)
   })
 
-  it('DELETE /transactions should return 200 when transaction is deleted', async () => {
+  it('DELETE /transactions/transactionId should return 200 when transaction is deleted', async () => {
     const createdUserRoute = await supertest(app.server)
       .post('/api/users')
       .send(createUserParams)
@@ -54,6 +54,15 @@ describe('Transactions Routes E2E Tests', () => {
     expect(response.body).toHaveProperty('data')
     expect(response.body.data.id).toEqual(transactionId)
     expect(response.body.data.user_id).toBe(userId)
+  })
+
+  it('DELETE /transactions/transactionId should return 404 if transaction not found', async () => {
+    const transactionId = transactionIdParams
+    
+    const response = await supertest(app.server)
+      .delete(`/api/transactions/${transactionId}`)
+    
+    expect(response.status).toBe(404)
   })
 
   it('GET /transactions?userId=user_id return 200 when transactions are found', async () => {
