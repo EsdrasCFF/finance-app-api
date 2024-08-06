@@ -86,7 +86,7 @@ describe('GetUserBalanceController', () => {
     const { sut } = makeSut()
   
     //act
-    //@ts-expect-error
+    //@ts-expect-error Ignore due incorrect params to check if errors is correct throwed
     const result = sut.execute(null)
   
     //assert

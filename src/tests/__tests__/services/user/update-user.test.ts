@@ -138,7 +138,7 @@ describe('UpdateUserService', () => {
     // arrange
     const {sut, getUserByEmailRepositoryStub } = makeSut()
     
-    //@ts-expect-error
+    //@ts-expect-error Ignore due incorrect params to check if errors is correct throwed
     jest.spyOn(getUserByEmailRepositoryStub, 'execute').mockImplementationOnce(() => new BadRequest())
 
     //act
@@ -198,7 +198,7 @@ describe('UpdateUserService', () => {
     // arrange
     const { sut, passwordComparatorAdapaterStub } = makeSut()
 
-    //@ts-expect-error
+    //@ts-expect-error Ignore due incorrect params to check if errors is correct throwed
     jest.spyOn(passwordComparatorAdapaterStub, 'execute').mockReturnValueOnce(false)
 
     // act

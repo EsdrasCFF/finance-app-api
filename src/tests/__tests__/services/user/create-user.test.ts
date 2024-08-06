@@ -84,7 +84,7 @@ describe('CreateUserService', () => {
     //arrange
     const {sut, getUserByEmailRepository} = makeSut()
 
-    //@ts-expect-error
+    //@ts-expect-error Ignore due incorrect params to check if errors is correct throwed
     jest.spyOn(getUserByEmailRepository, 'execute').mockReturnValueOnce({...createUserParams, id: faker.string.uuid()})
     
     //act

@@ -71,7 +71,7 @@ describe('UpdateTransactionController', () => {
     
    
     //act
-    //@ts-expect-error
+    //@ts-expect-error Ignore due incorrect params to check if errors is correct throwed
     const result = sut.execute(transactionIdParams, {...updateTransactionParams, amount: 'invalid_amount'})
 
     //assert
@@ -83,7 +83,7 @@ describe('UpdateTransactionController', () => {
     const {sut} = makeSut()
 
     //act
-    //@ts-expect-error
+    //@ts-expect-error Ignore due incorrect params to check if errors is correct throwed
     const result = sut.execute(transactionIdParams, {...updateTransactionParams, date: 'aa'})
 
     //assert
@@ -95,7 +95,7 @@ describe('UpdateTransactionController', () => {
     const { sut } = makeSut()
   
     //act
-    //@ts-expect-error
+    //@ts-expect-error Ignore due incorrect params to check if errors is correct throwed
     const result = sut.execute(transactionIdParams, {...updateTransactionParams, type: 'invalid_type'})
   
     //assert

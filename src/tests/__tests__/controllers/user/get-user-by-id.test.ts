@@ -101,7 +101,7 @@ describe('GetUserByIdController', () => {
     //arrange
     const { getUserByIdServiceStub, sut } = makeSut()
     
-    //@ts-expect-error
+    //@ts-expect-error Ignore due incorrect params to check if errors is correct throwed
     jest.spyOn(getUserByIdServiceStub, 'execute').mockResolvedValue(null)
 
     //act
