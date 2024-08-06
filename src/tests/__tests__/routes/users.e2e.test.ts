@@ -68,6 +68,14 @@ describe('User Routes E2E Tests', () => {
     expect(response.status).toEqual(200)
   })
 
+  it('GET /users/userId/balance return 404 if user not found', async () => {
+    const userId = userIdParams
+    const response = await supertest(app.server)
+      .delete(`/api/users/${userId}/balance`)
+      
+    expect(response.status).toBe(404)
+  })
+
   it('GET /users/userId returns 200 when get is successfully ', async () => {
     const createUserRoute = await supertest(app.server)
       .post('/api/users')
