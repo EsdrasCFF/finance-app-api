@@ -86,7 +86,7 @@ describe('Transactions Routes E2E Tests', () => {
     expect(response.body).toHaveProperty('data')
   })
 
-  it('GET /transactions?userId=user_id return 404 if userId was not found', async () => {
+  it('GET /transactions?userId=user_id return 404 if userId is not found', async () => {
     const userId = userIdParams
 
     const response = await supertest(app.server)
@@ -120,5 +120,18 @@ describe('Transactions Routes E2E Tests', () => {
   
     expect(response.status).toBe(200)
     expect(response.body.data.amount).toBe(200)
+  })
+
+  it('PATCH /transactions/transactionId return 404 if transaction not found', async () => {
+    const transactionId = transactionIdParams
+
+    const response = await supertest(app.server)
+      .patch(`/api/transactions/${transactionId}`)
+      .send({
+        ...updateTransactionParams,
+        amount: 200
+      })
+    
+    expect(response.status).toBe(404)
   })
 })
