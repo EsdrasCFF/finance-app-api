@@ -27,6 +27,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@fastify/swagger": "^8.15.0",
+    "@fastify/swagger-ui": "^4.0.1",
     "@prisma/client": "^5.14.0",
     "@types/bcrypt": "^5.0.2",
     "@types/validator": "^13.11.10",

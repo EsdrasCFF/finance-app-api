@@ -3,6 +3,7 @@ import {
   ZodTypeProvider,
   serializerCompiler,
   validatorCompiler,
+  jsonSchemaTransform
 } from "fastify-type-provider-zod";
 import { createUser } from "./routes/users/create-user";
 import { errorHandler } from "./error-handler";
@@ -15,10 +16,30 @@ import { updateTransaction } from "./routes/transactions/update-transaction";
 import { getUserBalance } from "./routes/users/get-user-balance";
 import { deleteTransaction } from "./routes/transactions/delete-transaction";
 
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUI from '@fastify/swagger-ui'
+
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
+
+app.register(fastifySwagger, {
+  swagger: {
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    info: {
+      title: 'finance-api',
+      description: 'Especificações da FinanceAPI, beckend da aplicação FinanceAPP, feita para gerenciar as financas',
+      version: "2.0.0"
+    }
+  },
+  transform: jsonSchemaTransform,
+})
+
+app.register(fastifySwaggerUI, {
+  routePrefix: '/docs'
+})
 
 app.register(createUser);
 app.register(getUserById);
