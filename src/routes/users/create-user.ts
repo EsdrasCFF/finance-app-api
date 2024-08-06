@@ -23,6 +23,8 @@ export async function createUser(app: FastifyInstance) {
     "/api/users",
     {
       schema: {
+        summary: 'Create User',
+        tags: ['users'],
         body: createUserSchema,
         response: {
           201: z.object({

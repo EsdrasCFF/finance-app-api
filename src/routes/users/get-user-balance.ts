@@ -8,6 +8,8 @@ export async function getUserBalance(app: FastifyInstance) {
     '/api/users/:userId/balance',
     {
       schema: {
+        summary: 'Get User Balance',
+        tags: ['users'],
         params: z.object({
           userId: z.string()
         }),

@@ -23,6 +23,8 @@ export async function updateTransaction(app: FastifyInstance) {
     '/api/transactions/:transactionId',
     {
       schema: {
+        summary: 'Update Transactions',
+        tags: ['transacions'],
         body: updateTransactionSchema,
         params: z.object({
           transactionId: z.string()

@@ -9,6 +9,8 @@ export async function deleteTransaction(app: FastifyInstance) {
     "/api/transactions/:transactionId",
     {
       schema: {
+        summary: 'Delete Transaction',
+        tags: ['transacions'],
         params: z.object({
           transactionId: z.string().uuid({message: 'Provided transactionId is not valid'})
         }),

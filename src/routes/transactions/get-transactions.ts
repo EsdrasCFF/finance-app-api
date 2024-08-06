@@ -8,6 +8,8 @@ export async function getTransactions(app: FastifyInstance) {
     "/api/transactions", 
     {
       schema: {
+        summary: 'Get Transactions',
+        tags: ['transacions'],
         querystring: z.object({
           userId: z.string().uuid({message: 'Provided userId is not valid!'})
         }),

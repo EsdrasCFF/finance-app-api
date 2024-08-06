@@ -8,6 +8,8 @@ export async function deleteUser(app: FastifyInstance) {
     "/api/users/:userId",
     {
       schema: {
+        summary: 'Delete user',
+        tags: ['users'],
         params: z.object({
           userId: z.string().uuid({message: 'Provided userId is not valid'})
         }),

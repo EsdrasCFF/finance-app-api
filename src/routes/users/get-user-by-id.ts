@@ -8,6 +8,8 @@ export async function getUserById(app: FastifyInstance) {
     "/api/users/:userId",
     {
       schema: {
+        summary: 'Get User By Id',
+        tags: ['users'],
         params: z.object({
           userId: z.string().uuid({ message: "Provider id is not valid!" }),
         }),

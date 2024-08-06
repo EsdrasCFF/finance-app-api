@@ -21,6 +21,8 @@ export async function updateUser(app: FastifyInstance) {
     "/api/users/:userId",
     {
       schema: {
+        summary: 'Update User',
+        tags: ['users'],
         params: z.object({
           userId: z.string().uuid({ message: "Userid provided is not valid" }),
         }),

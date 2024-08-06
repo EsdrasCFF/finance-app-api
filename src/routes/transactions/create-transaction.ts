@@ -32,6 +32,8 @@ export async function createTransaction(app: FastifyInstance) {
     '/api/transactions', 
     {
       schema: {
+        summary: 'Create Transaction',
+        tags: ['transacions'],
         body: createTransactionSchema,
         response: {
           201: z.object({
