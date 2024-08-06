@@ -2,6 +2,7 @@ import fastify from 'fastify'
 import supertest from 'supertest'
 import { createUserParams } from '../../fixtures/user'
 import { app } from '../../../server'
+import { createTransactionParams } from '../../fixtures/transaction'
 
 describe('User Routes E2E Tests', () => {
 
@@ -35,5 +36,28 @@ describe('User Routes E2E Tests', () => {
       
     expect(response.status).toBe(200)
     expect(response.body).toHaveProperty('data')
+  })
+
+  it(`POST /users/userId/balance`, async () => {
+    const createUser = await supertest(app.server)
+      .post('/api/users')
+      .send({
+        ...createUserParams,
+        email: 'novoemail@email.com'
+      })
+    
+      const userId = createUser.body.data.id
+    
+    await supertest(app.server)
+      .post('/api/transacion')
+      .send({
+        ...createTransactionParams,
+        userId
+      })
+    
+    const response = await supertest(app.server)
+    .get(`/api/users/${userId}/balance`)
+    
+    expect(response.status).toEqual(200)
   })
 })
