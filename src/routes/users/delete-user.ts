@@ -1,17 +1,17 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
-import z from "zod";
-import { makeDeleteUserController } from "../../factories/controllers/users";
+import { FastifyInstance } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import z from 'zod'
+import { makeDeleteUserController } from '../../factories/controllers/users'
 
 export async function deleteUser(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    "/api/users/:userId",
+    '/api/users/:userId',
     {
       schema: {
         summary: 'Delete user',
         tags: ['users'],
         params: z.object({
-          userId: z.string().uuid({message: 'Provided userId is not valid'})
+          userId: z.string().uuid({ message: 'Provided userId is not valid' })
         }),
         response: {
           200: z.object({
@@ -25,16 +25,16 @@ export async function deleteUser(app: FastifyInstance) {
         }
       }
     },
-    async(request, reply) => {
+    async (request, reply) => {
       const { userId } = request.params
-  
+
       const deleteUserController = makeDeleteUserController()
 
       const deletedUser = await deleteUserController.execute(userId)
 
-      const { password, ...otherProps } = deletedUser;
+      const { password, ...otherProps } = deletedUser
 
-      return reply.code(200).send({data: otherProps})
+      return reply.code(200).send({ data: otherProps })
     }
   )
 }

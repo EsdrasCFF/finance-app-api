@@ -1,35 +1,39 @@
-import { $Enums, Transaction } from "@prisma/client";
-import { IUpdateTransactioRepository } from "../../repositories/transaction/update-transactions";
-import { NotFound } from "../../routes/_errors/not-found";
-import { IGetTransactionByIdRepository } from "../../repositories/transaction/get-transaction-by-id";
-import { convertHundredUnitsToAmount } from "../../lib/utils";
+import { $Enums, Transaction } from '@prisma/client'
+import { IUpdateTransactioRepository } from '../../repositories/transaction/update-transactions'
+import { NotFound } from '../../routes/_errors/not-found'
+import { IGetTransactionByIdRepository } from '../../repositories/transaction/get-transaction-by-id'
+import { convertHundredUnitsToAmount } from '../../lib/utils'
 
 export interface UpdateTransactionProps {
   name: string | null
-  description: string | null;
+  description: string | null
   date: Date | null
   amount: number | null
-  type: $Enums.TRANSACTION_TYPE | null  
+  type: $Enums.TRANSACTION_TYPE | null
 }
-
 
 export interface IUpdateTransactionService {
-  execute(transactionId: string, updateTransactionProps: UpdateTransactionProps): Promise<Transaction>
+  execute(
+    transactionId: string,
+    updateTransactionProps: UpdateTransactionProps
+  ): Promise<Transaction>
 }
 
-export class UpdateTransactionService implements IUpdateTransactionService{
+export class UpdateTransactionService implements IUpdateTransactionService {
   constructor(
     private updateTransactionRepository: IUpdateTransactioRepository,
-    private getTransactionById: IGetTransactionByIdRepository,
+    private getTransactionById: IGetTransactionByIdRepository
   ) {}
 
-  async execute(transactionId: string, updateTransactionProps: UpdateTransactionProps) {
-
+  async execute(
+    transactionId: string,
+    updateTransactionProps: UpdateTransactionProps
+  ) {
     const { amount, date, description, name, type } = updateTransactionProps
 
     const oldTransaction = await this.getTransactionById.execute(transactionId)
 
-    if(!oldTransaction) {
+    if (!oldTransaction) {
       throw new NotFound('Transaction not found!')
     }
 
@@ -38,10 +42,13 @@ export class UpdateTransactionService implements IUpdateTransactionService{
       date: date || oldTransaction.date,
       description: description || oldTransaction.description,
       name: name || oldTransaction.name,
-      type: type || oldTransaction.type,
+      type: type || oldTransaction.type
     }
 
-    const transaction = await this.updateTransactionRepository.execute(transactionId, newTransaction)
+    const transaction = await this.updateTransactionRepository.execute(
+      transactionId,
+      newTransaction
+    )
 
     return {
       ...transaction,

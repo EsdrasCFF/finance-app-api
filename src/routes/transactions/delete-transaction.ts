@@ -1,17 +1,19 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
-import z from "zod";
-import { makeDeleteTransactionController } from "../../factories/controllers/transactions";
+import { FastifyInstance } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import z from 'zod'
+import { makeDeleteTransactionController } from '../../factories/controllers/transactions'
 
 export async function deleteTransaction(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    "/api/transactions/:transactionId",
+    '/api/transactions/:transactionId',
     {
       schema: {
         summary: 'Delete Transaction',
         tags: ['transacions'],
         params: z.object({
-          transactionId: z.string().uuid({message: 'Provided transactionId is not valid'})
+          transactionId: z
+            .string()
+            .uuid({ message: 'Provided transactionId is not valid' })
         }),
         response: {
           200: z.object({
@@ -21,26 +23,24 @@ export async function deleteTransaction(app: FastifyInstance) {
               description: z.string().nullable(),
               date: z.coerce.date(),
               amount: z.number(),
-              type: z.string(),
+              type: z.string()
             })
           })
         }
       }
     },
-    async(request, reply) => {
+    async (request, reply) => {
       const { transactionId } = request.params
-  
+
       const deleteTransactionController = makeDeleteTransactionController()
 
-      const deletedUser = await deleteTransactionController.execute(transactionId)
+      const deletedUser =
+        await deleteTransactionController.execute(transactionId)
 
-      return reply.code(200).send({data: deletedUser})
+      return reply.code(200).send({ data: deletedUser })
     }
   )
 }
-
-
-
 
 // id: string;
 //     user_id: string;

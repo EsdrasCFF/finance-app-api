@@ -1,11 +1,11 @@
-import { User } from "@prisma/client";
-import { db } from "../../lib/prisma";
+import { User } from '@prisma/client'
+import { db } from '../../lib/prisma'
 
 interface UpdateUserProps {
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
+  first_name: string
+  last_name: string
+  email: string
+  password: string
 }
 
 export interface IUpdateUserRepository {
@@ -17,10 +17,10 @@ export class UpdateUserRepository implements IUpdateUserRepository {
     const updatedUser = await db.user.update({
       data: updateUserParams,
       where: {
-        id: userId,
-      },
-    });
+        id: userId
+      }
+    })
 
-    return updatedUser;
+    return updatedUser
   }
 }

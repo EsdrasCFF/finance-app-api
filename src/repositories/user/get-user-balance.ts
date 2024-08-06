@@ -1,7 +1,7 @@
-import { db } from "../../lib/prisma"
+import { db } from '../../lib/prisma'
 
 export interface BalanceParams {
-  incomes: number | bigint,
+  incomes: number | bigint
   expenses: number | bigint
   investments: number | bigint
   balance: number | bigint
@@ -11,7 +11,7 @@ export interface IGetUserBalanceRepository {
   execute(userId: string): Promise<BalanceParams>
 }
 
-export class GetUserBalanceRepository implements IGetUserBalanceRepository{
+export class GetUserBalanceRepository implements IGetUserBalanceRepository {
   async execute(userId: string) {
     const balance = await db.$queryRaw<BalanceParams[]>`
       SELECT 

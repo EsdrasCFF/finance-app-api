@@ -1,22 +1,25 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
-import z from "zod";
-import { makeUpdateTransactionController } from "../../factories/controllers/transactions";
-import { checkIfAmountIsValid, roundAmountToTwoDecimals } from "../../lib/utils";
+import { FastifyInstance } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import z from 'zod'
+import { makeUpdateTransactionController } from '../../factories/controllers/transactions'
+import { checkIfAmountIsValid, roundAmountToTwoDecimals } from '../../lib/utils'
 
-export const updateTransactionSchema= z.object({
-  amount: z.union([z.string(), z.number()])
-    .refine((value) => checkIfAmountIsValid(value), 
-      {message: 'Provided amount is not valid!'}
-    )
-    .transform((value) => roundAmountToTwoDecimals(Number(value)))
-    .nullable()
-    .optional(),
-  name: z.string().min(3).nullable().optional(),
-  date: z.coerce.date().nullable().optional(),
-  description: z.string().nullable().optional(),
-  type: z.enum(['INCOME', 'EXPENSE', 'INVESTMENT']).nullable().optional()
-}).strict({message: 'Some provided field is not allowed!'})
+export const updateTransactionSchema = z
+  .object({
+    amount: z
+      .union([z.string(), z.number()])
+      .refine((value) => checkIfAmountIsValid(value), {
+        message: 'Provided amount is not valid!'
+      })
+      .transform((value) => roundAmountToTwoDecimals(Number(value)))
+      .nullable()
+      .optional(),
+    name: z.string().min(3).nullable().optional(),
+    date: z.coerce.date().nullable().optional(),
+    description: z.string().nullable().optional(),
+    type: z.enum(['INCOME', 'EXPENSE', 'INVESTMENT']).nullable().optional()
+  })
+  .strict({ message: 'Some provided field is not allowed!' })
 
 export async function updateTransaction(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
@@ -44,8 +47,8 @@ export async function updateTransaction(app: FastifyInstance) {
     },
     async (request, reply) => {
       const { transactionId } = request.params
-      
-      const {type, amount, date, description, name} = request.body;
+
+      const { type, amount, date, description, name } = request.body
 
       const updateTransactionController = makeUpdateTransactionController()
 
@@ -54,10 +57,13 @@ export async function updateTransaction(app: FastifyInstance) {
         name: name || null,
         date: date || null,
         description: description || null,
-        type: type || null,
+        type: type || null
       }
 
-      const transaction = await updateTransactionController.execute(transactionId, updateTransactionParams)
+      const transaction = await updateTransactionController.execute(
+        transactionId,
+        updateTransactionParams
+      )
 
       return reply.code(200).send({
         data: transaction

@@ -1,38 +1,38 @@
-import { FastifyInstance } from "fastify";
-import { ZodError } from "zod";
-import { BadRequest } from "./routes/_errors/bad-request";
-import { NotFound } from "./routes/_errors/not-found";
-import { ServerError } from "./routes/_errors/server-error";
+import { FastifyInstance } from 'fastify'
+import { ZodError } from 'zod'
+import { BadRequest } from './routes/_errors/bad-request'
+import { NotFound } from './routes/_errors/not-found'
+import { ServerError } from './routes/_errors/server-error'
 
-type FastifyErrorHandler = FastifyInstance["errorHandler"];
+type FastifyErrorHandler = FastifyInstance['errorHandler']
 
 export const errorHandler: FastifyErrorHandler = (error, request, response) => {
   if (error instanceof ZodError) {
     return response.status(400).send({
-      message: error.errors[0].message,
-    });
+      message: error.errors[0].message
+    })
   }
 
   if (error instanceof BadRequest) {
     return response.status(400).send({
-      message: error.message,
-    });
+      message: error.message
+    })
   }
 
   if (error instanceof NotFound) {
     return response.status(404).send({
-      message: error.message,
-    });
+      message: error.message
+    })
   }
 
   if (error instanceof ServerError) {
-    console.error("Error:", error.message)
+    console.error('Error:', error.message)
     return response.status(500).send({
-      message: "Internal server error",
-    });
+      message: 'Internal server error'
+    })
   }
 
-  console.error({error})
+  console.error({ error })
 
-  return response.status(500).send({ message: "Internal server error" });
-};
+  return response.status(500).send({ message: 'Internal server error' })
+}

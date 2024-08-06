@@ -1,7 +1,7 @@
-import { User } from "@prisma/client";
-import { IDeleteUserRepository } from "../../repositories/user/delete-user";
-import { IGetUserByIdRepository } from "../../repositories/user/get-user-by-id";
-import { NotFound } from "../../routes/_errors/not-found";
+import { User } from '@prisma/client'
+import { IDeleteUserRepository } from '../../repositories/user/delete-user'
+import { IGetUserByIdRepository } from '../../repositories/user/get-user-by-id'
+import { NotFound } from '../../routes/_errors/not-found'
 
 export interface IDeleteUserService {
   execute(userId: string): Promise<User>
@@ -16,7 +16,7 @@ export class DeleteUserService implements IDeleteUserService {
   async execute(userId: string) {
     const userExists = await this.getUserByIdRepository.execute(userId)
 
-    if(!userExists) {
+    if (!userExists) {
       throw new NotFound('User not found!')
     }
 

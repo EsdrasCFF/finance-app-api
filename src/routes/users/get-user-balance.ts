@@ -1,7 +1,7 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { z } from "zod";
-import { makeGetUserBalanceController } from "../../factories/controllers/users";
+import { FastifyInstance } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { z } from 'zod'
+import { makeGetUserBalanceController } from '../../factories/controllers/users'
 
 export async function getUserBalance(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
@@ -19,7 +19,7 @@ export async function getUserBalance(app: FastifyInstance) {
               incomes: z.number(),
               expenses: z.number(),
               investments: z.number(),
-              balance: z.number() 
+              balance: z.number()
             })
           })
         }
@@ -27,9 +27,9 @@ export async function getUserBalance(app: FastifyInstance) {
     },
     async (request, reply) => {
       const { userId } = request.params
-    
+
       const getUserBalanceController = makeGetUserBalanceController()
-      
+
       const balance = await getUserBalanceController.execute(userId)
 
       return reply.code(200).send({

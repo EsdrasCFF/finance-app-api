@@ -1,48 +1,56 @@
-import { $Enums, Transaction } from "@prisma/client";
-import validator from "validator";
-import { BadRequest } from "../../routes/_errors/bad-request";
-import { IUpdateTransactionService } from "../../services/transaction/update-transaction";
-import { updateTransactionSchema } from "../../routes/transactions/update-transaction";
+import { $Enums, Transaction } from '@prisma/client'
+import validator from 'validator'
+import { BadRequest } from '../../routes/_errors/bad-request'
+import { IUpdateTransactionService } from '../../services/transaction/update-transaction'
+import { updateTransactionSchema } from '../../routes/transactions/update-transaction'
 
 export interface UpdateTransactionProps {
   name: string | null
-  description: string | null;
+  description: string | null
   date: Date | null
   amount: number | null
-  type: $Enums.TRANSACTION_TYPE | null  
+  type: $Enums.TRANSACTION_TYPE | null
 }
 
 interface IUpdateTransactionController {
-  execute(transactionId: string, updateTransactionParams: UpdateTransactionProps): Promise<Transaction>
+  execute(
+    transactionId: string,
+    updateTransactionParams: UpdateTransactionProps
+  ): Promise<Transaction>
 }
 
-export class UpdateTransactionController implements IUpdateTransactionController{
+export class UpdateTransactionController
+  implements IUpdateTransactionController
+{
   constructor(private updateTransactionService: IUpdateTransactionService) {}
 
-  async execute(transactionId: string, updateTransactionParams: UpdateTransactionProps) {
+  async execute(
+    transactionId: string,
+    updateTransactionParams: UpdateTransactionProps
+  ) {
     updateTransactionSchema.parse(updateTransactionParams)
-    
-    const { amount, date, description, name, type }  = updateTransactionParams
+
+    const { amount, date, description, name, type } = updateTransactionParams
 
     const IdIsValid = validator.isUUID(transactionId)
 
-    if(!IdIsValid) {
+    if (!IdIsValid) {
       throw new BadRequest('Provided transactionId is not valid!')
     }
 
     let newAmount = null
     let newDate = null
-    let newType = null;
+    let newType = null
 
-    if(amount) {
+    if (amount) {
       newAmount = amount * 100
     }
 
-    if(date) {
+    if (date) {
       newDate = date
     }
 
-    if(type) {
+    if (type) {
       newType = type
     }
 
@@ -51,10 +59,13 @@ export class UpdateTransactionController implements IUpdateTransactionController
       date: newDate,
       description: description,
       name: name,
-      type: newType,
+      type: newType
     }
-  
-    const transaction = await this.updateTransactionService.execute(transactionId, updateTransactionProps)
+
+    const transaction = await this.updateTransactionService.execute(
+      transactionId,
+      updateTransactionProps
+    )
 
     return transaction
   }

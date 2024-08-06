@@ -1,35 +1,44 @@
-import { TRANSACTION_TYPE } from "@prisma/client";
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
-import z from "zod";
-import { makeCreateTransactionController } from "../../factories/controllers/transactions";
-import { checkIfAmountIsValid, roundAmountToTwoDecimals } from "../../lib/utils";
-
+import { TRANSACTION_TYPE } from '@prisma/client'
+import { FastifyInstance } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import z from 'zod'
+import { makeCreateTransactionController } from '../../factories/controllers/transactions'
+import { checkIfAmountIsValid, roundAmountToTwoDecimals } from '../../lib/utils'
 
 export const createTransactionSchema = z.object({
-  user_id: z.string({required_error: 'UserId is required!'})
-    .uuid({message: 'Provided userId is not valid!'}),
-  name: z.string({required_error: 'Name is required!'}).trim().min(3),
+  user_id: z
+    .string({ required_error: 'UserId is required!' })
+    .uuid({ message: 'Provided userId is not valid!' }),
+  name: z.string({ required_error: 'Name is required!' }).trim().min(3),
   description: z.string().nullable().optional(),
-  date: z.coerce.date({required_error: 'Date is required!'}),
-  amount: z.union([z.number(), z.string()], {required_error: 'Amount is required'})
-    .refine((value) => {
-      const amountIsValid = checkIfAmountIsValid(value)
+  date: z.coerce.date({ required_error: 'Date is required!' }),
+  amount: z
+    .union([z.number(), z.string()], { required_error: 'Amount is required' })
+    .refine(
+      (value) => {
+        const amountIsValid = checkIfAmountIsValid(value)
 
-      return amountIsValid
-    }, {message: 'Provided amount is not valid!'})
+        return amountIsValid
+      },
+      { message: 'Provided amount is not valid!' }
+    )
     .transform((value) => roundAmountToTwoDecimals(Number(value))),
-  type: z.enum([
-    TRANSACTION_TYPE.EXPENSE,
-    TRANSACTION_TYPE.INCOME,
-    TRANSACTION_TYPE.INVESTMENT
-  ],{message: 'Provided type is invalid. Expected EXPENSE, INCOME or INVESTMENT'})
+  type: z.enum(
+    [
+      TRANSACTION_TYPE.EXPENSE,
+      TRANSACTION_TYPE.INCOME,
+      TRANSACTION_TYPE.INVESTMENT
+    ],
+    {
+      message:
+        'Provided type is invalid. Expected EXPENSE, INCOME or INVESTMENT'
+    }
+  )
 })
 
 export async function createTransaction(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>()
-  .post(
-    '/api/transactions', 
+  app.withTypeProvider<ZodTypeProvider>().post(
+    '/api/transactions',
     {
       schema: {
         summary: 'Create Transaction',
@@ -46,11 +55,10 @@ export async function createTransaction(app: FastifyInstance) {
               amount: z.number(),
               type: z.string()
             })
-
           })
         }
-      },
-    }, 
+      }
+    },
     async (request, reply) => {
       const { amount, date, name, type, user_id, description } = request.body
 
@@ -65,6 +73,7 @@ export async function createTransaction(app: FastifyInstance) {
         description: description || null
       })
 
-      return reply.code(201).send({data: transaction})
-    })
+      return reply.code(201).send({ data: transaction })
+    }
+  )
 }
