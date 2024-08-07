@@ -30,7 +30,9 @@ describe('GetTransactionByUserIdRepository', () => {
 
   class GetTransactionsByUserIdRepositoryStub implements IGetTransactionsByUserIdRepository {
     async execute(userId: string) {
-      if(userId) {}
+      if(userId) {
+        return transactions
+      }
       return transactions
     }
   }
