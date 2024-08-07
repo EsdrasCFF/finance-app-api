@@ -4,7 +4,7 @@ import { IDeleteUserService } from '../../services/user/delete-user'
 import { BadRequest } from '../../routes/_errors/bad-request'
 
 export interface IDeleteUserController {
-  execute(userId: string): Promise<User>
+  execute(userId: string): Promise<Omit<User, 'password'>>
 }
 
 export class DeleteUserController implements IDeleteUserController {
@@ -19,6 +19,11 @@ export class DeleteUserController implements IDeleteUserController {
 
     const deletedUser = await this.deleteUserService.execute(userId)
 
-    return deletedUser
+    return {
+      id: deletedUser.id,
+      email: deletedUser.email,
+      first_name: deletedUser.first_name,
+      last_name: deletedUser.last_name
+    }
   }
 }

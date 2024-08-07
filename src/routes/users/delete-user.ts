@@ -32,9 +32,7 @@ export async function deleteUser(app: FastifyInstance) {
 
       const deletedUser = await deleteUserController.execute(userId)
 
-      const { password, ...otherProps } = deletedUser
-
-      return reply.code(200).send({ data: otherProps })
+      return reply.code(200).send({ data: deletedUser })
     }
   )
 }
