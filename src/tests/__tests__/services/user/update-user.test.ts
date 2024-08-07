@@ -34,7 +34,9 @@ describe('UpdateUserService', () => {
   
   class GetUserByEmailRepositoryStub implements IGetUserByEmailRepository {
     async execute(email: string) {
-      if(email) null
+      if(email) {
+        return null
+      }
       return null
     }
   }
