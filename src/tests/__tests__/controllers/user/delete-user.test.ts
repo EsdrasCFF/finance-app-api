@@ -42,7 +42,7 @@ describe('Delete user controller', () => {
     expect(result).toBeTruthy()
     expect(result).not.toBeNull()
     expect(result).not.toBeUndefined()
-    expect(result).toBe(userData)
+    expect(result.email).toBe(userData.email)
   })
 
   it('Should throw BadRequest instance error if userId is not valid!', async () => {

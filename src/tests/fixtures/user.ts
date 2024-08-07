@@ -31,3 +31,10 @@ export const updateUserParams = {
   password: null,
   old_password: null
 }
+
+export const userDataWithoutPassword = {
+  id: userIdParams,
+  first_name: faker.person.firstName(),
+  last_name: faker.person.lastName(),
+  email: faker.internet.email(),
+}
