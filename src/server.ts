@@ -20,7 +20,10 @@ import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
 import fastifyCors from '@fastify/cors'
 
-export const app = fastify().withTypeProvider<ZodTypeProvider>()
+import { clerkClient, clerkPlugin, getAuth } from '@clerk/fastify'
+import { authMiddleware } from './middlewares/auth-middleware'
+
+export const app = fastify({ logger: true }).withTypeProvider<ZodTypeProvider>()
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
@@ -46,6 +49,10 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUI, {
   routePrefix: '/docs'
 })
+
+app.register(clerkPlugin)
+
+app.addHook('preHandler', authMiddleware)
 
 app.register(createUser)
 app.register(getUserById)
